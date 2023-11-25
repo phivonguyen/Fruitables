@@ -1,52 +1,55 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta content="" name="keywords">
+    <meta content="" name="description">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title> @yield('title') </title>
 
-    {{-- Login --}}
-        <link rel="icon" type="image/png" href="{{asset("assets/images/icons/favicon.ico")}}"/>
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/bootstrap/css/bootstrap.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/animate/animate.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/css-hamburgers/hamburgers.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/animsition/css/animsition.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/select2/select2.min.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/vendor/daterangepicker/daterangepicker.css")}}">
-    <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/css/util.css")}}">
-        <link rel="stylesheet" type="text/css" href="{{asset("assets/css/main.css")}}">
-    <!--===============================================================================================-->
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('assets/layouts/lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/layouts/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('assets/layouts/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('assets/layouts/css/style.css') }}" rel="stylesheet">
+
+    @yield('styles')
     {{-- <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
+
+
 <body>
-    <div id="app">
-        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    @include('layouts.inc.frontend.header')
+    {{-- <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -73,7 +76,8 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -93,28 +97,29 @@
                     </ul>
                 </div>
             </div>
-        </nav> --}}
+        </nav>
+
 
         <main class="py-4">
             @yield('content')
         </main>
-    </div>
+    </div> --}}
 
-    <!--===============================================================================================-->
-	    <script src="{{asset("assets/vendor/jquery/jquery-3.2.1.min.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/vendor/animsition/js/animsition.min.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/vendor/bootstrap/js/popper.js")}}"></script>
-        <script src="{{asset("assets/vendor/bootstrap/js/bootstrap.min.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/vendor/select2/select2.min.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/vendor/daterangepicker/moment.min.js")}}"></script>
-        <script src="{{asset("assets/vendor/daterangepicker/daterangepicker.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/vendor/countdowntime/countdowntime.js")}}"></script>
-    <!--===============================================================================================-->
-        <script src="{{asset("assets/js/main.js")}}"></script>
+    @yield('content')
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <!-- Template Javascript -->
+    <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
+    @yield('script')
 </body>
+
 </html>
