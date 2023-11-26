@@ -1,9 +1,14 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
+=======
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+>>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Beatiful Flowers</title>
     <link rel="stylesheet" href="{{ asset('assets/admin/vendors/mdi/css/materialdesignicons.min.css') }}" />
@@ -16,6 +21,27 @@
     <link rel="shortcut icon" href="{{ asset('bftt.png') }}" />
 
     @yield('styles')
+=======
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+
+    <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
+    {{-- CSS for admin's layouts --}}
+    <link rel="stylesheet" href="{{ asset('admin/vendors/mdi/css/materialdesignicons.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/vendors/flag-icon-css/css/flag-icon.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/vendors/css/vendor.bundle.base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
+    <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    @yield('styles')
+
+>>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 </head>
 
 <body>
@@ -37,6 +63,7 @@
                     <div class="tiles dark"></div>
                 </div>
             </div>
+<<<<<<< HEAD
             @include('layouts.inc.admin.nav')
             <div class="main-panel">
 
@@ -71,6 +98,27 @@
     <!-- Custom js')}} for this page -->
     <script src="{{ asset('assets/admin/js/dashboard.js') }}"></script>
     <!-- End custom js for this page -->
+=======
+            @include('layouts.inc.admin.navbar')
+
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @yield('content')
+                </div>
+                @include('layouts.inc.admin.footer')
+            </div>
+            <!-- main-panel ends -->
+        </div>
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('admin/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('admin/js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('admin/js/misc.js') }}"></script>
+
+>>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
     @yield('scripts')
 </body>
 
