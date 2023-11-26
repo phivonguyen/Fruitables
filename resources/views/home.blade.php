@@ -14,11 +14,11 @@
                             </div>
                         @endif
 
-                        {{ Auth::user()->username }}
+                        {{-- {{ Auth::user()->username }} --}}
                     </div>
 
                     <br>
-                    {{ $msg }}
+                    {{-- {{ $msg }} --}}
                 </div>
             </div>
         </div>
