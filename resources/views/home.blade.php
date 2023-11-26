@@ -14,11 +14,9 @@
                             </div>
                         @endif
 
-                        {{ Auth::user()->username }}
+                        {{ __('You are logged in!') }}
                     </div>
 
-                    <br>
-                    {{ $msg }}
                 </div>
             </div>
         </div>
