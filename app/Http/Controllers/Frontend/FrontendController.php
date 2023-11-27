@@ -13,9 +13,9 @@ class FrontendController extends Controller
     //
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(9);
         $categories = Category::all();
-        return view('frontend.index', ['products' => $products,'categories' => $categories]);
+        return view('frontend.index', ['products' => $products, 'categories' => $categories]);
     }
 
     public function product_detail($id)
@@ -27,6 +27,23 @@ class FrontendController extends Controller
     public function collections()
     {
         $products = Product::all();
-        return view('frontend.collections.products.index', ['products' => $products]);
+        $categories = Category::all();
+        return view('frontend.collections.products.index', ['products' => $products,'categories' => $categories]);
+    }
+
+    public function search(Request $request)
+    {
+        $keywords = $request->input('keywords');
+        $products = Product::where('name', $keywords)->paginate(9);
+        $categories = Category::all();
+
+        return view('frontend.collections.products.index', compact('products', 'keywords', 'categories'));
+    }
+
+    public function filterByPrice(Request $request)
+    {
+        $maxPrice = $request->input('maxPrice');
+        $filteredProducts = Product::where('price', '<=', $maxPrice)->get();
+        return view('frontend.collections.products.view', ['products' => $filteredProducts]);
     }
 }

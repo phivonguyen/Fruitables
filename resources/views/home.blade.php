@@ -14,17 +14,9 @@
                             </div>
                         @endif
 
-<<<<<<< HEAD
-                        {{-- {{ Auth::user()->username }} --}}
-                    </div>
-
-                    <br>
-                    {{-- {{ $msg }} --}}
-=======
                         {{ __('You are logged in!') }}
                     </div>
 
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
                 </div>
             </div>
         </div>

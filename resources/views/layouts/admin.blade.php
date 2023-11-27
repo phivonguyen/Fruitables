@@ -1,27 +1,9 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-=======
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-<<<<<<< HEAD
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Beatiful Flowers</title>
-    <link rel="stylesheet" href="{{ asset('assets/admin/vendors/mdi/css/materialdesignicons.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/admin/vendors/flag-icon-css/css/flag-icon.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/admin/vendors/css/vendor.bundle.base.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/admin/vendors/font-awesome/css/font-awesome.min.css') }}" />
-    <link rel="stylesheet"
-        href="{{ asset('assets/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}" />
-    <link rel="shortcut icon" href="{{ asset('bftt.png') }}" />
-
-    @yield('styles')
-=======
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -41,7 +23,6 @@
 
     @yield('styles')
 
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 </head>
 
 <body>
@@ -63,14 +44,13 @@
                     <div class="tiles dark"></div>
                 </div>
             </div>
-<<<<<<< HEAD
             @include('layouts.inc.admin.nav')
             <div class="main-panel">
 
                 <div class="content-wrapper pb-0">
                     @yield('content')
                 </div>
-                @include('layouts.inc.frontend.footer')
+                @include('layouts.inc.admin.footer')
             </div>
             <!-- main-panel ends -->
         </div>
@@ -78,47 +58,26 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="{{ asset('assets/admin/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="{{ asset('assets/admin/vendors/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.categories.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.fillbetween.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.stack.js') }}"></script>
-    <script src="{{ asset('assets/admin/vendors/flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('admin/vendors/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('admin/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.categories.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.fillbetween.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('admin/vendors/flot/jquery.flot.pie.js') }}"></script>
     <!-- End plugin js')}} for this page -->
     <!-- inject:js')}} -->
-    <script src="{{ asset('assets/admin/js/off-canvas.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/hoverable-collapse.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/misc.js') }}"></script>
-    <!-- endinject -->
-    <!-- Custom js')}} for this page -->
-    <script src="{{ asset('assets/admin/js/dashboard.js') }}"></script>
-    <!-- End custom js for this page -->
-=======
-            @include('layouts.inc.admin.navbar')
-
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    @yield('content')
-                </div>
-                @include('layouts.inc.admin.footer')
-            </div>
-            <!-- main-panel ends -->
-        </div>
-    </div>
-    <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('admin/js/off-canvas.js') }}"></script>
     <script src="{{ asset('admin/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('admin/js/misc.js') }}"></script>
-
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
+    <!-- endinject -->
+    <!-- Custom js')}} for this page -->
+    <script src="{{ asset('admin/js/dashboard.js') }}"></script>
+    <!-- End custom js for this page -->
     @yield('scripts')
 </body>
 

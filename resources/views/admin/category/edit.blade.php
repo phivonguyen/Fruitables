@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-=======
-
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Edit Product</title>
 </head>
-<<<<<<< HEAD
-=======
-
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 <body>
 
 
@@ -36,8 +28,4 @@
 
 
 </body>
-<<<<<<< HEAD
-=======
-
->>>>>>> 665727581f8d1104c805a8af26a380a45cd2c371
 </html>
