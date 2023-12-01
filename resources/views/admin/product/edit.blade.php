@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Product</title>
-</head>
-<body>
-
+@extends('layouts.admin')
+@section('content')
 
 <div class="container mt-3">
     <h2>Edit Product</h2>
@@ -15,11 +7,13 @@
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <img src="{{ asset('storage/uploads/'.$product->image) }}" alt="Current Image" style="max-width: 100px;">
-            <input type="file" name="image" id="image" class="form-control">
-        </div>
+            <div class="mb-3">
+                <label for="images" class="form-label">Images</label>
+                @foreach (json_decode($product->image) as $image)
+                    <img src="{{ asset('uploads/'.$image) }}" alt="Current Image" style="max-width: 100px;">
+                @endforeach
+                <input type="file" name="images[]" id="images" class="form-control" multiple>
+            </div>
 
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -48,6 +42,4 @@
     </form>
 </div>
 
-
-</body>
-</html>
+@endsection

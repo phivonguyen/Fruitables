@@ -32,8 +32,13 @@
                     @foreach ($products as $item)
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/uploads/' . $item->image) }}" alt="Product Image"
-                                    style="max-width: 300px;">
+                                @if ($item->image)
+                                <?php $decodedImages = json_decode($item->image); ?>
+                                @if ($decodedImages && count($decodedImages) > 0)
+                                    <?php $firstImage = $decodedImages[0]; ?>
+                                    <img src="{{ asset('uploads/' . $firstImage) }}" alt="Product Image" style="max-width: 300px;">
+                                @endif
+                            @endif
                             </td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->description }}</td>

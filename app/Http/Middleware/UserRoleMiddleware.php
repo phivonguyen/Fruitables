@@ -14,13 +14,10 @@ class UserRoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->roles != '1') {
+        if (Auth::check() && Auth::user()->roles == '0') {
             return redirect('/home')->with('status', 'Access Denied. As you are not admin');
-        }
-        else if (Auth::check() && Auth::user()->roles == '1') {
-            return redirect('/')->with('status', 'Access Denied. As you are not admin');
         }
         return $next($request);
     }

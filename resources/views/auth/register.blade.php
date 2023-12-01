@@ -115,7 +115,7 @@
 
                     <div class="wrap-input100 validate-input">
                         <input id="name" type="text"
-                            class="input100 form-control @error('name') is-invalid @enderror" name="name"
+                            class="input100 @error('name') is-invalid @enderror" name="name"
                             value="{{ old('name') }}" required autocomplete="name" autofocus>
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Name') }}</span>
@@ -129,7 +129,7 @@
 
                     <div class="wrap-input100 validate-input">
                         <input id="email" type="email"
-                            class="input100 form-control @error('email') is-invalid @enderror" name="email"
+                            class="input100 @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email') }}" required autocomplete="email">
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Email Address') }}</span>
@@ -143,7 +143,7 @@
 
                     <div class="wrap-input100 validate-input">
                         <input id="username" type="text"
-                            class="input100 form-control @error('username') is-invalid @enderror" name="username"
+                            class="input100 @error('username') is-invalid @enderror" name="username"
                             value="{{ old('name') }}" required autocomplete="name" autofocus>
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Username') }}</span>
@@ -157,7 +157,7 @@
 
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
                         <input id="password" type="password"
-                            class="input100 form-control @error('password') is-invalid @enderror" name="password" required
+                            class="input100 @error('password') is-invalid @enderror" name="password" required
                             autocomplete="new-password">
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Password') }}</span>
@@ -170,7 +170,7 @@
                     </div>
 
                     <div class="wrap-input100 validate-input">
-                        <input id="password-confirm" type="password" class="input100 form-control"
+                        <input id="password-confirm" type="password" class="input100"
                             name="password_confirmation" required autocomplete="new-password">
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Confirm Password') }}</span>

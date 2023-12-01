@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -15,22 +15,30 @@ class ProductController extends Controller
         $products = Product::all();
         return view("admin.product.index", compact("products"));
     }
+
     public function create()
     {
         $categories = Category::all();
         return view("admin.product.create", compact("categories"));
     }
+
     public function store(Request $request)
     {
+        $requestData = $request->all();
+
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('./uploads', 'public');
+            $uploadedImages = [];
 
-            $imageName = basename($imagePath);
-
-            $requestData = array_merge($request->all(), ['image' => $imageName]);
+            foreach ($request->file('image') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads'), $imageName);
+                $uploadedImages[] = $imageName;
+            }
+            $requestData['image'] = json_encode($uploadedImages);
         } else {
-            $requestData = array_merge($request->all(), ['image' => 'default.jpg']);
+            $requestData['image'] = 'default.jpg';
         }
+
         Product::create($requestData);
 
         return redirect()->route("product/index")->with("success", "Add product successfully");
@@ -39,7 +47,16 @@ class ProductController extends Controller
     public function delete($id)
     {
         $product = Product::find($id);
+
         if ($product != null) {
+            $oldImages = json_decode($product->image, true);
+            foreach ($oldImages as $oldImage) {
+                $imagePath = public_path('uploads') . '/' . $oldImage;
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
+
             $product->delete();
             return redirect()->route("product/index")->with("success", "Delete product successfully");
         }
@@ -62,17 +79,24 @@ class ProductController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('./uploads', 'public');
-            $imageName = basename($imagePath);
-
-            if ($product->image !== 'default.jpg') {
-                Storage::disk('public')->delete('uploads/' . $product->image);
+            $oldImages = json_decode($product->image, true);
+            foreach ($oldImages as $oldImage) {
+                $imagePath = public_path('uploads') . '/' . $oldImage;
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
             }
-
-            $requestData = array_merge($request->all(), ['image' => $imageName]);
+            $uploadedImages = [];
+            foreach ($request->file('image') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads'), $imageName);
+                $uploadedImages[] = $imageName;
+            }
+            $requestData = array_merge($request->all(), ['image' => json_encode($uploadedImages)]);
         } else {
             $requestData = $request->all();
         }
+
         $product->update($requestData);
 
         return redirect()->route("product/index")->with("success", "Update product successfully");

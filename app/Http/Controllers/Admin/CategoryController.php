@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -20,9 +21,24 @@ class CategoryController extends Controller
     {
         return view("admin.category.create");
     }
-    public function store()
+    public function store(Request $request)
     {
-        Category::create(request()->all());
+        $requestData = $request->all();
+
+        if ($request->hasFile('image')) {
+            $uploadedImages = [];
+
+            foreach ($request->file('image') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads'), $imageName);
+                $uploadedImages[] = $imageName;
+            }
+            $requestData['image'] = json_encode($uploadedImages);
+        } else {
+            $requestData['image'] = 'default.jpg';
+        }
+
+        Category::create($requestData);
         return redirect()->route("category/index")->with("success", "Add category successfully");
     }
 
@@ -48,7 +64,25 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $category->update($request->all());
+        if ($request->hasFile('image')) {
+            $oldImages = json_decode($category->image, true);
+            foreach ($oldImages as $oldImage) {
+                $imagePath = public_path('uploads') . '/' . $oldImage;
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
+            $uploadedImages = [];
+            foreach ($request->file('image') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads'), $imageName);
+                $uploadedImages[] = $imageName;
+            }
+            $requestData = array_merge($request->all(), ['image' => json_encode($uploadedImages)]);
+        } else {
+            $requestData = $request->all();
+        }
+        $category->update($requestData);
 
         return redirect()->route("category/index")->with("success", "Update category successfully");
     }
@@ -57,6 +91,13 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if ($category != null) {
+            $oldImages = json_decode($category->image, true);
+            foreach ($oldImages as $oldImage) {
+                $imagePath = public_path('uploads') . '/' . $oldImage;
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
             $category->delete();
             return redirect()->route("category/index")->with("success", "Delete category successfully");
         }

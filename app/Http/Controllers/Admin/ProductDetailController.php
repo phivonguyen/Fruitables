@@ -14,12 +14,12 @@ class ProductDetailController extends Controller
     public function index()
     {
         $product_details = ProductDetail::all();
-        return view("product_detail/index", compact("product_details"));
+        return view("admin/product_detail/index", compact("product_details"));
     }
     public function create()
     {
         $categories = Category::all();
-        return view("product_detail/create", compact("categories"));
+        return view("admin/product_detail/create", compact("categories"));
     }
     public function store(Request $request)
     {
@@ -34,7 +34,7 @@ class ProductDetailController extends Controller
         }
         ProductDetail::create($requestData);
 
-        return redirect()->route("product_detail/index")->with("success", "Add product successfully");
+        return redirect()->route("admin/product_detail/index")->with("success", "Add product successfully");
     }
 
     public function delete($id)
@@ -42,7 +42,7 @@ class ProductDetailController extends Controller
         $product_details = ProductDetail::find($id);
         if ($product_details != null) {
             $product_details->delete();
-            return redirect()->route("product_detail/index")->with("success", "Delete product successfully");
+            return redirect()->route("admin/product_detail/index")->with("success", "Delete product successfully");
         }
     }
 
@@ -51,14 +51,14 @@ class ProductDetailController extends Controller
         $product_detail = ProductDetail::find($id); // Sửa tên biến ở đây
         $categories = Category::all();
 
-        return view("product_detail/edit", compact("product_detail", "categories"));
+        return view("admin/product_detail/edit", compact("product_detail", "categories"));
     }
     public function update(Request $request, $id)
     {
         $product_detail = ProductDetail::find($id);
 
         if (!$product_detail) {
-            return redirect()->route("product_detail/index")->with("error", "Product not found");
+            return redirect()->route("admin/product_detail/index")->with("error", "Product not found");
         }
 
         if ($request->hasFile('image')) {
@@ -75,6 +75,6 @@ class ProductDetailController extends Controller
         }
         $product_detail->update($requestData);
 
-        return redirect()->route("product_detail.index")->with("success", "Add product successfully");
+        return redirect()->route("admin/product_detail.index")->with("success", "Add product successfully");
     }
 }

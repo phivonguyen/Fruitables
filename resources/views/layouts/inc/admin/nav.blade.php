@@ -115,15 +115,29 @@
             <li class="nav-item nav-profile dropdown border-0">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"
                     data-toggle="dropdown">
+                    @if (session('avatar'))
+                        <img src="{{session('avatar')}}" alt="">
+                    @else
                     <img class="nav-profile-img mr-2" alt=""
                         src="{{ asset('admin/images/faces/face1.jpg')}}" />
-                    <span class="profile-name">Henry Klein</span>
+                    @endif
+                    <span class="profile-name">{{ Auth::user()->name }}</span>
                 </a>
                 <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">
-                        <i class="mdi mdi-cached mr-2 text-success"></i> Activity Log </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
+                    <a class="dropdown-item " href="{{url('/home')}}">
+                        <i class="mdi mdi-home text-primary"></i>
+                        Back to Store
+                    </a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                        <i class="mdi mdi-logout text-primary"></i>
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
             </li>
         </ul>

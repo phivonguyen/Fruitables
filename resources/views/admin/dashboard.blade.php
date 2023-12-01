@@ -4,7 +4,11 @@
 @section('content')
     <div class="content-wrapper pb-0">
         <div class="page-header flex-wrap">
-            <h3 class="mb-0"> Hi, welcome back!</h3>
+            @if (session('message'))
+            <div class="alert alert-success">
+                <h3>{{ session('message') }}</h3>
+            </div>
+        @endif
             <div class="d-flex">
                 <button type="button" class="btn btn-sm bg-white btn-icon-text border">
                     <i class="mdi mdi-email btn-icon-prepend"></i> Email </button>

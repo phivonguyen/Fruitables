@@ -58,47 +58,24 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <h4 class="mb-2">Giá</h4>
-                                <form id="priceFilterForm">
-                                    <input type="range" class="form-range w-100" id="rangeInput" name="maxPrice"
-                                        min="0" max="500" value="0">
-                                    <output id="amount" name="amount" min-value="0" max-value="500"
-                                        for="rangeInput">0</output>
+                                <h4 class="mb-2">Lọc Theo Giá</h4>
+                                <form id="priceFilterForm" action="{{ route('searchByPriceRange') }}" method="GET">
+                                    <label for="minPrice">Từ:</label>
+                                    <input type="number" id="minPrice" name="minPrice" min="0" max="500" value="0" />
+                                    <br>
+                                    <label for="maxPrice">Đến:</label>
+                                    <input type="number" id="maxPrice" name="maxPrice" min="0" max="500" value="500" />
+                                    <br>
+                                    <label for="order">Thứ tự:</label>
+                                    <select name="order" id="order">
+                                        <option value="asc">Tăng dần</option>
+                                        <option value="desc">Giảm dần</option>
+                                    </select>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Lọc</button>
                                 </form>
                             </div>
 
-                            {{-- <script>
-                                            $(document).ready(function () {
-                                                var rangeInput = $('#rangeInput');
-                                                var form = $('#priceFilterForm');
-
-                                                rangeInput.on('input', function () {
-                                                    var maxPrice = rangeInput.val();
-                                                    updateProductList(maxPrice);
-                                                });
-
-                                                function updateProductList(maxPrice) {
-                                                    $.ajax({
-                                                        type: 'GET',
-                                                        url: '{{ route('shop.baled.filter') }}',
-                                                        data: { maxPrice: maxPrice },
-                                                        beforeSend: function () {
-                                                            // Hiển thị chỉ số tải
-                                                        },
-                                                        success: function (data) {
-                                                            $('#product-list').html(data);
-                                                        },
-                                                        error: function (error) {
-
-                                                            console.log(error);
-                                                        },
-                                                        complete: function () {
-
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        </script> --}}
                             <div class="col-lg-12">
                                 <h4 class="mb-3">Featured products</h4>
                                 <div class="d-flex align-items-center justify-content-start">
@@ -185,8 +162,12 @@
                                     class="col-md-6 col-lg-6 col-xl-4 category-product category-{{ $post->category->id }}">
                                     <div class="rounded position-relative fruite-item">
                                         <div class="fruite-img">
-                                            <img src="{{ asset('storage/uploads/' . $post->image) }}"
-                                                class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                            @if (count(json_decode($post->image)) > 0)
+                                                        <?php $firstImage = json_decode($post->image)[0]; ?>
+                                                        <img src="{{ asset('uploads/' . $firstImage) }}" class="img-fluid w-100 rounded-top">
+                                                    @else
+                                                        <p>No Image Available</p>
+                                                    @endif
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                             style="top: 10px; left: 10px;">{{ $post->category->name }}</div>
@@ -196,9 +177,9 @@
                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                 <p class="text-dark fs-5 fw-bold mb-0">
                                                     ${{ number_format($post->price, 2) }} / kg</p>
-                                                <a href="#"
-                                                    class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                    {{-- <a href="{{ route('product_details', ['id' => $post->id]) }}" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> View product's detail
+                                                    </a> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -206,9 +187,9 @@
                                 @if (($index + 1) % 3 == 0)
                                 @endif
                             @endforeach
-                            {{-- <div style="justify-content: center; display: flex;">
+                            <div style="justify-content: center; display: flex;">
                                 {{ $products->links() }}
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -216,5 +197,18 @@
         </div>
     </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            console.log("jQuery loaded successfully!");
+            $(".category-link").click(function (e) {
+                e.preventDefault();
+                var categoryId = $(this).data("category");
+                $(".category-product").hide();
+                $(".category-" + categoryId).show();
+            });
+        });
+    </script>
     <!-- Fruits Shop End-->
 @endsection

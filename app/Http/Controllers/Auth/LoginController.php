@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
-// use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -28,16 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
-    public function authenticated() {
-        if (Auth::user()->roles == '1') {
-            return redirect('admin/dashboard')->with('message','Welcome to dashboard');
-        } else if(Auth::user()->roles == '0') {
-            return redirect('/home')->with('status', 'Login social account successfully');
-        } else {
-            return redirect('/')->with('status','Login successfully logged in');
-        }
-    }
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -48,36 +37,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    // public function login(Request $request)
-    // {
-    //     $input = $request->all();
-
-    //     $this->validate($request, [
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
-
-    //     if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
-    //     {
-    //         if (auth()->user()->roles == 'admin')
-    //         {
-    //             return redirect()->route('admin.home');
-    //         }
-    //         else if (auth()->user()->roles == 's_user')
-    //         {
-    //             return redirect('/home');
-    //         }
-    //         else
-    //         {
-    //             return redirect('/home');
-    //         }
-    //     }
-    //     else
-    //     {
-    //         return redirect()
-    //         ->route('login')
-    //         ->with('error','Incorrect email or password!.');
-    //     }
-    // }
 }

@@ -154,17 +154,6 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            {{-- <ul id="category-list" class="nav nav-pills d-inline-flex text-center mb-5">
-                                    @foreach ($categories as $category)
-                                <li class="nav-item">
-                                    <div>
-                                    <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#" class="category-link" data-category="{{ $category->id }}">
-                                        <span class="text-dark" style="width: 130px;">{{ $category->name }}</span>
-                                    </a>
-                                    </div>
-                                </li>
-                                @endforeach
-                                </ul> --}}
                         </ul>
                     </div>
                 </div>
@@ -178,8 +167,12 @@
                                             class="col-md-6 col-lg-4 col-xl-3 category-product category-{{ $post->category->id }}">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="{{ asset('storage/uploads/' . $post->image) }}"
-                                                        class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                                    @if (count(json_decode($post->image)) > 0)
+                                                        <?php $firstImage = json_decode($post->image)[0]; ?>
+                                                        <img src="{{ asset('uploads/' . $firstImage) }}" class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                                    @else
+                                                        <p>No Image Available</p>
+                                                    @endif
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                     style="top: 10px; left: 10px;">{{ $post->category->name }}</div>
@@ -189,16 +182,16 @@
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">
                                                             ${{ number_format($post->price, 2) }} / kg</p>
-                                                        <a href="{{ route('product_details', ['id' => $post->id]) }}"
+                                                        {{-- <a href="{{ route('product_details', ['id' => $post->id]) }}"
                                                             class="btn border border-secondary rounded-pill px-3 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> View
                                                             product's detail
-                                                        </a>
+                                                        </a> --}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        @if ($loop->index + 1 == 12)
+                                        @if ($loop->index + 1 == 8)
                                         @break
                                     @endif
                                 @endforeach
@@ -461,8 +454,12 @@
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
-                                    <img src="{{ asset('storage/uploads/' . $post->image) }}"
-                                        class="img-fluid rounded-circle w-100" alt="">
+                                    @if (count(json_decode($post->image)) > 0)
+                                                        <?php $firstImage = json_decode($post->image)[0]; ?>
+                                                        <img src="{{ asset('uploads/' . $firstImage) }}" class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                                    @else
+                                                        <p>No Image Available</p>
+                                                    @endif
                                 </div>
                                 <div class="col-6">
                                     <a href="#" class="h5">{{ $post->name }}</a>
@@ -643,7 +640,7 @@
 <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         $(".category-link").click(function(e) {
             e.preventDefault();
@@ -652,5 +649,22 @@
             $(".category-" + categoryId).show();
         });
     });
+</script> --}}
+<script>
+    $(document).ready(function () {
+        console.log("jQuery loaded successfully!");
+        $(".category-link").click(function (e) {
+            e.preventDefault();
+            var categoryId = $(this).data("category");
+
+            // Hiển thị sản phẩm của danh mục đã chọn
+            $(".category-product").hide();
+            $(".category-" + categoryId).show();
+        });
+
+        // Mặc định hiển thị 12 sản phẩm đầu tiên
+        $(".category-product").slice(0, 12).show();
+    });
 </script>
+
 @endsection

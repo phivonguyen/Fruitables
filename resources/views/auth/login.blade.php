@@ -120,7 +120,7 @@
 
                     <div class="wrap-input100 validate-input">
                         <input id="email" type="email"
-                            class="input100 form-control @error('email') is-invalid @enderror" name="email"
+                            class="input100  @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email') }}" required autocomplete="email" autofocus>
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Email Address') }}</span>
@@ -134,7 +134,7 @@
 
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
                         <input id="password" type="password"
-                            class="input100 form-control @error('password') is-invalid @enderror" name="password" required
+                            class="input100  @error('password') is-invalid @enderror" name="password" required
                             autocomplete="current-password">
                         <span class="focus-input100"></span>
                         <span class="label-input100">{{ __('Password') }}</span>
