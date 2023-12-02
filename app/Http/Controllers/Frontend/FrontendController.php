@@ -25,6 +25,11 @@ class FrontendController extends Controller
         ]);
     }
 
+    public function category(){
+        $categories = Category::all();
+        return view('frontend.collections.categories.index', compact('categories'));
+    }
+
     public function product_detail($id)
     {
         $productDetail = ProductDetail::where('product_id', $id)->first();

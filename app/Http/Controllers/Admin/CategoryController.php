@@ -4,41 +4,44 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Http\Requests\CategoryFormRequest;
 
 class CategoryController extends Controller
 {
     public function index()
     {
         return view("admin.category.index");
-
     }
 
     public function create()
     {
         return view("admin.category.create");
     }
-    public function store(Request $request)
+    public function store(CategoryFormRequest $request)
     {
-        $requestData = $request->all();
-
+        $validatedData = $request->validated();
+        $category = new Category;
+        $category->name = $validatedData['name'];
+        $category->slug = Str::slug($validatedData['slug']);
+        $category->description = $validatedData['description'];
+        $uploadPath = 'uploads/category/';
         if ($request->hasFile('image')) {
-            $uploadedImages = [];
-
-            foreach ($request->file('image') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads'), $imageName);
-                $uploadedImages[] = $imageName;
-            }
-            $requestData['image'] = json_encode($uploadedImages);
-        } else {
-            $requestData['image'] = 'default.jpg';
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move('uploads/category/', $filename);
+            $category->image = $uploadPath . $filename;
         }
-
-        Category::create($requestData);
-        return redirect()->route("category/index")->with("success", "Add category successfully");
+        $category->meta_keyword = $validatedData['meta_keyword'];
+        $category->meta_description = $validatedData['meta_description'];
+        $category->meta_title = $validatedData['meta_title'];
+        $category->status  = $request->status == true ? '1' : '0';
+        $category->save();
+        return redirect()->route("category/index")->with('message', "Add category successfully");
     }
 
     public function edit($id)
@@ -47,58 +50,53 @@ class CategoryController extends Controller
         if (!$category) {
             return redirect()->route("category/index")->with("error", "Category not found");
         }
-
         return view("admin.category.edit", compact("category"));
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryFormRequest $request, $category)
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return redirect()->route("category/index")->with("error", "Category not found");
-        }
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
+        $validatedData = $request->validated();
+        $category = Category::findOrFail($category);
+        $category->name = $validatedData['name'];
+        $category->slug = Str::slug($validatedData['slug']);
+        $category->description = $validatedData['description'];
         if ($request->hasFile('image')) {
-            $oldImages = json_decode($category->image, true);
-            foreach ($oldImages as $oldImage) {
-                $imagePath = public_path('uploads') . '/' . $oldImage;
-                if (File::exists($imagePath)) {
-                    File::delete($imagePath);
-                }
+            $uploadPath = 'uploads/category/';
+            $path = '/uploads/category/' . $category->image;
+            if (File::exists($path)) {
+                File::delete($path);
             }
-            $uploadedImages = [];
-            foreach ($request->file('image') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads'), $imageName);
-                $uploadedImages[] = $imageName;
-            }
-            $requestData = array_merge($request->all(), ['image' => json_encode($uploadedImages)]);
-        } else {
-            $requestData = $request->all();
-        }
-        $category->update($requestData);
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
 
-        return redirect()->route("category/index")->with("success", "Update category successfully");
+            $file->move('uploads/category/', $filename);
+
+            $category->image = $uploadPath . $filename;
+        }
+        $category->meta_keyword = $validatedData['meta_keyword'];
+        $category->meta_description = $validatedData['meta_description'];
+        $category->meta_title = $validatedData['meta_title'];
+
+        $category->status  = $request->status == true ? '1' : '0';
+
+        $category->update();
+
+        return redirect()->route("category/index")->with("message", "Update category successfully");
     }
 
     public function delete($id)
     {
         $category = Category::find($id);
         if ($category != null) {
-            $oldImages = json_decode($category->image, true);
-            foreach ($oldImages as $oldImage) {
-                $imagePath = public_path('uploads') . '/' . $oldImage;
-                if (File::exists($imagePath)) {
-                    File::delete($imagePath);
-                }
+            $destination = $category->image;
+            // dd($destination);
+            if (File::exists($destination)) {
+                File::delete($destination);
             }
             $category->delete();
-            return redirect()->route("category/index")->with("success", "Delete category successfully");
+            return redirect()->route("category/index")->with('message', 'Category Deleted Successfully');
         }
+        return redirect()->route("category/index")->with('message', 'Category Deleted Successfully');
     }
 }

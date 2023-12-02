@@ -4,7 +4,6 @@ namespace App\Models;
 
 
 use App\Models\Category;
-use App\Models\ProductDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,8 +15,19 @@ class Product extends Model
     protected $fillable = [
         "image",
         "name",
+        "slug",
+        "origin",
         "description",
         "price",
+        "original_price",
+        "selling_price",
+        "quantity",
+        "trending",
+        "featured",
+        "status",
+        "meta_title",
+        "meta_keyword",
+        "meta_description",
         "category_id",
         'created_at',
         'updated_at'
@@ -26,10 +36,6 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, "category_id", "id");
 
-    }
-    public function productdetail()
-    {
-        return $this->hasMany(ProductDetail::class, "id", "product_id");
     }
 
 }

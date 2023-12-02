@@ -15,20 +15,12 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('cart_id')->references('id')->on('carts');
         });
 
         Schema::table('carts', function (Blueprint $table) {
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-        });
-
-        Schema::table('cart_items', function (Blueprint $table) {
-
-            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
-            // $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
         Schema::table('invoices', function (Blueprint $table) {
@@ -41,34 +33,17 @@ return new class extends Migration
         Schema::table('addresses', function (Blueprint $table) {
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
         });
 
-
-        Schema::table('order_details', function (Blueprint $table) {
+        Schema::table('orders_items', function (Blueprint $table) {
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
         Schema::table('user_details', function (Blueprint $table) {
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-        });
-        Schema::table('product_detail', function (Blueprint $table) {
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-        });
-
-        Schema::table('order_details', function (Blueprint $table) {
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-        });
-        Schema::table('cart_items', function (Blueprint $table) {
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

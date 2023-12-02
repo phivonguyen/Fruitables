@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Models\Orders;
-// use App\Models\Products;
+use App\Models\Products;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderDetail extends Model
+class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'order_details';
+    protected $table = 'orders_items';
 
     protected $fillable = [
         'order_id',
@@ -26,7 +26,7 @@ class OrderDetail extends Model
         return $this->belongsTo(Orders::class,'order_id','id');
     }
 
-    // public function product() {
-    //     return $this->belongsTo(Products::class,'product_id','id');
-    // }
+    public function product() {
+        return $this->belongsTo(Product::class,'product_id','id');
+    }
 }

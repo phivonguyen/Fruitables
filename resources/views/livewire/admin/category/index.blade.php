@@ -15,13 +15,21 @@
                     <strong>success! </strong>{{ session('success') }}
                 </div>
             @endif
+            @if (session('message'))
+                <div class="alert alert-success">
+                    <strong>Message: </strong>{{ session('message') }}
+                </div>
+            @endif
             <div class="container mt-3">
                 <table class="table table-striped" border=1>
                     <thead>
                         <tr>
+                            <td>Meta Title</td>
                             <td>Image</td>
                             <td>Name</td>
-                            <td>Time</td>
+                            <td>Slug</td>
+                            <td>Status</td>
+                            <td>Description</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -29,18 +37,19 @@
                         @foreach ($categories as $item)
                             <tr>
                                 <td>
+                                    {{ $item->meta_title }}
+                                </td>
+                                <td>
                                     @if ($item->image)
-                                        <?php $decodedImages = json_decode($item->image); ?>
-                                        @if ($decodedImages && count($decodedImages) > 0)
-                                            <?php $firstImage = $decodedImages[0]; ?>
-                                            <img src="{{ asset('uploads/' . $firstImage) }}" alt="Categories Image"
-                                                style="max-width: 300px;">
-                                        @endif
+                                        <img src="{{ asset("$item->image") }}" alt="Categories Image"
+                                            style="max-width: 300px;">
                                     @endif
                                 </td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ $item->slug }}</td>
+                                <td>{{ $item->status == '0' ? 'Visible' : 'Hidden' }}</td>
                                 <td>
-                                    {{ $item->created_at }}
+                                    {{ substr($item->description, 0, 20) }}...
                                 </td>
                                 <td>
                                     <a href="{{ route('category/edit', $item->id) }}" class="btn btn-warning">Edit</a>
@@ -59,6 +68,7 @@
             </div>
         </div>
     </div>
+
     <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">

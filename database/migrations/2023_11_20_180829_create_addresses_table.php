@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('district');
             $table->string('country');
 
-
-
             $table->timestamps();
         });
     }

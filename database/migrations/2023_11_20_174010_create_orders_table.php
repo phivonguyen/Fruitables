@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('cart_id')->unique();
+            $table->string('tracking_no');
+            $table->string('full_name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('pincode');
+            $table->mediumText('address');
+            $table->string('status_message');
             $table->string('user_description', 255);
-            $table->string('received_address', 255);
             $table->string('payment_mode');
             $table->enum('status', ['Pending', 'Awaiting Payment', 'Shipping', 'Shipped', 'Cancelled', 'Declined', 'Refunded']);
 

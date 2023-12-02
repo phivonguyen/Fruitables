@@ -35,6 +35,8 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     //Frontend product
     Route::get('/home', 'index')->name('home');
     Route::get('/collections', 'collections')->name('collections');
+    Route::get('/collections/category', 'category')->name('collections/category');
+
     // Route::get('/collections/products', 'product_detail');
     // Route::get('/collections/products/{id}', 'product_detail')->name('product_details');
     Route::get('/collections/search', 'search')->name('search');

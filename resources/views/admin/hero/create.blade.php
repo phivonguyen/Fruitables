@@ -57,7 +57,7 @@
 
                     <div class="mb-3">
                         <label for="price" class="form-label">Href</label>
-                        <input type="text" name="href" id="href" placeholder="Enter href" class="form-control">
+                        <input type="text" name="href" id="href" placeholder="Enter href" class="form-control" value="#">
                         @error('href')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror

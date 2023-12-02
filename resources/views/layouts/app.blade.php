@@ -107,7 +107,7 @@
     </div> --}}
 
     @yield('content')
-
+    @include('layouts.inc.frontend.footer')
 
 
 

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Carts;
+use App\Models\OrderItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +15,14 @@ class Orders extends Model
 
     protected $fillable = [
         'user_id',
-        'cart_id',
+        'tracking_no',
+        'full_name',
+        'email',
+        'phone',
+        'pincode',
+        'address',
+        'status_message',
         'user_description',
-        'received_address',
         'payment_mode',
         'status',
         'created_at',
@@ -28,11 +33,8 @@ class Orders extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
 
-    public function cart() {
-        return $this->hasOne(Carts::class,'cart_id','id');
-    }
 
-    public function orderDetail() {
-        return $this->hasMany(OrderDetail::class,'id','order_id');
+    public function orderItem() {
+        return $this->hasMany(OrderItem::class,'id','order_id');
     }
 }
