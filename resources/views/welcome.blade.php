@@ -137,8 +137,6 @@
                 </div>
             </div>
         </div>
-
-        @livewire('hello-world')
         @livewireScripts
     </body>
 </html>

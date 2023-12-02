@@ -1,55 +1,82 @@
-<div class="page-header">
-    <h3 class="page-title">Category List</h3>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('category/create') }}">Create Category</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page"> New Product </li>
-        </ol>
-    </nav>
-</div>
-<div class="row">
-    @if (session('success'))
-        <div class="alert alert-success">
-            <strong>success!</strong>{{ session('success') }}
+<div>
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Categories List</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('category/create') }}">Create</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> New Category </li>
+                </ol>
+            </nav>
         </div>
-    @endif
-    <div class="container mt-3">
-        {{-- <a href="{{route("category/create")}}">create category</a> --}}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Image</td>
-                    <td>Created_at</td>
-                    <td>Updated_at</td>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $item)
-                    <tr>
-                        <td>{{ $item->name }}</td>
-                        <td>
-                            @if ($item->image)
-                            <?php $decodedImages = json_decode($item->image); ?>
-                            @if ($decodedImages && count($decodedImages) > 0)
-                                <?php $firstImage = $decodedImages[0]; ?>
-                                <img src="{{ asset('uploads/' . $firstImage) }}" alt="Category Image" style="max-width: 300px;">
-                            @endif
-                        @endif
-                        </td>
-                        <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->updated_at }}</td>
-                        <td>
-                            <a href="{{ route('category/edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                            <a href="{{ route('category/delete', $item->id) }}" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="row">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <strong>success! </strong>{{ session('success') }}
+                </div>
+            @endif
+            <div class="container mt-3">
+                <table class="table table-striped" border=1>
+                    <thead>
+                        <tr>
+                            <td>Image</td>
+                            <td>Name</td>
+                            <td>Time</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $item)
+                            <tr>
+                                <td>
+                                    @if ($item->image)
+                                        <?php $decodedImages = json_decode($item->image); ?>
+                                        @if ($decodedImages && count($decodedImages) > 0)
+                                            <?php $firstImage = $decodedImages[0]; ?>
+                                            <img src="{{ asset('uploads/' . $firstImage) }}" alt="Categories Image"
+                                                style="max-width: 300px;">
+                                        @endif
+                                    @endif
+                                </td>
+                                <td>{{ $item->name }}</td>
+                                <td>
+                                    {{ $item->created_at }}
+                                </td>
+                                <td>
+                                    <a href="{{ route('category/edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                                    <a href="#" wire:click="deleteCategory({{ $item->id }})"
+                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div>
+                    {{ $categories->links() }}
+                </div>
+
+            </div>
+        </div>
     </div>
-
-
+    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Category Delete</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="destroyCategory">
+                    <div class="modal-body">
+                        <h4>Do you really want to delete this category ?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

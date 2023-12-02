@@ -3,6 +3,6 @@
 
 @section('content')
     <div>
-        <livewire:admin/category/index />
+        @livewire('admin.category.index')
     </div>
 @endsection

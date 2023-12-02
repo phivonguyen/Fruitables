@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\ProductDetail;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Hero;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -13,9 +14,15 @@ class FrontendController extends Controller
     //
     public function index()
     {
+        $heroes = Hero::where('status','0')->get();
         $products = Product::paginate(9);
         $categories = Category::all();
-        return view('frontend.index', ['products' => $products, 'categories' => $categories]);
+        return view('frontend.index',
+        [
+            'products' => $products,
+            'categories' => $categories,
+            'heroes' => $heroes
+        ]);
     }
 
     public function product_detail($id)
@@ -28,7 +35,11 @@ class FrontendController extends Controller
     {
         $products = Product::paginate(9);
         $categories = Category::all();
-        return view('frontend.collections.products.index', ['products' => $products,'categories' => $categories]);
+        return view('frontend.collections.products.index',
+        [
+            'products' => $products,
+            'categories' => $categories
+        ]);
     }
 
     public function search(Request $request)

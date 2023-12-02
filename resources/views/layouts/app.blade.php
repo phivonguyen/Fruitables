@@ -36,6 +36,7 @@
     @yield('styles')
     {{-- <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+    @livewireStyles
 </head>
 
 
@@ -120,6 +121,7 @@
     <!-- Template Javascript -->
     <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
     @yield('script')
+    @livewireScripts
 </body>
 
 </html>

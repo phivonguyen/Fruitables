@@ -44,16 +44,22 @@
                 <div class="col-md-12 col-lg-5">
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                         <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active rounded">
-                                <img src="{{ asset('assets') }}/layouts/img/hero-img-1.png"
-                                    class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
-                                <a href="#" class="btn px-4 py-2 text-white rounded">Fruites</a>
-                            </div>
-                            <div class="carousel-item rounded">
+                            @foreach ($heroes as $key => $hero)
+                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }} rounded">
+                                    @if ($hero->image)
+                                        <img src="{{ asset("$hero->image") }}"
+                                            class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                    @endif
+
+                                    <a href="#" class="btn px-4 py-2 text-white rounded">{!! $hero->title !!}</a>
+                                </div>
+                            @endforeach
+
+                            {{-- <div class="carousel-item rounded">
                                 <img src="{{ asset('assets') }}/layouts/img/hero-img-2.jpg"
                                     class="img-fluid w-100 h-100 rounded" alt="Second slide">
                                 <a href="#" class="btn px-4 py-2 text-white rounded">Vesitables</a>
-                            </div>
+                            </div> --}}
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselId"
                             data-bs-slide="prev">
@@ -169,7 +175,8 @@
                                                 <div class="fruite-img">
                                                     @if (count(json_decode($post->image)) > 0)
                                                         <?php $firstImage = json_decode($post->image)[0]; ?>
-                                                        <img src="{{ asset('uploads/' . $firstImage) }}" class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                                        <img src="{{ asset('uploads/' . $firstImage) }}"
+                                                            class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
                                                     @else
                                                         <p>No Image Available</p>
                                                     @endif
@@ -258,7 +265,7 @@
     <!-- Featurs End -->
 
 
-    <!-- Vesitable Shop Start-->
+    <!-- vesitable Shop Start-->
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Fresh Organic Vegetables</h1>
@@ -402,7 +409,7 @@
             </div>
         </div>
     </div>
-    <!-- Vesitable Shop End -->
+    <!-- vesitable Shop End -->
 
 
     <!-- Banner Section Start-->
@@ -455,11 +462,12 @@
                             <div class="row align-items-center">
                                 <div class="col-6">
                                     @if (count(json_decode($post->image)) > 0)
-                                                        <?php $firstImage = json_decode($post->image)[0]; ?>
-                                                        <img src="{{ asset('uploads/' . $firstImage) }}" class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
-                                                    @else
-                                                        <p>No Image Available</p>
-                                                    @endif
+                                        <?php $firstImage = json_decode($post->image)[0]; ?>
+                                        <img src="{{ asset('uploads/' . $firstImage) }}"
+                                            class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                    @else
+                                        <p>No Image Available</p>
+                                    @endif
                                 </div>
                                 <div class="col-6">
                                     <a href="#" class="h5">{{ $post->name }}</a>
@@ -485,162 +493,164 @@
             @endforeach
         </div>
     </div>
-</div>
-<!-- Bestsaler Product End -->
+
+    <!-- Bestsaler Product End -->
 
 
-<!-- Fact Start -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <div class="bg-light p-5 rounded">
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>satisfied customers</h4>
-                        <h1>1963</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>quality of service</h4>
-                        <h1>99%</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>quality certificates</h4>
-                        <h1>33</h1>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="counter bg-white rounded p-5">
-                        <i class="fa fa-users text-secondary"></i>
-                        <h4>Available Products</h4>
-                        <h1>789</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Fact Start -->
-
-
-<!-- Tastimonial Start -->
-<div class="container-fluid testimonial py-5">
-    <div class="container py-5">
-        <div class="testimonial-header text-center">
-            <h4 class="text-primary">Our Testimonial</h4>
-            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
-        </div>
-        <div class="owl-carousel testimonial-carousel">
-            <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                <div class="position-relative">
-                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                        style="bottom: 30px; right: 0;"></i>
-                    <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                        </p>
-                    </div>
-                    <div class="d-flex align-items-center flex-nowrap">
-                        <div class="bg-secondary rounded">
-                            <img src="{{ asset('assets') }}/img/testimonial-1.jpg" class="img-fluid rounded"
-                                style="width: 100px; height: 100px;" alt="">
-                        </div>
-                        <div class="ms-4 d-block">
-                            <h4 class="text-dark">Client Name</h4>
-                            <p class="m-0 pb-3">Profession</p>
-                            <div class="d-flex pe-5">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
+    <!-- Fact Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="bg-light p-5 rounded">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="counter bg-white rounded p-5">
+                            <i class="fa fa-users text-secondary"></i>
+                            <h4>satisfied customers</h4>
+                            <h1>1963</h1>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                <div class="position-relative">
-                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                        style="bottom: 30px; right: 0;"></i>
-                    <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                        </p>
-                    </div>
-                    <div class="d-flex align-items-center flex-nowrap">
-                        <div class="bg-secondary rounded">
-                            <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                        </div>
-                        <div class="ms-4 d-block">
-                            <h4 class="text-dark">Client Name</h4>
-                            <p class="m-0 pb-3">Profession</p>
-                            <div class="d-flex pe-5">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                            </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="counter bg-white rounded p-5">
+                            <i class="fa fa-users text-secondary"></i>
+                            <h4>quality of service</h4>
+                            <h1>99%</h1>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                <div class="position-relative">
-                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                        style="bottom: 30px; right: 0;"></i>
-                    <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                        </p>
-                    </div>
-                    <div class="d-flex align-items-center flex-nowrap">
-                        <div class="bg-secondary rounded">
-                            <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="counter bg-white rounded p-5">
+                            <i class="fa fa-users text-secondary"></i>
+                            <h4>quality certificates</h4>
+                            <h1>33</h1>
                         </div>
-                        <div class="ms-4 d-block">
-                            <h4 class="text-dark">Client Name</h4>
-                            <p class="m-0 pb-3">Profession</p>
-                            <div class="d-flex pe-5">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                            </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="counter bg-white rounded p-5">
+                            <i class="fa fa-users text-secondary"></i>
+                            <h4>Available Products</h4>
+                            <h1>789</h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Tastimonial End -->
+    <!-- Fact Start -->
+
+
+    <!-- Tastimonial Start -->
+    <div class="container-fluid testimonial py-5">
+        <div class="container py-5">
+            <div class="testimonial-header text-center">
+                <h4 class="text-primary">Our Testimonial</h4>
+                <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel">
+                <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                    <div class="position-relative">
+                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                            style="bottom: 30px; right: 0;"></i>
+                        <div class="mb-4 pb-4 border-bottom border-secondary">
+                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                                industry's standard dummy text ever since the 1500s,
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center flex-nowrap">
+                            <div class="bg-secondary rounded">
+                                <img src="{{ asset('assets') }}/img/testimonial-1.jpg" class="img-fluid rounded"
+                                    style="width: 100px; height: 100px;" alt="">
+                            </div>
+                            <div class="ms-4 d-block">
+                                <h4 class="text-dark">Client Name</h4>
+                                <p class="m-0 pb-3">Profession</p>
+                                <div class="d-flex pe-5">
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                    <div class="position-relative">
+                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                            style="bottom: 30px; right: 0;"></i>
+                        <div class="mb-4 pb-4 border-bottom border-secondary">
+                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                                industry's standard dummy text ever since the 1500s,
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center flex-nowrap">
+                            <div class="bg-secondary rounded">
+                                <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
+                                    class="img-fluid rounded" style="width: 100px; height: 100px;"
+                                    alt="">
+                            </div>
+                            <div class="ms-4 d-block">
+                                <h4 class="text-dark">Client Name</h4>
+                                <p class="m-0 pb-3">Profession</p>
+                                <div class="d-flex pe-5">
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                    <div class="position-relative">
+                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                            style="bottom: 30px; right: 0;"></i>
+                        <div class="mb-4 pb-4 border-bottom border-secondary">
+                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                                industry's standard dummy text ever since the 1500s,
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-center flex-nowrap">
+                            <div class="bg-secondary rounded">
+                                <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
+                                    class="img-fluid rounded" style="width: 100px; height: 100px;"
+                                    alt="">
+                            </div>
+                            <div class="ms-4 d-block">
+                                <h4 class="text-dark">Client Name</h4>
+                                <p class="m-0 pb-3">Profession</p>
+                                <div class="d-flex pe-5">
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                    <i class="fas fa-star text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tastimonial End -->
 
 @endsection
 
 @section('script')
-<!-- JavaScript Libraries -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
-<script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
-<script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
-<script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-<!-- Template Javascript -->
-<script src="{{ asset('assets/layouts/js/main.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <!-- Template Javascript -->
+    <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-{{-- <script>
+    {{-- <script>
     $(document).ready(function() {
         $(".category-link").click(function(e) {
             e.preventDefault();
@@ -650,21 +660,21 @@
         });
     });
 </script> --}}
-<script>
-    $(document).ready(function () {
-        console.log("jQuery loaded successfully!");
-        $(".category-link").click(function (e) {
-            e.preventDefault();
-            var categoryId = $(this).data("category");
+    <script>
+        $(document).ready(function() {
+            console.log("jQuery loaded successfully!");
+            $(".category-link").click(function(e) {
+                e.preventDefault();
+                var categoryId = $(this).data("category");
 
-            // Hiển thị sản phẩm của danh mục đã chọn
-            $(".category-product").hide();
-            $(".category-" + categoryId).show();
+                // Hiển thị sản phẩm của danh mục đã chọn
+                $(".category-product").hide();
+                $(".category-" + categoryId).show();
+            });
+
+            // Mặc định hiển thị 12 sản phẩm đầu tiên
+            $(".category-product").slice(0, 12).show();
         });
-
-        // Mặc định hiển thị 12 sản phẩm đầu tiên
-        $(".category-product").slice(0, 12).show();
-    });
-</script>
+    </script>
 
 @endsection

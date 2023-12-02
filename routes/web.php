@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UCategoryController;
 use App\Http\Controllers\UProductController;
 
@@ -41,27 +41,6 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     Route::get('/collections/search-by-price-range', 'searchByPriceRange')->name('searchByPriceRange');
 });
 
-Route::middleware(['auth'])->group(function () {
-
-
-});
-
-// Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->group(function () {
-//     Route::get('/', 'index')->name('homepage');
-//     Route::get('/collections', 'categories');
-//     Route::get('/collections/{category_slug}', 'products');
-//     Route::get('/collections/{category_slug}/{product_slug}', 'productView');
-
-
-//     Route::get('/new-arrivals', 'newArrival');
-//     Route::get('/featured-products', 'featuredProducts');
-
-//     Route::get('search', 'searchProduct');
-//     Route::get('comingsoon', 'commingsoon');
-// });
-
-
-
 // Route Admin
 Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
     //Admin dashboard index
@@ -97,12 +76,14 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/category/edit/{id}', 'edit')->name('category/edit');
         Route::put('/category/update/{id}', 'update')->name('category/update');
     });
+
+    //Hero header routes by Phi
+    Route::controller(App\Http\Controllers\Admin\HeroController::class)->group(function () {
+        Route::get('hero', 'index')->name('hero.index');
+        Route::get('hero/create', 'create')->name('hero/create');
+        Route::post('hero/create', 'store')->name('hero/store');
+        Route::get('hero/{hero}/edit', 'edit');
+        Route::put('hero/{hero}', 'update');
+        Route::get('hero/{hero}/delete', 'delete');
+    });
 });
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

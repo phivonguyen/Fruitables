@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../index.html">
+                    <a class="nav-link" href="{{url('admin/dashboard')}}">
                         <i class="mdi mdi-home menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
@@ -48,27 +48,27 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/icons/mdi.html">
+                    <a class="nav-link" href="{{ url('admin/product') }}">
                         <i class="mdi mdi-contacts menu-icon"></i>
-                        <span class="menu-title">Icons</span>
+                        <span class="menu-title">Product</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/forms/basic_elements.html">
+                    <a class="nav-link" href="{{ url('admin/product_detail') }}">
                         <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-                        <span class="menu-title">Forms</span>
+                        <span class="menu-title">Product Details</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/charts/chartjs.html">
+                    <a class="nav-link" href="{{ url('admin/category') }}">
                         <i class="mdi mdi-chart-bar menu-icon"></i>
-                        <span class="menu-title">Charts</span>
+                        <span class="menu-title">Categories</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/tables/basic-table.html">
+                    <a class="nav-link" href="{{url('admin/hero')}}">
                         <i class="mdi mdi-table-large menu-icon"></i>
-                        <span class="menu-title">Tables</span>
+                        <span class="menu-title">Hero Header</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -79,7 +79,7 @@
                 </li>
                 <li class="nav-item">
                     <span class="nav-link" href="#">
-                        <span class="menu-title">Docs</span>
+                        <span class="menu-title">Invoices</span>
                     </span>
                 </li>
                 <li class="nav-item">
