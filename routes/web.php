@@ -36,6 +36,15 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     Route::get('/home', 'index')->name('home');
     Route::get('/collections', 'collections')->name('collections');
     Route::get('/collections/category', 'category')->name('collections/category');
+    Route::get('/collections/{category_slug}', 'products');
+    Route::get('/collections/{category_slug}/{product_slug}', 'productView');
+
+
+    Route::get('/new-arrivals', 'newArrival');
+    Route::get('/featured-products', 'featuredProducts');
+
+    Route::get('search', 'searchProduct');
+    Route::get('comingsoon', 'commingsoon');
 
     // Route::get('/collections/products', 'product_detail');
     // Route::get('/collections/products/{id}', 'product_detail')->name('product_details');
@@ -80,4 +89,26 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
     });
 
     Route::get('/origin', App\Livewire\Admin\Origin\Index::class)->name('originIndex');
+
+    //Product routes-Hung's route
+    Route::controller(App\Http\Controllers\Admin\AdvertisementController::class)->group(function () {
+        //product admin
+        Route::get('/advertisement', 'index')->name("advertisement/index");
+        Route::get('/advertisement/create', 'create')->name("advertisement/create");
+        Route::post('/advertisement/create', 'store')->name("advertisement/store");
+        Route::get('/advertisement/delete/{id}', 'delete')->name("advertisement/delete");
+        Route::get('/advertisement/edit/{id}', 'edit')->name('advertisement/edit');
+        Route::put('/advertisement/update/{id}', 'update')->name('advertisement/update');
+    });
+    //Product routes-Hung's route
+    Route::controller(App\Http\Controllers\Admin\AboutController::class)->group(function () {
+        //product admin
+        Route::get('/about', 'index')->name("about/index");
+        Route::get('/about/create', 'create')->name("about/create");
+        Route::post('/about/create', 'store')->name("about/store");
+        Route::get('/about/delete/{id}', 'delete')->name("about/delete");
+        Route::get('/about/edit/{id}', 'edit')->name('about/edit');
+        Route::put('/about/update/{id}', 'update')->name('about/update');
+        Route::get('/about/update-status/{id}/{status}', [App\Http\Controllers\Admin\AdvertisementController::class, 'updateStatus'])->name('about/update-status');
+    });
 });

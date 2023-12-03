@@ -41,6 +41,7 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="{{ url('/home') }}" class="nav-item nav-link active">Home</a>
+                            <a href="{{ url('/collections/category')}}" class="nav-item nav-link">Categories</a>
                             <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">

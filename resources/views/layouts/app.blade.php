@@ -4,12 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title> @yield('title') </title>
+
+    <meta content="@yield('meta_keyword')" name="keywords">
+    <meta content="@yield('meta_description')" name="description">
+    <meta content="@yield('meta_title')" name="title">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +44,13 @@
 
 
 <body>
+    {{-- <!-- Spinner Start -->
+    <div id="spinner"
+        class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End --> --}}
+
     @include('layouts.inc.frontend.header')
     {{-- <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">

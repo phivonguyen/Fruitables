@@ -83,50 +83,23 @@
     <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-car-side fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Free Shipping</h5>
-                            <p class="mb-0">Free on order over $300</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-user-shield fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>Security Payment</h5>
-                            <p class="mb-0">100% security payment</p>
+                @foreach ($advertisement as $post)
+                    @if ($post->status == 'presently')
+                        {{-- Bỏ qua và không hiển thị nếu trạng thái là inactive --}}
+                        @continue
+                    @endif
+                    <div class="col-md-6 col-lg-3">
+                        <div class="featurs-item text-center rounded bg-light p-4">
+                            <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
+                                <i class="fas fa-car-side fa-3x text-white"></i>
+                            </div>
+                            <div class="featurs-content text-center">
+                                <h5>{{ $post->name }}</h5>
+                                <p class="mb-0">{{ $post->description }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fas fa-exchange-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>30 Day Return</h5>
-                            <p class="mb-0">30 day money guarantee</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="featurs-item text-center rounded bg-light p-4">
-                        <div class="featurs-icon btn-square rounded-circle bg-secondary mb-5 mx-auto">
-                            <i class="fa fa-phone-alt fa-3x text-white"></i>
-                        </div>
-                        <div class="featurs-content text-center">
-                            <h5>24/7 Support</h5>
-                            <p class="mb-0">Support every time fast</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -168,28 +141,28 @@
                         <div class="row g-4">
                             <div class="col-lg-12">
                                 <div class="row g-4">
-                                    @foreach ($products as $post)
+                                    @foreach ($products as $product)
                                         <div
-                                            class="col-md-6 col-lg-4 col-xl-3 category-product category-{{ $post->category->id }}">
+                                            class="col-md-6 col-lg-4 col-xl-3 category-product category-{{ $product->category->id }}">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    @if (count(json_decode($post->image)) > 0)
-                                                        <?php $firstImage = json_decode($post->image)[0]; ?>
-                                                        <img src="{{ asset('uploads/' . $firstImage) }}"
-                                                            class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                                    @if ($product->productImage)
+                                                        <img src="{{ asset($product->productImage->first()->image) }}"
+                                                            class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
+                                                            style="width: 330px; height: 230px">
                                                     @else
                                                         <p>No Image Available</p>
                                                     @endif
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                    style="top: 10px; left: 10px;">{{ $post->category->name }}</div>
+                                                    style="top: 10px; left: 10px;">{{ $product->category->name }}</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>{{ $post->name }}</h4>
-                                                    <p>{{ $post->description }}</p>
+                                                    <h4>{{ $product->name }}</h4>
+                                                    <p>{{ $product->description }}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">
-                                                            ${{ number_format($post->price, 2) }} / kg</p>
-                                                        {{-- <a href="{{ route('product_details', ['id' => $post->id]) }}"
+                                                            ${{ number_format($product->original_price, 2) }} / kg</p>
+                                                        {{-- <a href="{{ route('product_details', ['id' => $product->id]) }}"
                                                             class="btn border border-secondary rounded-pill px-3 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> View
                                                             product's detail
@@ -217,48 +190,35 @@
     <div class="container-fluid service py-5">
         <div class="container py-5">
             <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-secondary rounded border border-secondary">
-                            <img src="{{ asset('assets') }}/layouts/img/featur-1.jpg"
-                                class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
-                                <div class="service-content bg-primary text-center p-4 rounded">
-                                    <h5 class="text-white">Fresh Apples</h5>
-                                    <h3 class="mb-0">20% OFF</h3>
+                @foreach ($about as $post)
+                    @if ($post->status == 'presently')
+                        {{-- Bỏ qua và không hiển thị nếu trạng thái là inactive --}}
+                        @continue
+                    @endif
+
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#">
+                            <div class="service-item bg-secondary rounded border border-secondary">
+                                <img src="{{ asset($post->image) }}" class="img-fluid rounded-top w-100"
+                                    alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-4 rounded">
+                                        <h5 class="text-white">{{ $post->name }}</h5>
+                                        <h3 class="mb-0">{{ $post->description }}</h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-dark rounded border border-dark">
-                            <img src="{{ asset('assets') }}/layouts/img/featur-2.jpg"
-                                class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
-                                <div class="service-content bg-light text-center p-4 rounded">
-                                    <h5 class="text-primary">Tasty Fruits</h5>
-                                    <h3 class="mb-0">Free delivery</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#">
-                        <div class="service-item bg-primary rounded border border-primary">
-                            <img src="{{ asset('assets') }}/layouts/img/featur-3.jpg"
-                                class="img-fluid rounded-top w-100" alt="">
-                            <div class="px-4 rounded-bottom">
-                                <div class="service-content bg-secondary text-center p-4 rounded">
-                                    <h5 class="text-white">Exotic Vegetable</h5>
-                                    <h3 class="mb-0">Discount 30$</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var elements = document.querySelectorAll('.status-presently');
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -456,21 +416,21 @@
                     reasonable.</p>
             </div>
             <div class="row g-4">
-                @foreach ($products as $post)
+                @foreach ($products as $product)
                     <div class="col-lg-6 col-xl-4">
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
-                                    @if (count(json_decode($post->image)) > 0)
-                                        <?php $firstImage = json_decode($post->image)[0]; ?>
-                                        <img src="{{ asset('uploads/' . $firstImage) }}"
-                                            class="img-fluid w-100 rounded-top" alt="{{ $post->name }}">
+                                    @if ($product->productImage)
+                                        <img src="{{ asset($product->productImage->first()->image) }}"
+                                            class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
+                                            style="width: 330px; height: 230px; border-radius: 50%!important">
                                     @else
                                         <p>No Image Available</p>
                                     @endif
                                 </div>
                                 <div class="col-6">
-                                    <a href="#" class="h5">{{ $post->name }}</a>
+                                    <a href="#" class="h5">{{ $product->name }}</a>
                                     <div class="d-flex my-3">
                                         <i class="fas fa-star text-primary"></i>
                                         <i class="fas fa-star text-primary"></i>
@@ -478,8 +438,8 @@
                                         <i class="fas fa-star text-primary"></i>
                                         <i class="fas fa-star"></i>
                                     </div>
-                                    <h4 class="mb-3">${{ number_format($post->price, 2) }} / kg</h4>
-                                    {{-- <a href="{{ route('chitiet', ['id' => $post->id]) }}"
+                                    <h4 class="mb-3">${{ number_format($product->original_price, 2) }} / kg</h4>
+                                    {{-- <a href="{{ route('chitiet', ['id' => $product->id]) }}"
                                     class="btn border border-secondary rounded-pill px-3 text-primary">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> View product's detail
                                 </a> --}}
