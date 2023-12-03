@@ -81,7 +81,7 @@
     <!-- End custom js for this page -->
     @yield('scripts')
     <script src="{{ asset('livewire/livewire.js') }}" defer></script>
-    @livewireScripts
+    @livewireScriptConfig
 </body>
 
 </html>

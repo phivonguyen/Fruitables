@@ -72,13 +72,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="product.html">
+                    <a class="nav-link" href="{{url('admin/origin')}}">
                         <i class="mdi mdi-table-large menu-icon"></i>
-                        <span class="menu-title">Products</span>
+                        <span class="menu-title">Origins</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <span class="nav-link" href="#">
+                        <i class="mdi mdi-table-large menu-icon"></i>
                         <span class="menu-title">Invoices</span>
                     </span>
                 </li>

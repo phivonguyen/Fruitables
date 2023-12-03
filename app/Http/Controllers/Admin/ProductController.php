@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Origin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Http\Requests\ProductFormRequest;
 
 class ProductController extends Controller
 {
@@ -19,86 +23,121 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view("admin.product.create", compact("categories"));
+        $origins = Origin::all();
+        return view("admin.product.create", [
+            "categories" => $categories,
+            "origins" => $origins
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(ProductFormRequest $request)
     {
-        $requestData = $request->all();
+        $validatedData = $request->validated();
+
+        $category = Category::findOrFail($validatedData['category_id']);
+        $product = $category->products()->create([
+            'category_id' => $validatedData['category_id'],
+            'name' => $validatedData['name'],
+            'slug' => Str::slug($validatedData['slug']),
+            'origin' => $validatedData['origin'],
+            'description' => $validatedData['description'],
+            'original_price' => $validatedData['original_price'],
+            'selling_price' => $validatedData['selling_price'],
+            'quantity' => $validatedData['quantity'],
+            'trending' => $request->trending == true ? '1' : '0',
+            'featured' => $request->featured == true ? '1' : '0',
+            'status' => $request->status == true ? '1' : '0',
+            'meta_title' => $validatedData['meta_title'],
+            'meta_keyword' => $validatedData['meta_keyword'],
+            'meta_description' => $validatedData['meta_description'],
+        ]);
 
         if ($request->hasFile('image')) {
-            $uploadedImages = [];
+            $uploadPath = 'uploads/products/';
+            $i = 1;
+            foreach ($request->file('image') as $imageFile) {
+                $extention = $imageFile->getClientOriginalExtension();
+                $filename = time() . $i++ . '.' . $extention;
+                $imageFile->move($uploadPath, $filename);
+                $finalImagePathName = $uploadPath . $filename;
 
-            foreach ($request->file('image') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads'), $imageName);
-                $uploadedImages[] = $imageName;
+                $product->productImage()->create([
+                    'product_id' => $product->id,
+                    'image' => $finalImagePathName,
+                ]);
             }
-            $requestData['image'] = json_encode($uploadedImages);
-        } else {
-            $requestData['image'] = 'default.jpg';
         }
-
-        Product::create($requestData);
-
-        return redirect()->route("product/index")->with("success", "Add product successfully");
-    }
-
-    public function delete($id)
-    {
-        $product = Product::find($id);
-
-        if ($product != null) {
-            $oldImages = json_decode($product->image, true);
-            foreach ($oldImages as $oldImage) {
-                $imagePath = public_path('uploads') . '/' . $oldImage;
-                if (File::exists($imagePath)) {
-                    File::delete($imagePath);
-                }
-            }
-
-            $product->delete();
-            return redirect()->route("product/index")->with("success", "Delete product successfully");
-        }
+        return redirect()->route("product/index")->with("message", "Add product successfully");
     }
 
     public function edit($id)
     {
         $product = Product::find($id);
         $categories = Category::all();
-
-        return view("admin.product.edit", compact("product", "categories"));
+        $origins = Origin::all();
+        return view("admin.product.edit", ['categories'=> $categories, 'origins'=> $origins,'product'=> $product]);
     }
-
-    public function update(Request $request, $id)
+    public function update(ProductFormRequest $request, int $product_id)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return redirect()->route("admin/product/index")->with("error", "Product not found");
-        }
-
-        if ($request->hasFile('image')) {
-            $oldImages = json_decode($product->image, true);
-            foreach ($oldImages as $oldImage) {
-                $imagePath = public_path('uploads') . '/' . $oldImage;
-                if (File::exists($imagePath)) {
-                    File::delete($imagePath);
+        $validatedData = $request->validated();
+        $product = Product::findOrFail($product_id);
+        if ($product) {
+            $product->update([
+                'category_id' => $validatedData['category_id'],
+                'name' => $validatedData['name'],
+                'slug' => Str::slug($validatedData['slug']),
+                'origin' => $validatedData['origin'],
+                'description' => $validatedData['description'],
+                'original_price' => $validatedData['original_price'],
+                'selling_price' => $validatedData['selling_price'],
+                'quantity' => $validatedData['quantity'],
+                'trending' => $request->trending == true ? '1' : '0',
+                'featured' => $request->featured == true ? '1' : '0',
+                'status' => $request->status == true ? '1' : '0',
+                'meta_title' => $validatedData['meta_title'],
+                'meta_keyword' => $validatedData['meta_keyword'],
+                'meta_description' => $validatedData['meta_description'],
+            ]);
+            if ($request->hasFile('image')) {
+                $uploadPath = 'uploads/products/';
+                $i = 1;
+                foreach ($request->file('image') as $imageFile) {
+                    $extention = $imageFile->getClientOriginalExtension();
+                    $filename = time() . $i++ . '.' . $extention;
+                    $imageFile->move($uploadPath, $filename);
+                    $finalImagePathName = $uploadPath . $filename;
+                    $product->productImage()->create([
+                        'product_id' => $product->id,
+                        'image' => $finalImagePathName,
+                    ]);
                 }
             }
-            $uploadedImages = [];
-            foreach ($request->file('image') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads'), $imageName);
-                $uploadedImages[] = $imageName;
-            }
-            $requestData = array_merge($request->all(), ['image' => json_encode($uploadedImages)]);
+            return redirect('/admin/product')->with('message', 'Product updated successfully');
         } else {
-            $requestData = $request->all();
+            return redirect('/admin/product')->with('message', 'No such product Id found');
         }
+    }
 
-        $product->update($requestData);
-
-        return redirect()->route("product/index")->with("success", "Update product successfully");
+    public function destroyImage(int $product_image_id)
+    {
+        $productImage = ProductImage::findOrFail($product_image_id);
+        if (File::exists($productImage->image)) {
+            File::delete($productImage->image);
+        }
+        $productImage->delete();
+        return redirect()->back()->with('message', 'Product Image Deleted');
+    }
+    public function destroy(int $product_id)
+    {
+        $product = Product::findOrFail($product_id);
+        if ($product->productImage()) {
+            foreach ($product->productImage as $image) {
+                if (File::exists($image->image)) {
+                    File::delete($image->image);
+                }
+            }
+            $product->delete();
+            return redirect()->back()->with("message", "Product and all images deleted successfully");
+        }
     }
 }

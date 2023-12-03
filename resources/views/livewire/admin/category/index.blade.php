@@ -42,7 +42,7 @@
                                 <td>
                                     @if ($item->image)
                                         <img src="{{ asset("$item->image") }}" alt="Categories Image"
-                                            style="max-width: 300px;">
+                                            style="width: 240px; height: 120px">
                                     @endif
                                 </td>
                                 <td>{{ $item->name }}</td>
@@ -62,7 +62,7 @@
                     </tbody>
                 </table>
                 <div>
-                    {{ $categories->links() }}
+                    {{-- {{ $categories->links() }} --}}
                 </div>
 
             </div>
