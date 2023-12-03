@@ -12,7 +12,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $name, $slug, $status, $origin_id, $category_id;
+    public $name, $slug, $status, $origin_id, $category_id ;
 
     public function rules () {
         return [
@@ -85,7 +85,7 @@ class Index extends Component
     public function destroyOrigin () {
         Origin::findOrFail($this->origin_id)->delete();
         session()->flash('message','Origin deleted successfully');
-        $this->dispatch('close-modal');
+
         $this->resetInput();
     }
 

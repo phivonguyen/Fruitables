@@ -28,16 +28,16 @@ class Index extends Component
                 $q->whereIn('origin', $this->originInputs);
             })
             ->when($this->priceInput, function ($q) {
-
-                $q->when($this->priceInput == 'high-to-low', function ($q2) {
+                $q->when($this->priceInput == 'expensive-to-cheap', function ($q2) {
                     $q2->orderBy('selling_price', 'DESC');
                 })
-                    ->when($this->priceInput == 'low-to-high', function ($q2) {
+                    ->when($this->priceInput == 'cheap-to-expensive', function ($q2) {
                         $q2->orderBy('selling_price', 'ASC');
                     });
             })
             ->where('status', '0')
             ->get();
+
         return view('livewire.front-end.product.index', [
             'products' => $this->products,
             'category' => $this->category,

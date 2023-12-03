@@ -33,25 +33,29 @@
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <h4>Categories</h4>
+                                        <h4>Origins</h4>
                                         <ul class="list-unstyled fruite-categorie">
-                                            @if ($listCat)
-                                                @foreach ($listCat as $cat)
+                                            @if ($category->origins)
+                                                @foreach ($category->origins as $originItem)
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i
-                                                                    class="fas fa-apple-alt me-2"></i>{{ $cat->name }}</a>
-                                                            <span>({{ $cat->products()->count() }})</span>
+                                                            <a href="javascript:void(0)">
+                                                                <input type="checkbox" wire:model.live="originInputs"
+                                                                    value="{{ $originItem->name }}">
+                                                                <i
+                                                                    class="fas fa-apple-alt me-2"></i>{{ $originItem->name }}
+                                                                <span>({{ $category->origins()->count() }})</span>
+                                                            </a>
                                                         </div>
                                                     </li>
                                                 @endforeach
                                             @else
                                                 <li>
                                                     <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>No
-                                                            category
+                                                        <a href="javascript:void(0)"><i
+                                                                class="fas fa-apple-alt me-2"></i>No Origin
                                                             available</a>
-                                                        <span>(3)</span>
+                                                        <span>(0)</span>
                                                     </div>
                                                 </li>
                                             @endif
@@ -61,11 +65,28 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <h4 class="mb-2">Price</h4>
-                                        <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput"
-                                            min="0" max="500" value="0"
-                                            oninput="amount.value=rangeInput.value">
-                                        <output id="amount" name="amount" min-velue="0" max-value="500"
-                                            for="rangeInput">0</output>
+                                        <ul class="list-unstyled fruite-categorie">
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name">
+                                                    <a href="javascript:void(0)">
+                                                        <input type="radio" wire:model.live="priceInput"
+                                                            value="expensive-to-cheap" name="priceSort"> Cheap to
+                                                        Expensive
+
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name">
+                                                    <a href="javascript:void(0)">
+                                                        <input type="radio" wire:model.live="priceInput"
+                                                            value="cheap-to-expensive" name="priceSort"> Expensive to
+                                                        Cheap
+
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -99,7 +120,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
+                                {{-- <div class="col-lg-12">
                                     @if ($featuredProducts)
                                         <h4 class="mb-3">Featured products</h4>
                                         @foreach ($featuredProducts as $featured)
@@ -128,7 +149,7 @@
                                             No featured products available for {{ $category->name }}
                                         </div>
                                     @endif
-                                </div>
+                                </div> --}}
 
                                 <div class="col-lg-12">
                                     <div class="position-relative">
@@ -147,7 +168,8 @@
                                 @if (count($products) > 0)
                                     @foreach ($products as $product)
                                         <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <a href="{{ url('/collections/' . $product->slug) }}">
+                                            <a
+                                                href="{{ url('/collections/' . $product->category->slug . '/' . $product->slug) }}">
                                                 <div class="rounded position-relative fruite-item">
                                                     <div class="fruite-img">
                                                         <img src="{{ asset($product->productImage->first()->image) }}"

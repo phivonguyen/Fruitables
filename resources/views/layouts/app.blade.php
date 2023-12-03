@@ -131,7 +131,9 @@
     <!-- Template Javascript -->
     <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
     @yield('script')
-    @livewireScriptConfig
+    @stack('scripts')
+
+    @livewireScripts
 </body>
 
 </html>

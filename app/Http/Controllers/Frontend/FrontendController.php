@@ -26,7 +26,8 @@ class FrontendController extends Controller
         $advertisement = DB::table('advertisement')->where('status', 'presently')->get();
         // $trendingProducts = Product::where('trending','1')->latest()->take(15)->get();
         // $newestProducts = Product::with('productImages')->orderBy('created_at', 'desc')->take(8)->get();
-        return view('frontend.index',
+        return view(
+            'frontend.index',
             [
                 'products' => $products,
                 'categories' => $categories,
@@ -54,15 +55,16 @@ class FrontendController extends Controller
     public function collections()
     {
         $listCat = Category::all();
-        $featuredProducts = Product::where('featured','1')->latest()->take(3)->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->take(3)->get();
         $products = Product::paginate(9);
         $categories = Category::all();
-        return view('frontend.collections.products.all',
+        return view(
+            'frontend.collections.products.all',
             [
                 'products' => $products,
                 'categories' => $categories,
                 'listCat' => $listCat,
-                'featuredProducts'=> $featuredProducts
+                'featuredProducts' => $featuredProducts
             ]
         );
     }
@@ -70,16 +72,36 @@ class FrontendController extends Controller
     public function products($category_slug)
     {
         $listCat = Category::all();
-        $featuredProducts = Product::where('featured','1')->latest()->take(3)->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->take(3)->get();
         $category = Category::where('slug', $category_slug)->first();
         if ($category) {
             $products = $category->products()->get();
             return view('frontend.collections.products.index', [
-                'products'=> $products,
+                'products' => $products,
                 'category' => $category,
                 'listCat' => $listCat,
-                'featuredProducts'=> $featuredProducts
+                'featuredProducts' => $featuredProducts
             ]);
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    public function productView(string  $category_slug,  string $product_slug)
+    {
+        $category = Category::where('slug', $category_slug)->first();
+        if ($category) {
+            $product = $category->products()->where('slug', $product_slug)->where('status', '0')->first();
+            $product_id = Product::where('slug', $product_slug)->first()->id;
+            // If(auth()->user()){
+            //     $checkWishlist = Wishlist::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists();
+            //     session()->put('checkWishlist', $checkWishlist);
+            //     }
+            if ($product) {
+                return view('frontend.collections.products.view', compact('product', 'category'));
+            } else {
+                return redirect()->back();
+            }
         } else {
             return redirect()->back();
         }

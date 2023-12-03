@@ -1,30 +1,139 @@
 @extends('layouts.admin')
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('category/index') }}">Back to List</a></li>
+    </ol>
+</nav>
 
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit Category Form</h4>
+                <form action="{{ url('admin/category/update/'.$category->id) }}" method="post" enctype="multipart/form-data" class="form-sample">
+                    @csrf
+                    @method('PUT')
 
-    <div class="container mt-3">
-        <h2>Edit Category</h2>
-        <form action="{{ route('category/update', $category->id) }}" method="post" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" value="{{ $category->name }}" class="form-control">
+                    <p class="card-description">Category info</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="name" id="name" class="form-control" id="basicInput" value="{{ $category->name }}"
+                                        placeholder="Enter name">
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Slug</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="slug" id="slug" class="form-control" id="basicInput" value="{{ $category->slug }}"
+                                        placeholder="Enter slug">
+                                    @error('slug')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Image</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="image" />
+                                    <img src="{{ asset( $category->image) }}" width="100px" height="100px">
+                                    @error('image') <small class="text-danger">{{$message}}</small> @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Status Infomation:</label>
+                                <div class="col-sm-9">
+                                    Checked=Hidden
+                                    <br>
+                                    Uncheck=visible
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="description" id="description" class="form-control"
+                                        id="basicInput" placeholder="Enter description" value="{{ $category->description }}">
+                                    @error('description')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Status</label>
+                                <div class="col-sm-9">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" name="status" {{ $category->status == '1' ? 'checked' : '' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="card-description">SEO tags</p>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Meta Title</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="meta_title" id="meta_title" class="form-control" value="{{ $category->meta_title }}"/>
+                                </div>
+                                @error('meta_title')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Meta Keyword</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="meta_keyword" id="meta_keyword" class="form-control"  value="{{ $category->meta_keyword }}"/>
+                                </div>
+                                @error('meta_keyword')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Meta Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="meta_description" id="meta_description" value="{{ $category->meta_description }}"
+                                        class="form-control" />
+                                </div>
+                                @error('meta_description')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="submit" style="width: 100px" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label for="images" class="form-label">Images</label>
-                @foreach (json_decode($category->image) as $image)
-                    <img src="{{ asset('uploads/'.$image) }}" alt="Current Image" style="max-width: 100px;">
-                @endforeach
-                <input type="file" name="images[]" id="images" class="form-control" multiple>
-            </div>
-
-            <!-- Add other fields as needed -->
-
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+        </div>
     </div>
-
 @endsection

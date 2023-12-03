@@ -100,7 +100,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="">Origin Name:</label>
-                        <input type="text" wire:model='name' class="form-control">
+                        <input type="text" wire:model='name' class="form-control" >
                         @error('name')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
