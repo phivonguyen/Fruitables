@@ -130,10 +130,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        window.addEventListener('message', event => {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.notify(event.detail.text, event.detail.type, 3);
-    })
+        // if (event.detail) {
+            window.addEventListener('message', event => {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.notify(event.detail.text, event.detail.type, 3);
+            })
+        // }
     </script>
     <script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
     <script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
@@ -146,7 +148,7 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     @yield('script')
     @stack('scripts')
-
+    @stack('scripts-payment')
     @livewireScripts
 </body>
 

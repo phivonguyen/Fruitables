@@ -78,65 +78,82 @@ class Detail extends Component
         }
     }
 
+
     public function addToCart(int $product_id)
     {
-        if (Auth::check()) {
-            // dd($product_id);
-            if ($this->product->where('id', $product_id)->where('status', '0')->exists()) {
-                if (Carts::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists()) {
-                    $this->dispatch(
-                        'message',
-                        text: 'Product has been already added to the shopping cart.',
-                        type: 'warning',
-                        status: 200
-                    );
-                } else {
-                    if ($this->product->quantity > 0) {
-                        if ($this->product->quantity >= $this->quantityCount) {
-                            Carts::create([
-                                'user_id' => auth()->user()->id,
-                                'product_id' => $product_id,
-                                'quantity' => $this->quantityCount
-                            ]);
-                            $this->dispatch('CartAddedUpdated');
-                            $this->dispatch(
-                                'message',
-                                text: 'Successfully added the item to the cart',
-                                type: 'success',
-                                status: 200
-                            );
-                        } else {
-                            $this->dispatch(
-                                'message',
-                                text: 'Only ' . $this->product->quantity . ' product(s) left remaining in stock!',
-                                type: 'warning',
-                                status: 404
-                            );
-                        }
-                    } else {
-                        $this->dispatch(
-                            'message',
-                            text: ' Unfortunately, the item is not currently in stock.',
-                            type: 'warning',
-                            status: 404
-                        );
-                    }
-                }
-            } else {
-                $this->dispatch(
-                    'message',
-                    text: 'The product is no longer offered or is out of circulation.',
-                    type: 'warning',
-                    status: 401
-                );
-            }
-        } else {
+        if (!Auth::check()) {
             $this->dispatch(
                 'message',
-                text: 'Please login to add product to cart!',
+                text: 'Please login to add a product to the cart!',
                 type: 'info',
                 status: 401
             );
+            return;
+        }
+
+        $product = $this->product->find($product_id);
+
+        if (!$product || $product->status !== 0) {
+            $this->dispatch(
+                'message',
+                text: 'The product is no longer offered or is out of circulation.',
+                type: 'warning',
+                status: 401
+            );
+            return;
+        }
+
+        if ($this->quantityCount <= 0) {
+            $this->dispatch(
+                'message',
+                text: 'Please provide a quantity greater than zero for the product.',
+                type: 'error',
+                status: 409
+            );
+            return false;
+        }
+
+        $existingCart = Carts::where('user_id', auth()->user()->id)->where('product_id', $product_id)->first();
+
+        if ($existingCart) {
+            if ($product->quantity > 0 && $product->quantity >= $this->quantityCount) {
+                $existingCart->increment('quantity', $this->quantityCount);
+                $this->dispatch(
+                    'message',
+                    text: 'Product has been added ' . $this->quantityCount . ' more to the shopping cart.',
+                    type: 'success',
+                    status: 200
+                );
+            } else {
+                $this->dispatch(
+                    'message',
+                    text: 'Only ' . $product->quantity . ' product(s) left remaining in stock!',
+                    type: 'warning',
+                    status: 404
+                );
+            }
+        } else {
+            if ($product->quantity > 0 && $product->quantity >= $this->quantityCount) {
+                Carts::create([
+                    'user_id' => auth()->user()->id,
+                    'product_id' => $product_id,
+                    'quantity' => $this->quantityCount
+                ]);
+                $this->dispatch('CartAddedUpdated');
+                $this->dispatch(
+                    'message',
+                    text: 'Successfully added the item to the cart',
+                    type: 'success',
+                    status: 200
+                );
+            } else {
+                $this->dispatch(
+                    'message',
+                    text: 'Unfortunately, the item is not currently in stock.',
+                    type: 'warning',
+                    status: 404
+                );
+            }
         }
     }
 
@@ -151,4 +168,85 @@ class Detail extends Component
             'checkWishlist' => $checkWishlist
         ]);
     }
+
+        // public function addToCart(int $product_id)
+    // {
+    //     if (Auth::check()) {
+    //         // dd($product_id);
+    //         if ($this->product->where('id', $product_id)->where('status', '0')->exists()) {
+    //             if (Carts::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists()) {
+    //                 if ($this->product->quantity > 0) {
+    //                     if ($this->product->quantity >= $this->quantityCount) {
+    //                         Carts::where('user_id', auth()->user()->id)->where('product_id', $product_id)->increment('quantity', $this->quantityCount);
+    //                         $this->dispatch(
+    //                             'message',
+    //                             text: 'Product has been added ' . $this->quantityCount . ' more  to the shopping cart.',
+    //                             type: 'success',
+    //                             status: 200
+    //                         );
+    //                     } else {
+    //                         $this->dispatch(
+    //                             'message',
+    //                             text: 'Only ' . $this->product->quantity . ' product(s) left remaining in stock!',
+    //                             type: 'warning',
+    //                             status: 404
+    //                         );
+    //                     }
+    //                 } else {
+    //                     $this->dispatch(
+    //                         'message',
+    //                         text: ' Unfortunately, the item is not currently in stock.',
+    //                         type: 'warning',
+    //                         status: 404
+    //                     );
+    //                 }
+    //             } else {
+    //                 if ($this->product->quantity > 0) {
+    //                     if ($this->product->quantity >= $this->quantityCount) {
+    //                         Carts::create([
+    //                             'user_id' => auth()->user()->id,
+    //                             'product_id' => $product_id,
+    //                             'quantity' => $this->quantityCount
+    //                         ]);
+    //                         $this->dispatch('CartAddedUpdated');
+    //                         $this->dispatch(
+    //                             'message',
+    //                             text: 'Successfully added the item to the cart',
+    //                             type: 'success',
+    //                             status: 200
+    //                         );
+    //                     } else {
+    //                         $this->dispatch(
+    //                             'message',
+    //                             text: 'Only ' . $this->product->quantity . ' product(s) left remaining in stock!',
+    //                             type: 'warning',
+    //                             status: 404
+    //                         );
+    //                     }
+    //                 } else {
+    //                     $this->dispatch(
+    //                         'message',
+    //                         text: ' Unfortunately, the item is not currently in stock.',
+    //                         type: 'warning',
+    //                         status: 404
+    //                     );
+    //                 }
+    //             }
+    //         } else {
+    //             $this->dispatch(
+    //                 'message',
+    //                 text: 'The product is no longer offered or is out of circulation.',
+    //                 type: 'warning',
+    //                 status: 401
+    //             );
+    //         }
+    //     } else {
+    //         $this->dispatch(
+    //             'message',
+    //             text: 'Please login to add product to cart!',
+    //             type: 'info',
+    //             status: 401
+    //         );
+    //     }
+    // }
 }

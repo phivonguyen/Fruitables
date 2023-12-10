@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Advertisememt;
 use App\Models\Hero;
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
 
 class FrontendController extends Controller
 {
@@ -93,10 +94,10 @@ class FrontendController extends Controller
         if ($category) {
             $product = $category->products()->where('slug', $product_slug)->where('status', '0')->first();
             $product_id = Product::where('slug', $product_slug)->first()->id;
-            // If(auth()->user()){
-            //     $checkWishlist = Wishlist::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists();
-            //     session()->put('checkWishlist', $checkWishlist);
-            //     }
+            if(auth()->user()){
+                $checkWishlist = Wishlist::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists();
+                session()->put('checkWishlist', $checkWishlist);
+                }
             if ($product) {
                 return view('frontend.collections.products.view', compact('product', 'category'));
             } else {
@@ -129,5 +130,9 @@ class FrontendController extends Controller
 
         $categories = Category::all();
         return view('frontend.collections.products.index', compact('products', 'minPrice', 'maxPrice', 'categories'));
+    }
+
+    public function appreciation(){
+        return view('frontend.appreciation.index');
     }
 }

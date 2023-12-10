@@ -38,9 +38,10 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     Route::get('/collections/category', 'category')->name('collections/category');
     Route::get('/collections/{category_slug}', 'products');
     Route::get('/collections/{category_slug}/{product_slug}', 'productView');
+    Route::get('/appreciation', 'appreciation')->name('appreciation');
+
     Route::get('/new-arrivals', 'newArrival');
     Route::get('/featured-products', 'featuredProducts');
-
     Route::get('search', 'searchProduct');
     Route::get('comingsoon', 'commingsoon');
 
@@ -54,7 +55,7 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
 Route::middleware(['auth'])->group(function () {
 
     Route::get('wishlist', [App\Http\Controllers\Frontend\WishlistController::class, 'index']);
-    Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index']);
+    Route::get('carts', [App\Http\Controllers\Frontend\CartsController::class, 'index']);
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index']);
     Route::get('orders', [App\Http\Controllers\Frontend\OrderController::class, 'index']);
     Route::get('orders/{orderId}', [App\Http\Controllers\Frontend\OrderController::class, 'show']);

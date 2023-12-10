@@ -33,6 +33,9 @@ class ProductController extends Controller
     public function store(ProductFormRequest $request)
     {
         $validatedData = $request->validated();
+        if ($validatedData['selling_price'] > $validatedData['original_price']) {
+            return redirect()->back()->withErrors(['selling_price' => 'Selling Price cannot be greater than Original Price'])->withInput();
+        }
 
         $category = Category::findOrFail($validatedData['category_id']);
         $product = $category->products()->create([
@@ -75,13 +78,16 @@ class ProductController extends Controller
         $product = Product::find($id);
         $categories = Category::all();
         $origins = Origin::all();
-        return view("admin.product.edit", ['categories'=> $categories, 'origins'=> $origins,'product'=> $product]);
+        return view("admin.product.edit", ['categories' => $categories, 'origins' => $origins, 'product' => $product]);
     }
     public function update(ProductFormRequest $request, int $product_id)
     {
         $validatedData = $request->validated();
         $product = Product::findOrFail($product_id);
         if ($product) {
+            if ($validatedData['selling_price'] > $validatedData['original_price']) {
+                return redirect()->back()->withErrors(['selling_price' => 'Selling Price cannot be greater than Original Price'])->withInput();
+            }
             $product->update([
                 'category_id' => $validatedData['category_id'],
                 'name' => $validatedData['name'],

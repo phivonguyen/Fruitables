@@ -16,14 +16,15 @@ class Orders extends Model
     protected $fillable = [
         'user_id',
         'tracking_no',
-        'full_name',
+        'fullname',
         'email',
         'phone',
-        'pincode',
+        'postcode',
         'address',
         'status_message',
         'user_description',
         'payment_mode',
+        'payment_id',
         'status',
         'created_at',
         'updated_at'

@@ -117,16 +117,17 @@
                     <div class="col-lg-8 text-end">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
                             <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill"
-                                    href="">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill active all-products-link"
+                                    data-bs-toggle="pill" href="#">
                                     <span class="text-dark" style="width: 130px;">All Products</span>
                                 </a>
                             </li>
                             <ul id="category-list" class="nav nav-pills d-inline-flex text-center mb-5">
                                 @foreach ($categories as $category)
                                     <li class="nav-item">
-                                        <div class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill">
-                                            <a href="#" class="category-link" data-category="{{ $category->id }}">
+                                        <div class="d-flex m-2 py-2 bg-light rounded-pill category-link"
+                                            data-category="{{ $category->id }}">
+                                            <a href="#">
                                                 <span class="text-dark" style="width: 130px;">{{ $category->name }}</span>
                                             </a>
                                         </div>
@@ -140,7 +141,7 @@
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row g-4">
                             <div class="col-lg-12">
-                                <div class="row g-4">
+                                <div class="row g-4 category-products">
                                     @foreach ($products as $product)
                                         <div
                                             class="col-md-6 col-lg-4 col-xl-3 category-product category-{{ $product->category->id }}">
@@ -162,19 +163,12 @@
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">
                                                             ${{ number_format($product->original_price, 2) }} / kg</p>
-                                                        {{-- <a href="{{ route('product_details', ['id' => $product->id]) }}"
-                                                            class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> View
-                                                            product's detail
-                                                        </a> --}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        @if ($loop->index + 1 == 8)
-                                        @break
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +176,6 @@
             </div>
         </div>
     </div>
-
     <!-- Fruits Shop End-->
 
 
@@ -199,8 +192,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-secondary rounded border border-secondary">
-                                <img src="{{ asset($post->image) }}" class="img-fluid rounded-top w-100"
-                                    alt="">
+                                <img src="{{ asset($post->image) }}" class="img-fluid rounded-top w-100" alt="">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-primary text-center p-4 rounded">
                                         <h5 class="text-white">{{ $post->name }}</h5>
@@ -229,146 +221,60 @@
     <div class="container-fluid vesitable py-5">
         <div class="container py-5">
             <h1 class="mb-0">Fresh Organic Vegetables</h1>
-            <div class="owl-carousel vegetable-carousel justify-content-center">
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-6.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Parsely</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+            <div class="direction" style="position: relative;top:50px">
+                <button id="prev" class="btn btn-primary position-absolute start-0 translate-middle-y">
+                    <i class="fas fa-arrow-circle-left fa-2x"></i>
+                </button>
+                <button id="next" class="btn btn-primary position-absolute end-0 translate-middle-y">
+                    <i class="fas fa-arrow-circle-right fa-2x"></i>
+                </button>
+
+                <script>
+                    document.getElementById('next').onclick = function() {
+                        const widthItem = document.querySelector('.item').offsetWidth;
+                        document.getElementById('formList').scrollLeft += widthItem;
+                    }
+                    document.getElementById('prev').onclick = function() {
+                        const widthItem = document.querySelector('.item').offsetWidth;
+                        document.getElementById('formList').scrollLeft -= widthItem;
+                    }
+                </script>
+            </div>
+            <div id="formList">
+                <div id="list">
+                    @foreach ($products as $product)
+                        <div class="item">
+                            <a href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
+                                @if ($product->productImage)
+                                    <img src="{{ asset($product->productImage->first()->image) }}"
+                                        class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
+                                        style="width: 330px; height: 230px">
+                                @else
+                                    <p>No Image Available</p>
+                                @endif
+                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                    style="top: 10px; left: 10px;">{{ $product->category->name }}</div>
+                                <div class="content">
+                                    <table width="100%" cellspacing="0">
+                                        <h4>{{ $product->name }}</h4>
+                                        <p>{{ substr($product->description, 0, 75) . '...' }}</p>
+
+                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                            <p class="text-dark fs-5 fw-bold mb-0">
+                                                ${{ number_format($product->original_price, 2) }} / kg</p>
+                                            <a href="javascript(0)"
+                                                class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                    class="fa fa-shopping-bag me-2 text-primary"></i> Check details</a>
+                                    </table>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-1.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Parsely</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-3.png"
-                            class="img-fluid w-100 rounded-top bg-light" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Banana</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-4.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Bell Papper</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-5.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Potatoes</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-6.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Parsely</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-5.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Potatoes</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border border-primary rounded position-relative vesitable-item">
-                    <div class="vesitable-img">
-                        <img src="{{ asset('assets') }}/layouts/img/vegetable-item-6.jpg"
-                            class="img-fluid w-100 rounded-top" alt="">
-                    </div>
-                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                        style="top: 10px; right: 10px;">Vegetable</div>
-                    <div class="p-4 rounded-bottom">
-                        <h4>Parsely</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
+
     <!-- vesitable Shop End -->
 
 
@@ -545,8 +451,7 @@
                         <div class="d-flex align-items-center flex-nowrap">
                             <div class="bg-secondary rounded">
                                 <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                    class="img-fluid rounded" style="width: 100px; height: 100px;"
-                                    alt="">
+                                    class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
                             </div>
                             <div class="ms-4 d-block">
                                 <h4 class="text-dark">Client Name</h4>
@@ -574,8 +479,7 @@
                         <div class="d-flex align-items-center flex-nowrap">
                             <div class="bg-secondary rounded">
                                 <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                    class="img-fluid rounded" style="width: 100px; height: 100px;"
-                                    alt="">
+                                    class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
                             </div>
                             <div class="ms-4 d-block">
                                 <h4 class="text-dark">Client Name</h4>
@@ -596,6 +500,109 @@
     </div>
     <!-- Tastimonial End -->
 
+@endsection
+@section('styles')
+    <style>
+        .direction {
+            text-align: center;
+        }
+
+        .direction button {
+            font-family: cursive;
+            font-weight: bold;
+            background-color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: 0.5s;
+            margin: 0 10px;
+        }
+
+        .item {
+            border-radius: 15px;
+            width: 300px;
+            height: 500px;
+            /* background-image: linear-gradient(to top, #AEC0CE, #ECECF2); */
+            border-style: groove;
+            border-width: 1px;
+            border-style: #81c408;
+            overflow: hidden;
+            transition: 0.5s;
+            margin: 10px;
+            scroll-snap-align: start;
+        }
+
+        .item:hover {
+            box-shadow: 1px 1px 0px 1px #81c408
+        }
+
+        .item .avatar {
+            display: block;
+            margin: 50px auto 10px;
+            width: 100px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 15px #7e878d;
+        }
+
+        .item .content {
+            padding: 30px;
+        }
+
+        .item .content table td {
+            padding: 10px 0;
+            border-bottom: 1px solid #AEC0CE;
+        }
+
+        .item .content table td:nth-child(2) {
+            text-align: right;
+        }
+
+        .item .nameGroup {
+            text-align: center;
+            border-bottom: none !important;
+        }
+
+        #list {
+            display: flex;
+            width: max-content;
+        }
+
+        #formList {
+            width: 1280px;
+            max-width: 100%;
+            overflow: auto;
+            margin: 100px auto 50px;
+            scroll-behavior: smooth;
+            scroll-snap-type: both;
+        }
+
+        #formList::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media screen and (max-width: 1024px) {
+            .item {
+                width: calc(33.3vw - 20px);
+            }
+
+            .direction {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .item {
+                width: calc(50vw - 20px);
+            }
+
+            .direction {
+                display: none;
+            }
+        }
+    </style>
 @endsection
 
 @section('script')
@@ -620,20 +627,27 @@
         });
     });
 </script> --}}
+
     <script>
         $(document).ready(function() {
             console.log("jQuery loaded successfully!");
+
+            var allProducts = $(".category-product");
+            var maxItemsToShow = 4;
+
+            allProducts.slice(maxItemsToShow).addClass('d-none');
             $(".category-link").click(function(e) {
                 e.preventDefault();
                 var categoryId = $(this).data("category");
 
-                // Hiển thị sản phẩm của danh mục đã chọn
-                $(".category-product").hide();
-                $(".category-" + categoryId).show();
+                $(".category-product").addClass('d-none');
+                $(".category-" + categoryId).removeClass('d-none');
             });
 
-            // Mặc định hiển thị 12 sản phẩm đầu tiên
-            $(".category-product").slice(0, 12).show();
+            $(".all-products-link").click(function(e) {
+                e.preventDefault();
+                allProducts.slice(maxItemsToShow).removeClass('d-none');
+            });
         });
     </script>
 

@@ -74,15 +74,17 @@
                             <p class="mb-4">The freshness and juiciness are unparalleled, making every piece a juicy
                                 and delectable treat. Nature's candy, indeed, and a testament to the bountiful and
                                 delicious wonders of fruits.</p>
+
                             <div class="input-group quantity mb-5" style="width: 100px;">
-                                <div class="input-group-btn">
+                                <div class="input-group-btn" wire:click="decrementQuantity">
                                     <button class="btn btn-sm btn-minus rounded-circle bg-light border">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0"
-                                    value="1">
-                                <div class="input-group-btn">
+                                <input type="text" wire:model.live='quantityCount'
+                                    class="form-control form-control-sm text-center border-0"
+                                    value="{{ $this->quantityCount }}">
+                                <div class="input-group-btn" wire:click="incrementQuantity">
                                     <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                         <i class="fa fa-plus"></i>
                                     </button>
@@ -97,12 +99,13 @@
                                         <i class="fa fa-heart me-2 text-primary"></i> Add to Wish Lists
                                     @endif
                                 </span>
-                                <span wire:loading wire:target="addToWishList">Just a mins ... </span>
+                                <span wire:loading wire:target="addToWishList">Wishing ... </span>
                             </button>
-                            <a href=""
+
+                            <button type="button" wire:click='addToCart({{ $product->id }})'
                                 class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
                                     class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                            </a>
+                            </button>
                         </div>
                         <div class="col-lg-12">
                             <nav>
