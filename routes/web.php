@@ -30,7 +30,7 @@ Auth::routes();
 
 
 
-//Product routes-Hung's route
+//Product routes - Hung's route
 Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->group(function () {
     //Frontend product
     Route::get('/home', 'index')->name('home');
@@ -48,6 +48,23 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     // Route::get('/collections/products/{id}', 'product_detail')->name('product_details');
     Route::get('/collections/search', 'search')->name('search');
     Route::get('/collections/search-by-price-range', 'searchByPriceRange')->name('searchByPriceRange');
+});
+
+// User's routes  - Phi's routes
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('wishlist', [App\Http\Controllers\Frontend\WishlistController::class, 'index']);
+    Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index']);
+    Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index']);
+    Route::get('orders', [App\Http\Controllers\Frontend\OrderController::class, 'index']);
+    Route::get('orders/{orderId}', [App\Http\Controllers\Frontend\OrderController::class, 'show']);
+
+    Route::get('profile',[App\Http\Controllers\Frontend\UserController::class, 'index']);
+    Route::post('profile',[App\Http\Controllers\Frontend\UserController::class, 'updateUser']);
+
+    Route::get('change-password',[App\Http\Controllers\Frontend\UserController::class, 'passwordCreate']);
+    Route::post('change-password',[App\Http\Controllers\Frontend\UserController::class, 'passwordChange']);
+
 });
 
 // Route Admin

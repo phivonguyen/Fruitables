@@ -1,5 +1,6 @@
         <!-- Spinner Start -->
-        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
             <div class="spinner-grow text-primary" role="status"></div>
         </div>
         <!-- Spinner End -->
@@ -41,7 +42,7 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="{{ url('/home') }}" class="nav-item nav-link active">Home</a>
-                            <a href="{{ url('/collections/category')}}" class="nav-item nav-link">Categories</a>
+                            <a href="{{ url('/collections/category') }}" class="nav-item nav-link">Categories</a>
                             <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -61,6 +62,12 @@
                                 class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
+                            <a href="{{url('wishlist')}}" class="position-relative me-4 my-auto">
+                                <i class="fas fa-heart fa-2x"></i>
+                                <span
+                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                    style="top: -5px; left: 25px; height: 20px; min-width: 20px;"> <livewire:front-end.wishlist-count /> </span>
+                            </a>
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
@@ -89,8 +96,8 @@
                                                     href="{{ route('register') }}">{{ __('Register') }}</a>
                                             @endif
                                         @else
-                                            <a class="nav-link " href="#" id="navbarDropdown"
-                                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <a class="nav-link " href="#" id="navbarDropdown" role="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if (session('avatar'))
                                                     <img src="{{ session('avatar') }}" alt="" width="30px"
                                                         style="border-radius:  50%">

@@ -16,6 +16,11 @@
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
         <div class="container py-5">
+            @if (session()->has('message'))
+                <div class="alert alert-warning">
+                    {{ session('message') }}
+                </div>
+            @endif
             <div class="row g-4 mb-5">
                 <div class="col-lg-8 col-xl-9">
                     <div class="row g-4">
@@ -27,7 +32,7 @@
                                         <div class="exzoom_img_box ">
                                             <ul class=' exzoom_img_ul'>
                                                 @foreach ($product->productImage as $img)
-                                                    <li><img src="{{ asset($img->image) }}"/></li>
+                                                    <li><img src="{{ asset($img->image) }}" /></li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -44,7 +49,15 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="position: relative">
+                            @if ($product->quantity > 0)
+                                <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
+                                    style="top: 10px; right: 10px;">In Stock</div>
+                            @else
+                                <div class="text-white bg-danger px-3 py-1 rounded position-absolute"
+                                    style="top: 10px; right: 10px;">Out Of Stock</div>
+                            @endif
+
                             <h4 class="fw-bold mb-3">{{ $product->name }}</h4>
                             <p class="mb-3">Category: {{ $category->name }}</p>
                             <h5 class="fw-bold mb-3">{{ $product->selling_price }} $</h5>
@@ -75,9 +88,21 @@
                                     </button>
                                 </div>
                             </div>
-                            <a href="#"
+                            <button type="button" wire:click="addToWishList({{ $product->id }})"
+                                class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                <span wire:loading.remove wire:target="addToWishList">
+                                    @if (session('checkWishlist') === true)
+                                        <i class="fa fa-heart me-2" style="color: rgb(169, 14, 0)"></i>
+                                    @else
+                                        <i class="fa fa-heart me-2 text-primary"></i> Add to Wish Lists
+                                    @endif
+                                </span>
+                                <span wire:loading wire:target="addToWishList">Just a mins ... </span>
+                            </button>
+                            <a href=""
                                 class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                            </a>
                         </div>
                         <div class="col-lg-12">
                             <nav>

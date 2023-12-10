@@ -21,6 +21,11 @@
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
         rel="stylesheet">
 
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
     <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -124,12 +129,21 @@
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('message', event => {
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.notify(event.detail.text, event.detail.type, 3);
+    })
+    </script>
     <script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
     <script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
     <script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
     <!-- Template Javascript -->
     <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
+
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     @yield('script')
     @stack('scripts')
 

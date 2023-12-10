@@ -138,7 +138,8 @@
                                     @else
                                         <div class="alert alert-success">
                                             No featured products available for {{ $category->name }}
-                                            <img src="{{asset('uploads/nothing/no-product-found.png')}}" class="img-fluid rounded"alt="">
+                                            <img src="{{ asset('uploads/nothing/no-product-found.png') }}"
+                                                class="img-fluid rounded"alt="">
                                         </div>
                                     @endif
                                 </div>
@@ -160,27 +161,33 @@
                                     @foreach ($products as $product)
                                         <div class="col-md-6 col-lg-6 col-xl-4">
                                             <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="{{ asset($product->productImage->first()->image) }}"
-                                                        class="img-fluid w-100 rounded-top"
-                                                        style="width: 300px;height: 200px" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                    style="top: 10px; left: 10px;">{{ $product->category->name }}</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>{{ $product->name }}</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                                                        eiusmod te
-                                                        incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">
-                                                            ${{ number_format($product->original_price, 2, ',') }} / kg</p>
-                                                        <a href="#"
-                                                            class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                            cart</a>
+                                                <a
+                                                    href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
+                                                    <div class="fruite-img">
+                                                        <img src="{{ asset($product->productImage->first()->image) }}"
+                                                            class="img-fluid w-100 rounded-top"
+                                                            style="width: 300px;height: 200px" alt="">
                                                     </div>
-                                                </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                        style="top: 10px; left: 10px;">{{ $product->category->name }}
+                                                    </div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <h4>{{ $product->name }}</h4>
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
+                                                            eiusmod te
+                                                            incididunt</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold mb-0">
+                                                                ${{ number_format($product->original_price, 2, ',') }} / kg
+                                                            </p>
+                                                            <a href="#"
+                                                                class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add
+                                                                to
+                                                                cart</a>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
 
