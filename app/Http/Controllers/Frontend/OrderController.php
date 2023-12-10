@@ -12,17 +12,17 @@ class OrderController extends Controller
     //
     public function index()
     {
-        $orders = Orders::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
-        return view('frontend.orders.index', compact('orders'));
+        $orders = Orders::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(4);
+        return view('frontend.order.index', compact('orders'));
     }
 
-    public function show($orderId)
+    public function detail($orderId)
     {
         $order = Orders::where('user_id', Auth::user()->id)->where('id', $orderId)->first();
         if ($order) {
-            return view('frontend.orders.view', compact('order'));
+            return view('frontend.order.detail', compact('order'));
         } else {
-            return redirect()->back()->with('message', 'Order not found');
+            return redirect()->back()->with('message', 'Order not found or not existed');
         }
     }
 }
