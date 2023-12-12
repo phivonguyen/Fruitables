@@ -32,13 +32,19 @@ Auth::routes();
 
 //Product routes - Hung's route
 Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->group(function () {
-    //Frontend product
+    //Frontend product Phi-routes
     Route::get('/home', 'index')->name('home');
     Route::get('/collections', 'collections')->name('collections');
     Route::get('/collections/category', 'category')->name('collections/category');
     Route::get('/collections/{category_slug}', 'products');
     Route::get('/collections/{category_slug}/{product_slug}', 'productView');
     Route::get('/appreciation', 'appreciation')->name('appreciation');
+
+    //Hung-routes
+    Route::get('/aboutUs', 'aboutUs')->name('aboutUs');
+    Route::get('/contactUs', 'contact')->name('contactUs');
+    Route::post('/send', 'send')->name('send.email');
+    Route::get('/contact', 'showContactForm')->name('contact.form');
 
     Route::get('/new-arrivals', 'newArrival');
     Route::get('/featured-products', 'featuredProducts');
@@ -60,12 +66,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('orders', [App\Http\Controllers\Frontend\OrderController::class, 'index']);
     Route::get('orders/{orderId}', [App\Http\Controllers\Frontend\OrderController::class, 'detail']);
 
-    Route::get('profile',[App\Http\Controllers\Frontend\UserController::class, 'index']);
-    Route::post('profile',[App\Http\Controllers\Frontend\UserController::class, 'updateUser']);
+    Route::get('profile', [App\Http\Controllers\Frontend\UserController::class, 'index']);
+    Route::post('profile', [App\Http\Controllers\Frontend\UserController::class, 'updateUser']);
 
-    Route::get('change-password',[App\Http\Controllers\Frontend\UserController::class, 'passwordCreate']);
-    Route::post('change-password',[App\Http\Controllers\Frontend\UserController::class, 'passwordChange']);
-
+    Route::get('change-password', [App\Http\Controllers\Frontend\UserController::class, 'passwordCreate']);
+    Route::post('change-password', [App\Http\Controllers\Frontend\UserController::class, 'passwordChange']);
 });
 
 // Route Admin
@@ -125,6 +130,32 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/about/delete/{id}', 'delete')->name("about/delete");
         Route::get('/about/edit/{id}', 'edit')->name('about/edit');
         Route::put('/about/update/{id}', 'update')->name('about/update');
-        Route::get('/about/update-status/{id}/{status}', [App\Http\Controllers\Admin\AdvertisementController::class, 'updateStatus'])->name('about/update-status');
+        Route::get(
+            '/about/update-status/{id}/{status}',
+            [App\Http\Controllers\Admin\AdvertisementController::class, 'updateStatus']
+        )->name('about/update-status');
     });
+
+    //Orders-admin routes-Phi's routes
+    Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {
+        Route::get('/orders', 'index');
+        Route::get('/orders/{orderId}', 'show');
+        Route::put('/orders/{orderId}', 'updateOrderStatus');
+
+
+        Route::get('/invoice/{orderId}', 'viewInvoice');
+        Route::get('/invoice/{orderId}/generate', 'generateInvoice');
+    });
+
+    //Contact routes-Hung's route
+    Route::controller(App\Http\Controllers\Admin\ContactController::class)->group(function () {
+        //contact admin
+        Route::get('/contact', 'index')->name("contact/index");
+        Route::get('/contact/delete/{id}', 'delete')->name("contact/delete");
+        Route::get('/contact/reply/{id}', 'reply')->name("contact/reply");
+
+    });
+
+
+
 });

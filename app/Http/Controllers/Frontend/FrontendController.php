@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProductImage;
 use App\Models\About;
 use App\Models\Product;
+use App\Models\AboutUs;
+use Illuminate\Support\Facades\Mail;
+use App\Models\ContactUs;
 use App\Http\Controllers\Controller;
 use App\Models\Advertisememt;
 use App\Models\Hero;
@@ -94,10 +97,10 @@ class FrontendController extends Controller
         if ($category) {
             $product = $category->products()->where('slug', $product_slug)->where('status', '0')->first();
             $product_id = Product::where('slug', $product_slug)->first()->id;
-            if(auth()->user()){
+            if (auth()->user()) {
                 $checkWishlist = Wishlist::where('user_id', auth()->user()->id)->where('product_id', $product_id)->exists();
                 session()->put('checkWishlist', $checkWishlist);
-                }
+            }
             if ($product) {
                 return view('frontend.collections.products.view', compact('product', 'category'));
             } else {
@@ -132,7 +135,83 @@ class FrontendController extends Controller
         return view('frontend.collections.products.index', compact('products', 'minPrice', 'maxPrice', 'categories'));
     }
 
-    public function appreciation(){
+    public function appreciation()
+    {
         return view('frontend.appreciation.index');
+    }
+    public function contact()
+    {
+        $contacts = ContactUs::all();
+        return view('frontend.collections.contactUs.contact', compact('contacts'));
+    }
+    public function aboutUs()
+    {
+        $aboutUs = AboutUs::all();
+        return view('frontend.collections.aboutUs.index', compact('aboutUs'));
+    }
+
+    public function send(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        $recipientEmail = $request->has('customer_email') ? $request->input('customer_email') : 'tranthehung150@gmail.com';
+
+        // // Check if the email already exists
+        // $existingEmail = ContactUs::where('email', $request->input('email'))->exists();
+
+        // if ($existingEmail) {
+        //     return redirect()->back()->withErrors(['email' => 'Email already exists in the database.']);
+        // }
+
+
+        ContactUs::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'subject' => $request->input('subject'),
+            'message' => $request->input('message'),
+        ]);
+
+        if ($this->isOnline()) {
+            $mail_data = [
+                'recipient' => $recipientEmail,
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'body' => $request->message,
+            ];
+
+            Mail::send('frontend.collections.contactUs.email-template', $mail_data, function ($message) use ($mail_data) {
+                $message->to($mail_data['recipient'])
+                    ->from($mail_data['email'], $mail_data['name'])
+                    ->subject($mail_data['subject']);
+            });
+
+            if (!$request->has('customer_email')) {
+                ContactUs::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'subject' => $request->subject,
+                    'message' => $request->message,
+                ]);
+            }
+
+            return redirect()->back()->with('success');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Please check your connection');
+        }
+    }
+
+    public function isOnline($site = "https://youtube.com/")
+    {
+        if (@fopen($site, "r")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
