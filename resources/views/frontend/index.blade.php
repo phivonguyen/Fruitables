@@ -148,9 +148,13 @@
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     @if ($product->productImage)
-                                                        <img src="{{ asset($product->productImage->first()->image) }}"
-                                                            class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
-                                                            style="width: 330px; height: 230px">
+                                                        <a
+                                                            href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
+                                                            <img src="{{ asset($product->productImage->first()->image) }}"
+                                                                class="img-fluid w-100 rounded-top"
+                                                                alt="{{ $product->name }}"
+                                                                style="width: 330px; height: 230px">
+                                                        </a>
                                                     @else
                                                         <p>No Image Available</p>
                                                     @endif
@@ -286,9 +290,12 @@
                     <div class="py-4">
                         <h1 class="display-3 text-white">Fresh Exotic Fruits</h1>
                         <p class="fw-normal display-3 text-dark mb-4">in Our Store</p>
-                        <p class="mb-4 text-dark">The generated Lorem Ipsum is therefore always free from repetition
-                            injected humour, or non-characteristic words etc.</p>
-                        <a href="#"
+                        <p class="mb-4 text-dark">I wanted to express my appreciation for the outstanding fresh apples I
+                            recently purchased from your store.
+                            They were not only delicious but also showcased a level of freshness that truly made a
+                            difference.
+                            Thank you for providing such quality produce.</p>
+                        <a href="{{ url('collections') }}"
                             class="banner-btn btn border-2 border-white rounded-pill text-dark py-3 px-5">BUY</a>
                     </div>
                 </div>
@@ -300,7 +307,7 @@
                             style="width: 140px; height: 140px; top: 0; left: 0;">
                             <h1 style="font-size: 100px;">1</h1>
                             <div class="d-flex flex-column">
-                                <span class="h2 mb-0">50$</span>
+                                <span class="h2 mb-0">99$</span>
                                 <span class="h4 text-muted mb-0">kg</span>
                             </div>
                         </div>
@@ -316,21 +323,24 @@
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                <h1 class="display-4">Bestseller Products</h1>
-                <p>Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which
-                    looks
-                    reasonable.</p>
+                <h1 class="display-4">Trending Products</h1>
+                <p>Our best-selling fruits, including juicy oranges, crisp apples, and succulent strawberries,
+                    have captured the hearts and palates of many.
+                    The secret lies in their exceptional quality, freshness, and delicious taste.</p>
             </div>
             <div class="row g-4">
-                @foreach ($products as $product)
+                @foreach ($trendingProducts as $product)
                     <div class="col-lg-6 col-xl-4">
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
                                     @if ($product->productImage)
-                                        <img src="{{ asset($product->productImage->first()->image) }}"
-                                            class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
-                                            style="width: 330px; height: 230px; border-radius: 50%!important">
+                                        <a
+                                            href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
+                                            <img src="{{ asset($product->productImage->first()->image) }}"
+                                                class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
+                                                style="width: 330px; height: 230px; border-radius: 50%!important">
+                                        </a>
                                     @else
                                         <p>No Image Available</p>
                                     @endif
@@ -402,95 +412,151 @@
     </div>
     <!-- Fact Start -->
 
-
-    <!-- Tastimonial Start -->
-    <div class="container-fluid testimonial py-5">
-        <div class="container py-5">
-            <div class="testimonial-header text-center">
-                <h4 class="text-primary">Our Testimonial</h4>
-                <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+    <!-- Bestsaler Product Start -->
+    @if ($featuredProducts)
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                    <h1 class="display-4">Featured Products</h1>
+                    <p>Our best-selling fruits, including juicy oranges, crisp apples, and succulent strawberries,
+                        have captured the hearts and palates of many.
+                        The secret lies in their exceptional quality, freshness, and delicious taste.</p>
+                </div>
+                <div class="row g-4">
+                    @forelse ($featuredProducts as $product)
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="p-4 rounded bg-light">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        @if ($product->productImage)
+                                            <a
+                                                href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
+                                                <img src="{{ asset($product->productImage->first()->image) }}"
+                                                    class="img-fluid w-100 rounded-top" alt="{{ $product->name }}"
+                                                    style="width: 330px; height: 230px; border-radius: 50%!important">
+                                            </a>
+                                        @else
+                                            <p>No Image Available</p>
+                                        @endif
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="#" class="h5">{{ $product->name }}</a>
+                                        <div class="d-flex my-3">
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <h4 class="mb-3">${{ number_format($product->selling_price, 2) }} / kg</h4>
+                                        {{-- <a href="{{ route('chitiet', ['id' => $product->id]) }}"
+                                    class="btn border border-secondary rounded-pill px-3 text-primary">
+                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> View product's detail
+                                </a> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if ($loop->iteration == 6)
+                        @break
+                    @endif
+                @empty
+                    Not featured product available
+                @endforelse
             </div>
-            <div class="owl-carousel testimonial-carousel">
-                <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                    <div class="position-relative">
-                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                            style="bottom: 30px; right: 0;"></i>
-                        <div class="mb-4 pb-4 border-bottom border-secondary">
-                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                                industry's standard dummy text ever since the 1500s,
-                            </p>
+        </div>
+@endif
+
+<!-- Bestsaler Product End -->
+
+
+<!-- Tastimonial Start -->
+<div class="container-fluid testimonial py-5">
+    <div class="container py-5">
+        <div class="testimonial-header text-center">
+            <h4 class="text-primary">Our Testimonial</h4>
+            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                        style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="{{ asset('assets') }}/img/testimonial-1.jpg" class="img-fluid rounded"
+                                style="width: 100px; height: 100px;" alt="">
                         </div>
-                        <div class="d-flex align-items-center flex-nowrap">
-                            <div class="bg-secondary rounded">
-                                <img src="{{ asset('assets') }}/img/testimonial-1.jpg" class="img-fluid rounded"
-                                    style="width: 100px; height: 100px;" alt="">
-                            </div>
-                            <div class="ms-4 d-block">
-                                <h4 class="text-dark">Client Name</h4>
-                                <p class="m-0 pb-3">Profession</p>
-                                <div class="d-flex pe-5">
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                    <div class="position-relative">
-                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                            style="bottom: 30px; right: 0;"></i>
-                        <div class="mb-4 pb-4 border-bottom border-secondary">
-                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                                industry's standard dummy text ever since the 1500s,
-                            </p>
+            </div>
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                        style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
+                                class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
                         </div>
-                        <div class="d-flex align-items-center flex-nowrap">
-                            <div class="bg-secondary rounded">
-                                <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                    class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                            </div>
-                            <div class="ms-4 d-block">
-                                <h4 class="text-dark">Client Name</h4>
-                                <p class="m-0 pb-3">Profession</p>
-                                <div class="d-flex pe-5">
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                    <div class="position-relative">
-                        <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
-                            style="bottom: 30px; right: 0;"></i>
-                        <div class="mb-4 pb-4 border-bottom border-secondary">
-                            <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
-                                industry's standard dummy text ever since the 1500s,
-                            </p>
+            </div>
+            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute"
+                        style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
+                                class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
                         </div>
-                        <div class="d-flex align-items-center flex-nowrap">
-                            <div class="bg-secondary rounded">
-                                <img src="{{ asset('assets') }}/layouts/img/testimonial-1.jpg"
-                                    class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                            </div>
-                            <div class="ms-4 d-block">
-                                <h4 class="text-dark">Client Name</h4>
-                                <p class="m-0 pb-3">Profession</p>
-                                <div class="d-flex pe-5">
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Client Name</h4>
+                            <p class="m-0 pb-3">Profession</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
                             </div>
                         </div>
                     </div>
@@ -498,126 +564,127 @@
             </div>
         </div>
     </div>
-    <!-- Tastimonial End -->
+</div>
+<!-- Tastimonial End -->
 
 @endsection
 @section('styles')
-    <style>
-        .direction {
-            text-align: center;
-        }
+<style>
+    .direction {
+        text-align: center;
+    }
 
-        .direction button {
-            font-family: cursive;
-            font-weight: bold;
-            background-color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            transition: 0.5s;
-            margin: 0 10px;
-        }
+    .direction button {
+        font-family: cursive;
+        font-weight: bold;
+        background-color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        transition: 0.5s;
+        margin: 0 10px;
+    }
 
+    .item {
+        border-radius: 15px;
+        width: 300px;
+        height: 500px;
+        /* background-image: linear-gradient(to top, #AEC0CE, #ECECF2); */
+        border-style: groove;
+        border-width: 1px;
+        border-style: #81c408;
+        overflow: hidden;
+        transition: 0.5s;
+        margin: 10px;
+        scroll-snap-align: start;
+    }
+
+    .item:hover {
+        box-shadow: 1px 1px 0px 1px #81c408
+    }
+
+    .item .avatar {
+        display: block;
+        margin: 50px auto 10px;
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 10px 15px #7e878d;
+    }
+
+    .item .content {
+        padding: 30px;
+    }
+
+    .item .content table td {
+        padding: 10px 0;
+        border-bottom: 1px solid #AEC0CE;
+    }
+
+    .item .content table td:nth-child(2) {
+        text-align: right;
+    }
+
+    .item .nameGroup {
+        text-align: center;
+        border-bottom: none !important;
+    }
+
+    #list {
+        display: flex;
+        width: max-content;
+    }
+
+    #formList {
+        width: 1280px;
+        max-width: 100%;
+        overflow: auto;
+        margin: 100px auto 50px;
+        scroll-behavior: smooth;
+        scroll-snap-type: both;
+    }
+
+    #formList::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media screen and (max-width: 1024px) {
         .item {
-            border-radius: 15px;
-            width: 300px;
-            height: 500px;
-            /* background-image: linear-gradient(to top, #AEC0CE, #ECECF2); */
-            border-style: groove;
-            border-width: 1px;
-            border-style: #81c408;
-            overflow: hidden;
-            transition: 0.5s;
-            margin: 10px;
-            scroll-snap-align: start;
+            width: calc(33.3vw - 20px);
         }
 
-        .item:hover {
-            box-shadow: 1px 1px 0px 1px #81c408
-        }
-
-        .item .avatar {
-            display: block;
-            margin: 50px auto 10px;
-            width: 100px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 10px 15px #7e878d;
-        }
-
-        .item .content {
-            padding: 30px;
-        }
-
-        .item .content table td {
-            padding: 10px 0;
-            border-bottom: 1px solid #AEC0CE;
-        }
-
-        .item .content table td:nth-child(2) {
-            text-align: right;
-        }
-
-        .item .nameGroup {
-            text-align: center;
-            border-bottom: none !important;
-        }
-
-        #list {
-            display: flex;
-            width: max-content;
-        }
-
-        #formList {
-            width: 1280px;
-            max-width: 100%;
-            overflow: auto;
-            margin: 100px auto 50px;
-            scroll-behavior: smooth;
-            scroll-snap-type: both;
-        }
-
-        #formList::-webkit-scrollbar {
+        .direction {
             display: none;
         }
+    }
 
-        @media screen and (max-width: 1024px) {
-            .item {
-                width: calc(33.3vw - 20px);
-            }
-
-            .direction {
-                display: none;
-            }
+    @media screen and (max-width: 768px) {
+        .item {
+            width: calc(50vw - 20px);
         }
 
-        @media screen and (max-width: 768px) {
-            .item {
-                width: calc(50vw - 20px);
-            }
-
-            .direction {
-                display: none;
-            }
+        .direction {
+            display: none;
         }
-    </style>
+    }
+</style>
 @endsection
 
 @section('script')
-    <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
-    <script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <!-- Template Javascript -->
-    <script src="{{ asset('assets/layouts/js/main.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('assets/layouts/lib/easing/easing.min.js') }}"></script>
+<script src="{{ asset('assets/layouts/lib/waypoints/waypoints.min.js') }}"></script>
+<script src="{{ asset('assets/layouts/lib/lightbox/js/lightbox.min.js') }}"></script>
+<script src="{{ asset('assets/layouts/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<!-- Template Javascript -->
+<script src="{{ asset('assets/layouts/js/main.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    {{-- <script>
+{{-- <script>
     $(document).ready(function() {
         $(".category-link").click(function(e) {
             e.preventDefault();
@@ -628,27 +695,27 @@
     });
 </script> --}}
 
-    <script>
-        $(document).ready(function() {
-            console.log("jQuery loaded successfully!");
+<script>
+    $(document).ready(function() {
+        console.log("jQuery loaded successfully!");
 
-            var allProducts = $(".category-product");
-            var maxItemsToShow = 4;
+        var allProducts = $(".category-product");
+        var maxItemsToShow = 4;
 
-            allProducts.slice(maxItemsToShow).addClass('d-none');
-            $(".category-link").click(function(e) {
-                e.preventDefault();
-                var categoryId = $(this).data("category");
+        allProducts.slice(maxItemsToShow).addClass('d-none');
+        $(".category-link").click(function(e) {
+            e.preventDefault();
+            var categoryId = $(this).data("category");
 
-                $(".category-product").addClass('d-none');
-                $(".category-" + categoryId).removeClass('d-none');
-            });
-
-            $(".all-products-link").click(function(e) {
-                e.preventDefault();
-                allProducts.slice(maxItemsToShow).removeClass('d-none');
-            });
+            $(".category-product").addClass('d-none');
+            $(".category-" + categoryId).removeClass('d-none');
         });
-    </script>
+
+        $(".all-products-link").click(function(e) {
+            e.preventDefault();
+            allProducts.slice(maxItemsToShow).removeClass('d-none');
+        });
+    });
+</script>
 
 @endsection

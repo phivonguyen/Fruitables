@@ -42,37 +42,39 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="{{ url('/home') }}" class="nav-item nav-link active">Home</a>
-                            <a href="{{ url('/collections/category') }}" class="nav-item nav-link">Categories</a>
-                            <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
-                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="{{ url('/collections/category') }}" class="nav-link dropdown-toggle"
+                                    data-bs-toggle="dropdown">Categories</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.html" class="dropdown-item">Cart</a>
-                                    <a href="chackout.html" class="dropdown-item">Checkout</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="{{ url('/collections/fruit') }}" class="dropdown-item">Fruit</a>
+                                    <a href="{{ url('/collections/meat') }}" class="dropdown-item">Meat</a>
+                                    <a href="{{ url('/collections/tubers') }}" class="dropdown-item">Tubers</a>
+                                    <a href="{{ url('/collections/vegetable') }}" class="dropdown-item">Vegetables</a>
+                                    <a href="{{ url('/collections') }}" class="dropdown-item">All</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
+                            <a href="{{ url('/orders') }}" class="nav-item nav-link">My Orders</a>
+                            <a href="{{ url('/contactUs') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button
                                 class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
                                 data-bs-toggle="modal" data-bs-target="#searchModal"><i
                                     class="fas fa-search text-primary"></i></button>
-                            <a href="{{url('wishlist')}}" class="position-relative me-4 my-auto">
+                            <a href="{{ url('wishlist') }}" class="position-relative me-4 my-auto">
                                 <i class="fas fa-heart fa-2x"></i>
                                 <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 25px; height: 20px; min-width: 20px;"> <livewire:front-end.wishlist-count /> </span>
+                                    style="top: -5px; left: 25px; height: 20px; min-width: 20px;">
+                                    <livewire:front-end.wishlist-count /> </span>
                             </a>
-                            <a href="{{url('carts')}}" class="position-relative me-4 my-auto">
+                            <a href="{{ url('carts') }}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;"> <livewire:front-end.carts.carts-counter /> </span>
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                    <livewire:front-end.carts.carts-counter /> </span>
                             </a>
                             <a href="#" class="my-auto">
                                 <div class="nav-item dropdown">
@@ -88,7 +90,8 @@
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                         @guest
                                             @if (Route::has('login'))
-                                                <a class="dropdown-item" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('login') }}">{{ __('Login') }}</a>
                                             @endif
 
                                             @if (Route::has('register'))

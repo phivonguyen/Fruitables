@@ -23,6 +23,9 @@ class FrontendController extends Controller
     {
         $heroes = Hero::where('status', '0')->get();
         $products = Product::paginate(9);
+        $trendingProducts = Product::where('trending', '1')->latest()->take(15)->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->take(15)->get();
+        $newestProducts = Product::with('productImage')->orderBy('created_at', 'desc')->take(8)->get();
         $categories = Category::all();
         $about = About::all();
         $about = DB::table('about')->where('status', 'presently')->get();
@@ -38,8 +41,9 @@ class FrontendController extends Controller
                 'heroes' => $heroes,
                 'about' => $about,
                 'advertisement' => $advertisement,
-                // 'trendingProducts' => $trendingProducts,
-                // 'newestProducts' => $newestProducts
+                'trendingProducts' => $trendingProducts,
+                'newestProducts' => $newestProducts,
+                'featuredProducts'=> $featuredProducts,
             ]
         );
     }

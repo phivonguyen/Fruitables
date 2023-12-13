@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-// use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 // use App\Models\CouponOrder;
 use Illuminate\Support\Facades\Session;
 
@@ -16,23 +16,33 @@ class OrderController extends Controller
     //
     public function index(Request $request)
     {
-
-        // $todayDate = Carbon::now();
         // $orders = Order::whereDate('created_at',$todayDate)->paginate(2);
         $todayDate = Carbon::now()->format('Y-m-d');
-        // dd($todayDate);
-        if ($request->date != null) {
-            $orders = Orders::when($request->date != null, function ($q) use ($request) {
-                return $q->whereDate('created_at', $request->date);
-            }, function ($q) use ($todayDate) {
-                $q->whereDate('created_at', $todayDate);
-            })
-                ->when($request->status != null, function ($q) use ($request) {
+            if ($request->date != null) {
+                $orders = Orders::when(
+                    $request->date != null,
+                    function ($q) use ($request) {
+                        return $q->whereDate('created_at', $request->date);
+                    },
+                    function ($q) use ($todayDate) {
+                        $q->whereDate('created_at', $todayDate);
+                    }
+                )
+                    ->when($request->status != null, function ($q) use ($request) {
 
+                        return $q->where('status_message', $request->status);
+                    })
+                    ->paginate(10);
+            } else if ($request->status != null) {
+                $orders = Orders::when($request->status != null, function ($q) use ($request) {
                     return $q->where('status_message', $request->status);
-                })
-                ->paginate(10);
-        } else {
+                })->get();
+            } else {
+                $orders = Orders::get();
+            }
+
+
+        if($request->has('showAll')){
             $orders = Orders::get();
         }
 
@@ -40,28 +50,13 @@ class OrderController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
-    // public function show(int $orderId)
-    // {
-
-
-    //     $order = Order::where('id', $orderId)->first();
-
-    //     if ($order) {
-    //         return view('admin.orders.view', compact('order'));
-    //     } else {
-    //         return redirect('admin/orders')->with('message', 'Order not found');
-    //     }
-    // }
-
-
     public function show(int $orderId)
     {
         $order = Orders::where('id', $orderId)->first();
         // $couponOrder = CouponOrder::Where('order_id', $orderId)->first();
         if ($order) {
             $dateFilter = request()->query('date'); // Retrieve the 'date' query parameter
-
-            return view('admin.orders.view', compact(
+            return view('admin.orders.detail', compact(
                 'order',
                 'dateFilter',
                 // 'couponOrder'
@@ -76,7 +71,7 @@ class OrderController extends Controller
     public function updateOrderStatus(int $orderId, Request $request)
     {
         $order = Orders::where('id', $orderId)->first();
-        if ($order) {
+        if ($order && $request->order_status != null) {
             $order->update([
                 'status_message' => $request->order_status
             ]);
@@ -105,10 +100,9 @@ class OrderController extends Controller
             'order' => $order,
             // 'couponOrder' => $couponOrder
         ];
-        // $pdf = Pdf::loadView('admin.invoice.generate-invoice', $data);
+        $pdf = Pdf::loadView('admin.invoice.generate-invoice', $data);
 
         $todayDate = Carbon::now()->format('Y-m-d');
-        return ;
-        // $pdf->download('invoice-' . $order->id . '-' . $todayDate . '.pdf');
+        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . '.pdf');
     }
 }
