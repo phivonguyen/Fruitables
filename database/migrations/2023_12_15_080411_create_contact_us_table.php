@@ -20,9 +20,6 @@ return new class extends Migration
             $table->boolean('replied')->default(0);
             $table->timestamps();
         });
-        Schema::table('contact_us', function (Blueprint $table) {
-            $table->boolean('replied')->default(0)->change();
-        });
     }
 
     /**
