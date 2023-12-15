@@ -43,7 +43,7 @@ class FrontendController extends Controller
                 'advertisement' => $advertisement,
                 'trendingProducts' => $trendingProducts,
                 'newestProducts' => $newestProducts,
-                'featuredProducts'=> $featuredProducts,
+                'featuredProducts' => $featuredProducts,
             ]
         );
     }
@@ -162,24 +162,33 @@ class FrontendController extends Controller
             'subject' => 'required',
             'message' => 'required',
         ]);
+        // Check if the email already exists
+        // $existingContact = ContactUs::where('email', $request->input('email'))->first();
+
+        // if ($existingContact) {
+        //     return redirect()->back()->withErrors(['email' => 'The email has just been sent, please try again in 10 minutes.']);
+        // }
 
         $recipientEmail = $request->has('customer_email') ? $request->input('customer_email') : 'tranthehung150@gmail.com';
 
-        // // Check if the email already exists
-        // $existingEmail = ContactUs::where('email', $request->input('email'))->exists();
+        $existingEmail = ContactUs::where('email', $request->input('email'))->exists();
 
-        // if ($existingEmail) {
-        //     return redirect()->back()->withErrors(['email' => 'Email already exists in the database.']);
-        // }
-
-
-        ContactUs::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'subject' => $request->input('subject'),
-            'message' => $request->input('message'),
-        ]);
-
+        if ($existingEmail) {
+            ContactUs::where('email', $request->input('email'))->update([
+                'name' => $request->input('name'),
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message'),
+                'replied' => true, // Đảm bảo cập nhật trạng thái replied
+            ]);
+        } else {
+            ContactUs::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message'),
+                'replied' => false, // Mặc định là false khi tạo mới
+            ]);
+        }
         if ($this->isOnline()) {
             $mail_data = [
                 'recipient' => $recipientEmail,
@@ -195,16 +204,8 @@ class FrontendController extends Controller
                     ->subject($mail_data['subject']);
             });
 
-            if (!$request->has('customer_email')) {
-                ContactUs::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'subject' => $request->subject,
-                    'message' => $request->message,
-                ]);
-            }
 
-            return redirect()->back()->with('success');
+            return redirect()->back()->with('success', 'Email sent successfully!');
         } else {
             return redirect()->back()->withInput()->with('error', 'Please check your connection');
         }

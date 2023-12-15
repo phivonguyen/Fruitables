@@ -46,7 +46,6 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     Route::post('/send', 'send')->name('send.email');
     Route::get('/contact', 'showContactForm')->name('contact.form');
 
-    Route::get('/new-arrivals', 'newArrival');
     Route::get('/featured-products', 'featuredProducts');
     Route::get('search', 'searchProduct');
     Route::get('comingsoon', 'commingsoon');
@@ -77,6 +76,9 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
     //Admin dashboard index
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    //Settting routes-Phi's route
+    Route::get('settings',[App\Http\Controllers\Admin\SettingController::class, 'index']);
+    Route::post('settings', [App\Http\Controllers\Admin\SettingController::class,'store']);
     //Product routes-Hung's route
     Route::controller(App\Http\Controllers\Admin\ProductController::class)->group(function () {
         //product admin
@@ -152,9 +154,15 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/contact', 'index')->name("contact/index");
         Route::get('/contact/delete/{id}', 'delete')->name("contact/delete");
         Route::get('/contact/reply/{id}', 'reply')->name("contact/reply");
-
     });
 
-
-
+        // Users-admin routes-Phi's routes
+        Route::controller(App\Http\Controllers\Admin\UserController::class)->group(function () {
+            Route::get('/users', 'index')->name('users/index');
+            Route::get('/users/create', 'create')->name('users/create');
+            Route::post('users','store')->name('users/store');
+            Route::get('users/{user_id}/edit','edit');
+            Route::put('users/{user_id}','update');
+            Route::get('users/{user_id}/delete','delete');
+        });
 });

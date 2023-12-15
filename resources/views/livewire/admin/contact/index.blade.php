@@ -32,11 +32,17 @@
                                 <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->updated_at }}</td>
                                 <td>
+                                    @if ($item->replied)
+                                    <button class="btn btn-warning btn-reply" disabled data-replied="1">Đã trả lời</button>
+                                @else
                                     <a href="{{ route('contact/reply', ['id' => $item->id]) }}"
                                         data-name="{{ $item->name }}" data-email="{{ $item->email }}"
-                                        wire:click="openReplyModal({{ $item->id }})" class="btn btn-warning">
-                                        Reply
+                                        data-replied="{{ $item->replied ? 1 : 0 }}"
+                                        wire:click="openReplyModal({{ $item->id }})" class="btn btn-warning btn-reply">
+                                        Trả lời
                                     </a>
+                                @endif
+
                                     <a href="#" wire:click="deleteContact({{ $item->id }})"
                                         data-bs-toggle="modal" data-bs-target="#deleteModal"
                                         class="btn btn-danger">Delete</a>
@@ -72,3 +78,16 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".btn-reply").each(function () {
+            var replied = $(this).data("replied");
+
+            if (replied) {
+                $(this).prop("disabled", true);
+            }
+        });
+    });
+</script>

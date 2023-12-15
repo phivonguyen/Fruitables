@@ -15,6 +15,7 @@ class ContactUs extends Model
         "email",
         "subject",
         "message",
+        'replied',
         'created_at',
         'updated_at'
     ];
