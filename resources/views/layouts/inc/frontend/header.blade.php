@@ -19,8 +19,7 @@
                     <div class="top-link pe-2">
                         <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and
-                                Refunds</small></a>
+                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
                     </div>
                 </div>
             </div>
@@ -56,6 +55,7 @@
                             <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
                             <a href="{{ url('/orders') }}" class="nav-item nav-link">My Orders</a>
                             <a href="{{ url('/contactUs') }}" class="nav-item nav-link">Contact</a>
+                            <a href="{{ url('/aboutUs') }}" class="nav-item nav-link">About Us</a>
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button

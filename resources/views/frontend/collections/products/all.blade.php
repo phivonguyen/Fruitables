@@ -164,9 +164,13 @@
                                                 <a
                                                     href="{{ url('collections/' . $product->category->slug . '/' . $product->slug) }}">
                                                     <div class="fruite-img">
-                                                        <img src="{{ asset($product->productImage->first()->image) }}"
-                                                            class="img-fluid w-100 rounded-top"
-                                                            style="width: 300px;height: 200px" alt="">
+                                                        @if ($product->productImage->first())
+                                                            <img src="{{ asset($product->productImage->first()->image) }}"
+                                                                class="img-fluid w-100 rounded-top"
+                                                                style="width: 300px;height: 200px" alt="">
+                                                        @else
+                                                            No Images Available
+                                                        @endif
                                                     </div>
                                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                         style="top: 10px; left: 10px;">{{ $product->category->name }}

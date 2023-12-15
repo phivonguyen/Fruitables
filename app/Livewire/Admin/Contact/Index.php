@@ -40,7 +40,7 @@ class Index extends Component
     {
         $contact = ContactUs::orderBy('id', 'DESC')->paginate(5);
         return view('livewire.admin.contact.index', [
-            ['contact' => $contact]
+            'contact' => $contact
         ]);
     }
 }

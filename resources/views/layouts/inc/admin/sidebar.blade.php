@@ -73,6 +73,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('admin/contact') }}">
+                        <i class="mdi mdi-chart-bar menu-icon"></i>
+                        <span class="menu-title">Contact</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{url('admin/hero')}}">
                         <i class="mdi mdi-table-large menu-icon"></i>
                         <span class="menu-title">Hero Header</span>

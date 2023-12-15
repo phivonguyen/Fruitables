@@ -29,8 +29,8 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-seo-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-seo" type="button" role="tab"
-                                    aria-controls="pills-seo" aria-selected="false">SEO Tags</button>
+                                    data-bs-target="#pills-seo" type="button" role="tab" aria-controls="pills-seo"
+                                    aria-selected="false">SEO Tags</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-details-tab" data-bs-toggle="pill"
@@ -39,8 +39,8 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-image-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-image" type="button" role="tab"
-                                    aria-controls="pills-image" aria-selected="false">Product Images</button>
+                                    data-bs-target="#pills-image" type="button" role="tab" aria-controls="pills-image"
+                                    aria-selected="false">Product Images</button>
                             </li>
                         </ul>
 
@@ -78,8 +78,8 @@
                                         rows="4"></textarea>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pills-seo" role="tabpanel"
-                                aria-labelledby="pills-seo-tab" tabindex="0">
+                            <div class="tab-pane fade" id="pills-seo" role="tabpanel" aria-labelledby="pills-seo-tab"
+                                tabindex="0">
                                 <div class="mb-3">
                                     <label for="">Meta Title</label>
                                     <input type="text" name="meta_title" value="{{ old('meta_title') }}"
@@ -87,13 +87,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="">Meta Description</label>
-                                    <textarea type="text" name="meta_description" value="{{ old('meta_description') }}" class="form-control"
-                                        rows="4"></textarea>
+                                    <textarea type="text" name="meta_description" class="form-control" rows="4">{{ old('meta_description') }}</textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="">Meta Keyword</label>
-                                    <textarea type="text" name="meta_keyword" value="{{ old('meta_keyword') }}" class="form-control"
-                                        rows="4"></textarea>
+                                    <textarea type="text" name="meta_keyword" class="form-control" rows="4">{{ old('meta_keyword') }}</textarea>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-details" role="tabpanel"
@@ -102,30 +100,35 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="">Original Price</label>
-                                            <input type="number" class="form-control" name="original_price" value="{{ old('original_price') }}" />
+                                            <input type="number" class="form-control" name="original_price"
+                                                value="{{ old('original_price') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="">Selling Price</label>
-                                            <input type="number" class="form-control" name="selling_price" value="{{ old('selling_price') }}" />
+                                            <input type="number" class="form-control" name="selling_price"
+                                                value="{{ old('selling_price') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="">Quantity</label>
-                                            <input type="number" class="form-control" name="quantity" value="{{ old('quantity') }}" />
+                                            <input type="number" class="form-control" name="quantity"
+                                                value="{{ old('quantity') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="">Trending (Check: Trending; Not check: Not trending)</label>
+                                            <label for="">Trending (Check: Trending; Not check: Not
+                                                trending)</label>
                                             <input type="checkbox" name="trending" style="width: 25px; height:25px;" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="">Featured (Check: Featured; Not check: Not featured)</label>
+                                            <label for="">Featured (Check: Featured; Not check: Not
+                                                featured)</label>
                                             <input type="checkbox" name="featured" style="width: 25px; height: 25px;" />
                                         </div>
                                     </div>

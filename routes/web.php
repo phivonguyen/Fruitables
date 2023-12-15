@@ -45,13 +45,11 @@ Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->grou
     Route::get('/contactUs', 'contact')->name('contactUs');
     Route::post('/send', 'send')->name('send.email');
     Route::get('/contact', 'showContactForm')->name('contact.form');
-
     Route::get('/featured-products', 'featuredProducts');
     Route::get('search', 'searchProduct');
-    Route::get('comingsoon', 'commingsoon');
 
-    // Route::get('/collections/products', 'product_detail');
-    // Route::get('/collections/products/{id}', 'product_detail')->name('product_details');
+
+    Route::get('comingsoon', 'commingsoon');
     Route::get('/collections/search', 'search')->name('search');
     Route::get('/collections/search-by-price-range', 'searchByPriceRange')->name('searchByPriceRange');
 });

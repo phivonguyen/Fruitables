@@ -33,8 +33,8 @@
                                         <div class="d-flex align-items-center">
                                             <a
                                                 href="{{ url('collections/' . $item->product->category->slug . '/' . $item->product->slug) }}">
-                                                @if ($item->product->productImage)
-                                                    <img src="{{ asset($item->product->productImage[0]->image) }}"
+                                                @if ($item->product->productImage->first()->image)
+                                                    <img src="{{ asset($item->product->productImage->first()->image) }}"
                                                         class="img-fluid me-5 rounded-circle"
                                                         style="width: 80px; height: 80px;"
                                                         alt="{{ $item->product->name }}">

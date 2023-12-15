@@ -219,4 +219,15 @@ class FrontendController extends Controller
             return false;
         }
     }
+
+    public function searchProduct(Request $request)
+    {
+        if ($request->search) {
+
+            $search = Product::where('name', 'LIKE', '%' . $request->search . '%')->latest()->paginate(10);
+            return view('frontend.pages.search', compact('search'));
+        } else {
+            return redirect()->back()->with('messsage', 'There are no products available');
+        }
+    }
 }
