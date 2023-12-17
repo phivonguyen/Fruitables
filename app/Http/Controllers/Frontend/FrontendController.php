@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProductImage;
 use App\Models\About;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use App\Models\AboutUs;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ContactUs;

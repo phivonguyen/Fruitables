@@ -19,7 +19,8 @@
                     <div class="top-link pe-2">
                         <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and
+                                Refunds</small></a>
                     </div>
                 </div>
             </div>
@@ -79,13 +80,16 @@
                             <a href="#" class="my-auto">
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                        @if (session('avatar'))
-                                            <img src="{{ session('avatar') }}" alt="" width="30px"
-                                                style="border-radius:  50%">
-                                        @else
+                                        @guest()
                                             <i class="fas fa-user fa-2x"></i>
-                                        @endif
-
+                                        @else
+                                            @if (Auth::user()->user_detail != null && Auth::user()->user_detail->avatar != null)
+                                                <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="80px"
+                                                    style="border-radius:  50%">
+                                            @else
+                                                <i class="fas fa-user fa-2x"></i>
+                                            @endif
+                                        @endguest
                                     </a>
                                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                         @guest
@@ -101,28 +105,16 @@
                                         @else
                                             <a class="nav-link " href="#" id="navbarDropdown" role="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                @if (session('avatar'))
-                                                    <img src="{{ session('avatar') }}" alt="" width="30px"
-                                                        style="border-radius:  50%">
-                                                @else
-                                                    <i class="fas fa-user fa-2x"></i>
-                                                    {{ Auth::user()->name }}
-                                                @endif
-                                                {{-- @if (empty(Auth::user()->userAvatar))
-                                                        <img src="{{ asset('/uploads/userImg/defaultAvatar/download.jpg') }}"
-                                                            width="30px" style="border-radius:  50%">
-                                                    @endif {{ Auth::user()->name }} --}}
-
+                                                {{ Auth::user()->name }}
                                             </a>
                                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                                {{-- <a class="dropdown-item" href="{{ url('profile') }}">
-                                                    <i class="fa fa-user"></i>
-                                                    Profile
+                                                <a class="dropdown-item" href="{{ url('/profile') }}">
+                                                    <i class="fas fa-user fa-2x"></i> My Profile
                                                 </a>
                                                 </li>
-                                                <a class="dropdown-item" href="{{ url('orders') }}">
+                                                <a class="dropdown-item" href="{{ url('/orders') }}">
                                                     <i class="fa fa-list"></i> My Orders
-                                                </a> --}}
+                                                </a>
                                                 <!-- Check if the user is an admin (role_as == '1') -->
                                                 @if (Auth::user()->roles == '1')
                                                     <!-- Display "Admin Panel" link for admins -->
@@ -133,10 +125,8 @@
                                                 <i class="fa-solid fa-right-from-bracket"></i>
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-
                                                     {{ __('Logout') }}
                                                 </a>
-
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                     class="d-none">
                                                     @csrf

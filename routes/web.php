@@ -62,17 +62,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index']);
     Route::get('orders', [App\Http\Controllers\Frontend\OrderController::class, 'index']);
     Route::get('orders/{orderId}', [App\Http\Controllers\Frontend\OrderController::class, 'detail']);
-
     Route::get('profile', [App\Http\Controllers\Frontend\UserController::class, 'index']);
-    Route::post('profile', [App\Http\Controllers\Frontend\UserController::class, 'updateUser']);
-
+    Route::post('profile', [App\Http\Controllers\Frontend\UserController::class, 'updateUser'])->name('profile/store');
     Route::get('change-password', [App\Http\Controllers\Frontend\UserController::class, 'passwordCreate']);
-    Route::post('change-password', [App\Http\Controllers\Frontend\UserController::class, 'passwordChange']);
+    Route::post('change-password', [App\Http\Controllers\Frontend\UserController::class, 'passwordChange'])->name('change-password');
 });
 
 // Route Admin
 Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
-    //Admin dashboard index
+    //Admin dashboard index- Phi's route
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     //Settting routes-Phi's route
     Route::get('settings',[App\Http\Controllers\Admin\SettingController::class, 'index']);
@@ -98,7 +96,6 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/category/edit/{id}', 'edit')->name('category/edit');
         Route::put('/category/update/{id}', 'update')->name('category/update');
     });
-
     //Hero header routes by Phi
     Route::controller(App\Http\Controllers\Admin\HeroController::class)->group(function () {
         Route::get('hero', 'index')->name('hero.index');
@@ -108,9 +105,7 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::put('hero/{hero}', 'update');
         Route::get('hero/{hero}/delete', 'delete');
     });
-
     Route::get('/origin', App\Livewire\Admin\Origin\Index::class)->name('originIndex');
-
     //Product routes-Hung's route
     Route::controller(App\Http\Controllers\Admin\AdvertisementController::class)->group(function () {
         //product admin
@@ -135,17 +130,15 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
             [App\Http\Controllers\Admin\AdvertisementController::class, 'updateStatus']
         )->name('about/update-status');
     });
-
     //Orders-admin routes-Phi's routes
     Route::controller(App\Http\Controllers\Admin\OrderController::class)->group(function () {
         Route::get('/orders', 'index');
         Route::get('/orders/{orderId}', 'show');
         Route::put('/orders/{orderId}', 'updateOrderStatus');
-
         Route::get('/invoice/{orderId}', 'viewInvoice');
+        Route::get('/invoice/{orderId}/mail', 'mailInvoice');
         Route::get('/invoice/{orderId}/generate', 'generateInvoice');
     });
-
     //Contact routes-Hung's route
     Route::controller(App\Http\Controllers\Admin\ContactController::class)->group(function () {
         //contact admin
@@ -153,7 +146,6 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
         Route::get('/contact/delete/{id}', 'delete')->name("contact/delete");
         Route::get('/contact/reply/{id}', 'reply')->name("contact/reply");
     });
-
         // Users-admin routes-Phi's routes
         Route::controller(App\Http\Controllers\Admin\UserController::class)->group(function () {
             Route::get('/users', 'index')->name('users/index');

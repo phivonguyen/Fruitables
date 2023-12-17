@@ -39,7 +39,8 @@
                                         <img src= "{{ asset($item->user_detail->avatar) }}"
                                             style="width:150px; height:150px;" alt="">
                                     @else
-                                        <img src="{{ asset('assets/admin/images/user-ava.png') }}" alt="">
+                                        <img src="{{ asset('assets/admin/images/user-ava.png') }}"
+                                            style="width:150px; height:150px;" alt="">
                                     @endif
                                 </td>
                                 <td>{{ $item->name }}</td>

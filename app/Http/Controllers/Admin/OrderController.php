@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InvoiceOrderMailable;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 // use App\Models\CouponOrder;
 use Illuminate\Support\Facades\Session;
 
@@ -18,35 +20,31 @@ class OrderController extends Controller
     {
         // $orders = Order::whereDate('created_at',$todayDate)->paginate(2);
         $todayDate = Carbon::now()->format('Y-m-d');
-            if ($request->date != null) {
-                $orders = Orders::when(
-                    $request->date != null,
-                    function ($q) use ($request) {
-                        return $q->whereDate('created_at', $request->date);
-                    },
-                    function ($q) use ($todayDate) {
-                        $q->whereDate('created_at', $todayDate);
-                    }
-                )
-                    ->when($request->status != null, function ($q) use ($request) {
+        if ($request->date != null) {
+            $orders = Orders::when(
+                $request->date != null,
+                function ($q) use ($request) {
+                    return $q->whereDate('created_at', $request->date);
+                },
+                function ($q) use ($todayDate) {
+                    $q->whereDate('created_at', $todayDate);
+                }
+            )
+                ->when($request->status != null, function ($q) use ($request) {
 
-                        return $q->where('status_message', $request->status);
-                    })
-                    ->paginate(10);
-            } else if ($request->status != null) {
-                $orders = Orders::when($request->status != null, function ($q) use ($request) {
                     return $q->where('status_message', $request->status);
-                })->get();
-            } else {
-                $orders = Orders::get();
-            }
-
-
-        if($request->has('showAll')){
+                })
+                ->paginate(10);
+        } else if ($request->status != null) {
+            $orders = Orders::when($request->status != null, function ($q) use ($request) {
+                return $q->where('status_message', $request->status);
+            })->get();
+        } else {
             $orders = Orders::get();
         }
-
-
+        if ($request->has('showAll')) {
+            $orders = Orders::get();
+        }
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -90,6 +88,18 @@ class OrderController extends Controller
             'order',
             // 'couponOrder'
         ));
+    }
+
+    public function mailInvoice(int $orderId)
+    {
+        try {
+            $order = Orders::findOrFail($orderId);
+            Mail::to($order->email)->send(new InvoiceOrderMailable($order));
+            return redirect('admin/orders/' . $orderId)->with('message', 'Invoice has been sent to ' . $order->email);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect('admin/orders/' . $orderId)->with('message', 'Something went wrong!!');
+        }
     }
 
     public function generateInvoice(int $orderId)

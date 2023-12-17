@@ -34,9 +34,8 @@ class CheckoutShow extends Component
 
         $codOrder = $this->placeOrder();
         if ($codOrder) {
-
             // When checkout is successful, delete the Cart items
-            // Carts::where('user_id', auth()->user()->id)->delete();
+            Carts::where('user_id', auth()->user()->id)->delete();
             // $this->addCouponOrder($codOrder->id);
             // $this->sendInvoiceEmail($codOrder->id);
             // if (session('couponCode')) {

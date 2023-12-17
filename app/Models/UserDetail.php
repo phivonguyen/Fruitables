@@ -15,13 +15,12 @@ class UserDetail extends Model
         'user_id',
         'avatar',
         'phone',
-        'status',
         'created_at',
         'updated_at'
     ];
 
 
     public function user() {
-        return $this->hasOne(User::class,'user_id','id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }

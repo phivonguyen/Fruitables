@@ -14,10 +14,9 @@ return new class extends Migration
         //
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->string('avatar')->nullable();
             $table->string('phone');
-            $table->enum('status', ['online', 'offline']);
             $table->timestamps();
         });
     }
