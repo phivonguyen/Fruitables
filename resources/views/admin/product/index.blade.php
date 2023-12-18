@@ -51,7 +51,7 @@
                                         No Category available
                                     @endif
                                 </td>
-                                <td>{{ $item->description }}</td>
+                                <td>{{ substr($item->description, 0, 30) }}...</td>
                                 <td>{{ $item->original_price }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->status == '1' ? 'Hidden' : 'Visible' }}</td>
@@ -70,6 +70,10 @@
                         @endforelse
                     </tbody>
                 </table>
+
+                <div>
+                    {{$products->links()}}
+                </div>
             </div>
         </div>
     </div>

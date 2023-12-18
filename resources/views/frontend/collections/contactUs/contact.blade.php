@@ -75,21 +75,27 @@
                             <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
                             <div>
                                 <h4>Address</h4>
-                                <p class="mb-2">123 q1,TpHCM city</p>
+                                <a href="https://www.google.com/maps/place/123+q1,TpHCM+city" target="_blank">
+                                    <p class="mb-2">123 q1, TpHCM city</p>
+                                </a>
                             </div>
                         </div>
                         <div class="d-flex p-4 rounded mb-4 bg-white">
                             <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                             <div>
                                 <h4>Mail Us</h4>
-                                <p class="mb-2">info@example.com</p>
+                                <a href="mailto:info@example.com">
+                                    <p class="mb-2">info@example.com</p>
+                                </a>
                             </div>
                         </div>
                         <div class="d-flex p-4 rounded bg-white">
                             <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
                             <div>
                                 <h4>Telephone</h4>
-                                <p class="mb-2">(+012) 3456 7890</p>
+                                <a href="tel:+01234567890">
+                                    <p class="mb-2">(+012) 3456 7890</p>
+                                </a>
                             </div>
                         </div>
                     </div>

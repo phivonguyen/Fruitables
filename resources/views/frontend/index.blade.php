@@ -51,13 +51,14 @@
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                         <div class="carousel-inner" role="listbox">
                             @foreach ($heroes as $key => $hero)
-                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }} rounded">
+                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }} rounded" >
                                     @if ($hero->image)
                                         <img src="{{ asset("$hero->image") }}"
-                                            class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                            class="img-fluid bg-secondary rounded" alt="First slide" style="width: 550px; height: 400px">
                                     @endif
 
-                                    <a href="#" class="btn px-4 py-2 text-white rounded">{!! $hero->title !!}</a>
+                                    <a href="{{ url($hero->href) }}"
+                                        class="btn px-4 py-2 text-white rounded">{!! $hero->title !!}</a>
                                 </div>
                             @endforeach
 

@@ -84,7 +84,7 @@
                                             <i class="fas fa-user fa-2x"></i>
                                         @else
                                             @if (Auth::user()->user_detail != null && Auth::user()->user_detail->avatar != null)
-                                                <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="80px"
+                                                <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="50px"
                                                     style="border-radius:  50%">
                                             @else
                                                 <i class="fas fa-user fa-2x"></i>

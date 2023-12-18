@@ -9,7 +9,7 @@
             <li class="nav-item nav-profile dropdown border-0">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" style="margin-right: 50px" >
                     @if (Auth::user()->user_detail != null && Auth::user()->user_detail->avatar != null)
-                        <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="80px"
+                        <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="50px"
                             style="border-radius:  50%">
                     @else
                         <i class="fas fa-user fa-2x"></i>

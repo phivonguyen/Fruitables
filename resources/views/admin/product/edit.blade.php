@@ -159,6 +159,7 @@
                                 aria-labelledby="pills-image-tab" tabindex="0">
                                 <div class="mb-3">
                                     <label for="">Uploaded Product Images</label>
+                                    <input type="file" name="image[]" multiple class="form-control">
                                     <div id="productImages">
                                         @if ($product->productImage)
                                             <div class="row">

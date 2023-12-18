@@ -3,6 +3,8 @@
 namespace App\Livewire\FrontEnd\Product;
 
 use Livewire\Component;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Carts;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
@@ -161,15 +163,18 @@ class Detail extends Component
 
     public function render()
     {
+        $featuredProducts = Product::where('featured', '1')->latest()->take(3)->get();
+        $listCat = Category::all();
         $checkWishlist = session()->get('checkWishlist');
         return view('livewire.front-end.product.detail', [
             'category' => $this->category,
             'product' => $this->product,
-            'checkWishlist' => $checkWishlist
+            'checkWishlist' => $checkWishlist,
+            'listCat' => $listCat,
+            'featuredProducts'=> $featuredProducts
         ]);
     }
 
-        // public function addToCart(int $product_id)
     // {
     //     if (Auth::check()) {
     //         // dd($product_id);

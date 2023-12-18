@@ -108,6 +108,7 @@ class FrontendController extends Controller
 
     public function productView(string  $category_slug,  string $product_slug)
     {
+        $listCat = Category::all();
         $category = Category::where('slug', $category_slug)->first();
         if ($category) {
             $product = $category->products()->where('slug', $product_slug)->where('status', '0')->first();
@@ -117,7 +118,12 @@ class FrontendController extends Controller
                 session()->put('checkWishlist', $checkWishlist);
             }
             if ($product) {
-                return view('frontend.collections.products.view', compact('product', 'category'));
+                return view('frontend.collections.products.view',
+                [
+                    'product' => $product,
+                    'category' => $category,
+                    'listCat'=> $listCat
+                ]);
             } else {
                 return redirect()->back();
             }
