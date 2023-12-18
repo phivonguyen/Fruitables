@@ -18,7 +18,8 @@
                             @endforeach
                         </div>
                     @endif
-                    <form action="{{ route('product/store') }}" method="post" enctype="multipart/form-data" class="mt-4">
+                    <form action="{{ route('product/store') }}" method="post" enctype="multipart/form-data" class="mt-4"
+                        id="productForm">
                         @csrf
 
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -101,14 +102,17 @@
                                         <div class="mb-3">
                                             <label for="">Original Price</label>
                                             <input type="number" class="form-control" name="original_price"
-                                                value="{{ old('original_price') }}" />
+                                                id="original_price" value="{{ old('original_price') }}" />
+                                            <div id="original_price_error" class="text-danger"></div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="">Selling Price</label>
                                             <input type="number" class="form-control" name="selling_price"
-                                                value="{{ old('selling_price') }}" />
+                                                id="selling_price" value="{{ old('selling_price') }}" />
+                                            <div id="selling_price_error" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -134,7 +138,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="">Status (Check: Hidden; Not check: Visible)</label>
+                                            <label for="">Status (Check: Hidden; Not check: Visible)</label><br>
                                             <input type="checkbox" name="status" style="width: 25px; height: 25px;" />
                                         </div>
                                     </div>
@@ -147,9 +151,10 @@
                                     <input type="file" name="image[]" multiple class="form-control">
                                 </div>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
                             </div>
+                            <div id="error-message" class="text-danger"></div>
                         </div>
 
                     </form>
@@ -157,4 +162,39 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sellingPriceInput = document.getElementById('selling_price');
+            var originalPriceInput = document.getElementById('original_price');
+            var sellingPriceError = document.getElementById('selling_price_error');
+            var originalPriceError = document.getElementById('original_price_error');
+            var submitBtn = document.getElementById('submitBtn');
+            var errorMessageContainer = document.getElementById('error-message');
+            sellingPriceInput.addEventListener('blur', function() {
+                validatePrices();
+            });
+            originalPriceInput.addEventListener('blur', function() {
+                validatePrices();
+            });
+
+            function validatePrices() {
+                var sellingPrice = parseFloat(sellingPriceInput.value);
+                var originalPrice = parseFloat(originalPriceInput.value);
+                sellingPriceError.innerText = '';
+                originalPriceError.innerText = '';
+                if (!isNaN(sellingPrice)) {
+                    if (sellingPrice >= originalPrice || isNaN(originalPrice)) {
+                        sellingPriceError.innerText = 'Selling Price must be less than Original Price';
+                    }
+                }
+            }
+            document.getElementById('productForm').addEventListener('submit', function(event) {
+                validatePrices();
+                if (parseFloat(sellingPriceInput.value) >= parseFloat(originalPriceInput.value)) {
+                    event.preventDefault();
+                    errorMessageContainer.innerText = 'Selling Price must be less than Original Price';
+                }
+            });
+        });
+    </script>
 @endsection

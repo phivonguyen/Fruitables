@@ -202,7 +202,8 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-secondary rounded border border-secondary">
-                                <img src="{{ asset($post->image) }}" class="img-fluid rounded-top w-100" alt="">
+                                <img src="{{ asset($post->image) }}" class="img-fluid rounded-top w-100" alt=""
+                                    style="width: 400px; height:250px">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-primary text-center p-4 rounded">
                                         <h5 class="text-white">{{ $post->name }}</h5>
@@ -388,28 +389,28 @@
                         <div class="counter bg-white rounded p-5">
                             <i class="fa fa-users text-secondary"></i>
                             <h4>satisfied customers</h4>
-                            <h1>1963</h1>
+                            <h1>{{ $totalUsers }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="counter bg-white rounded p-5">
                             <i class="fa fa-users text-secondary"></i>
-                            <h4>quality of service</h4>
-                            <h1>99%</h1>
+                            <h4>Total Origins</h4>
+                            <h1>{{ $totalOrigins }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="counter bg-white rounded p-5">
                             <i class="fa fa-users text-secondary"></i>
-                            <h4>quality certificates</h4>
-                            <h1>33</h1>
+                            <h4>Total Categories</h4>
+                            <h1>{{ $totalCategories }}</h1>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="counter bg-white rounded p-5">
                             <i class="fa fa-users text-secondary"></i>
                             <h4>Available Products</h4>
-                            <h1>789</h1>
+                            <h1>{{ $totalProducts }}</h1>
                         </div>
                     </div>
                 </div>
@@ -476,7 +477,7 @@
 <!-- Bestsaler Product End -->
 
 
-<!-- Tastimonial Start -->
+{{-- <!-- Tastimonial Start -->
 <div class="container-fluid testimonial py-5">
     <div class="container py-5">
         <div class="testimonial-header text-center">
@@ -571,7 +572,7 @@
         </div>
     </div>
 </div>
-<!-- Tastimonial End -->
+<!-- Tastimonial End --> --}}
 
 @endsection
 @section('styles')

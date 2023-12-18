@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductFormRequest;
 
@@ -126,12 +127,21 @@ class ProductController extends Controller
 
     public function destroyImage(int $product_image_id)
     {
-        $productImage = ProductImage::findOrFail($product_image_id);
-        if (File::exists($productImage->image)) {
-            File::delete($productImage->image);
+        try {
+            $productImage = ProductImage::findOrFail($product_image_id);
+
+            if (File::exists($productImage->image)) {
+                File::delete($productImage->image);
+            }
+
+            $productImage->delete();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error('Error deleting image: ' . $e->getMessage());
+
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
-        $productImage->delete();
-        return redirect()->back()->with('message', 'Product Image Deleted');
     }
     public function destroy(int $product_id)
     {

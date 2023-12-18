@@ -20,28 +20,6 @@
             <div class="row g-4">
                 <div class="col-lg-12">
                     <div class="row g-4">
-                        <div class="col-xl-3">
-                            <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" placeholder="keywords"
-                                    aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-xl-3">
-                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                <label for="fruits">Sorting:</label>
-                                <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3"
-                                    form="fruitform">
-                                    <option value="volvo">All</option>
-                                    <option value="saab">Popularity</option>
-                                    <option value="opel">Organic</option>
-                                    <option value="audi">Fantastic</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-4">
                         <div class="col-lg-3">
                             <div class="row g-4">
                                 <div class="col-lg-12">
@@ -52,8 +30,9 @@
                                                 @foreach ($listCat as $cat)
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i
-                                                                    class="fas fa-apple-alt me-2"></i>{{ $cat->name }}</a>
+                                                            <a href="{{ url('/collections/' . $cat->slug) }}">
+                                                                <i class="fas fa-apple-alt me-2"></i>{{ $cat->name }}
+                                                            </a>
                                                             <span>({{ $cat->products()->count() }})</span>
                                                         </div>
                                                     </li>
@@ -71,44 +50,8 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4 class="mb-2">Price</h4>
-                                        <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput"
-                                            min="0" max="500" value="0"
-                                            oninput="amount.value=rangeInput.value">
-                                        <output id="amount" name="amount" min-velue="0" max-value="500"
-                                            for="rangeInput">0</output>
-                                    </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <h4>Additional</h4>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-1"> Organic</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-2" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-2"> Fresh</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-3" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-3"> Sales</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-4" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-4"> Discount</label>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" class="me-2" id="Categories-5" name="Categories-1"
-                                                value="Beverages">
-                                            <label for="Categories-5"> Expired</label>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="col-lg-12">
@@ -116,22 +59,29 @@
                                         <h4 class="mb-3">Featured products</h4>
                                         @foreach ($featuredProducts as $featured)
                                             <div class="d-flex align-items-center justify-content-start">
-                                                <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                    <img src="{{ $featured->image }}" class="img-fluid rounded"
-                                                        alt="">
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-2">{{ $featured->name }}</h6>
-                                                    <div class="d-flex mb-2">
-                                                        <h5 class="fw-bold me-2">{{ $featured->selling_price }} $</h5>
-                                                        <h5 class="text-danger text-decoration-line-through">
-                                                            {{ $featured->original_price }} $</h5>
+                                                <a
+                                                    href="{{ url('collections/' . $featured->category->slug . '/' . $featured->slug) }}">
+                                                    @if ($featured->productImage->first())
+                                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
+                                                            <img src="{{ asset($featured->productImage->first()->image) }}"
+                                                                class="img-fluid rounded" alt="">
+                                                        </div>
+                                                    @else
+                                                        No Images Available
+                                                    @endif
+                                                </a>
+                                                    <div>
+                                                        <h6 class="mb-2">{{ $featured->name }}</h6>
+                                                        <div class="d-flex mb-2">
+                                                            <h5 class="fw-bold me-2">{{ $featured->selling_price }} $</h5>
+                                                            <h5 class="text-danger text-decoration-line-through">
+                                                                {{ $featured->original_price }} $</h5>
+                                                        </div>
                                                     </div>
-                                                </div>
                                             </div>
                                         @endforeach
                                         <div class="d-flex justify-content-center my-4">
-                                            <a href="#"
+                                            <a href="{{ url('collections/') }}"
                                                 class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View
                                                 More</a>
                                         </div>
@@ -146,7 +96,7 @@
 
                                 <div class="col-lg-12">
                                     <div class="position-relative">
-                                        <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
+                                        <img src="{{asset('assets/layouts/img/banner-fruits.jpg')}}" class="img-fluid w-100 rounded" alt="">
                                         <div class="position-absolute"
                                             style="top: 50%; right: 10px; transform: translateY(-50%);">
                                             <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>

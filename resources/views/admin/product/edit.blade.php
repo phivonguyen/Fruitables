@@ -96,13 +96,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="">Meta Description</label>
-                                    <textarea type="text" name="meta_description" value="" class="form-control"
-                                        rows="4">{{ $product->meta_description }}</textarea>
+                                    <textarea type="text" name="meta_description" value="" class="form-control" rows="4">{{ $product->meta_description }}</textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="">Meta Keyword</label>
-                                    <textarea type="text" name="meta_keyword" value="" class="form-control"
-                                        rows="4">{{ $product->meta_keyword }}</textarea>
+                                    <textarea type="text" name="meta_keyword" value="" class="form-control" rows="4">{{ $product->meta_keyword }}</textarea>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-details" role="tabpanel"
@@ -112,14 +110,17 @@
                                         <div class="mb-3">
                                             <label for="">Original Price</label>
                                             <input type="number" class="form-control" name="original_price"
-                                                value="{{ $product->original_price }}" />
+                                                id="original_price" value="{{ $product->selling_price }}" />
+                                            <div id="original_price_error" class="text-danger"></div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="">Selling Price</label>
                                             <input type="number" class="form-control" name="selling_price"
-                                                value="{{ $product->selling_price }}" />
+                                                id="selling_price" value="{{ $product->selling_price }}" />
+                                            <div id="selling_price_error" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -147,7 +148,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="">Status (Check: Hidden; Not check: Visible)</label>
+                                            <label for="">Status (Check: Hidden; Not check: Visible)</label><br>
                                             <input type="checkbox" name="status" style="width: 25px; height: 25px;"
                                                 {{ $product->status == '1' ? 'checked' : '' }} />
                                         </div>
@@ -157,19 +158,16 @@
                             <div class="tab-pane fade" id="pills-image" role="tabpanel"
                                 aria-labelledby="pills-image-tab" tabindex="0">
                                 <div class="mb-3">
-                                    <label for="">Upload Product Image</label>
-                                    <input type="file" name="image[]" multiple class="form-control">
-                                </div>
-                                <div class="">
-                                    {{-- Show product's images --}}
-                                    <div>
+                                    <label for="">Uploaded Product Images</label>
+                                    <div id="productImages">
                                         @if ($product->productImage)
                                             <div class="row">
                                                 @foreach ($product->productImage as $item)
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-2" id="image_{{ $item->id }}">
                                                         <img src="{{ asset($item->image) }}" alt=""
                                                             style="width:80px; height:80px" class="me-4 border">
-                                                        <a href="{{ url('admin/product-image/' . $item->id . '/delete') }}"
+                                                        <a href="javascript:void(0);"
+                                                            onclick="removeImage({{ $item->id }})"
                                                             class="d-block">Remove</a>
                                                     </div>
                                                 @endforeach
@@ -179,6 +177,7 @@
                                         @endif
                                     </div>
                                 </div>
+
                             </div>
 
                             <div>
@@ -191,4 +190,68 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sellingPriceInput = document.getElementById('selling_price');
+            var originalPriceInput = document.getElementById('original_price');
+            var sellingPriceError = document.getElementById('selling_price_error');
+            var originalPriceError = document.getElementById('original_price_error');
+
+            sellingPriceInput.addEventListener('blur', function() {
+                validatePrices();
+            });
+
+            originalPriceInput.addEventListener('blur', function() {
+                validatePrices();
+            });
+
+            function validatePrices() {
+                var sellingPrice = parseFloat(sellingPriceInput.value);
+                var originalPrice = parseFloat(originalPriceInput.value);
+
+                sellingPriceError.innerText = '';
+                originalPriceError.innerText = '';
+
+                if (!isNaN(sellingPrice)) {
+                    if (sellingPrice >= originalPrice || isNaN(originalPrice)) {
+                        sellingPriceError.innerText = 'Selling Price must be less than Original Price';
+                    }
+                }
+            }
+
+            document.getElementById('productForm').addEventListener('submit', function(event) {
+                validatePrices();
+
+                if (parseFloat(sellingPriceInput.value) >= parseFloat(originalPriceInput.value)) {
+                    event.preventDefault();
+
+                    alert('Selling Price must be less than Original Price');
+
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+        function removeImage(imageId) {
+            var confirmation = confirm("Are you sure you want to remove this image?");
+            if (confirmation) {
+                $.ajax({
+                    url: '/admin/product-image/' + imageId + '/delete',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#image_' + imageId).remove();
+                            alert('Image deleted successfully');
+                        } else {
+                            alert('Error deleting image: ' + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error deleting image: ' + error);
+                    }
+                });
+            }
+        }
+    </script>
 @endsection

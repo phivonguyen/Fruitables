@@ -8,7 +8,7 @@ use Livewire\Component;
 class Index extends Component
 {
 
-    public $products, $category, $originInputs = [], $priceInput;
+    public $products, $category, $originInputs = [], $priceInput, $featuredProducts;
 
     protected $queryString = [
         'originInputs'  => ['except' => '', 'as' => 'origin'],
@@ -23,6 +23,7 @@ class Index extends Component
 
     public function render()
     {
+
         $this->products = Product::where('category_id', $this->category->id)
             ->when($this->originInputs, function ($q) {
                 $q->whereIn('origin', $this->originInputs);
@@ -38,9 +39,12 @@ class Index extends Component
             ->where('status', '0')
             ->get();
 
+
+        $this->featuredProducts = Product::where('featured', '1')->latest()->take(3)->get();
         return view('livewire.front-end.product.index', [
             'products' => $this->products,
             'category' => $this->category,
+            'featuredProducts' => $this->featuredProducts,
         ]);
     }
 }

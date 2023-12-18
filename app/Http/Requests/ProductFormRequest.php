@@ -51,7 +51,8 @@ class ProductFormRequest extends FormRequest
             ],
             'selling_price' => [
                 'required',
-                'integer'
+                'integer',
+                'lt:original_price', // Ensure selling_price is less than original_price
             ],
             'quantity' => [
                 'required',

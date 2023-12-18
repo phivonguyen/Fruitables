@@ -15,13 +15,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Advertisememt;
 use App\Models\Hero;
 use Illuminate\Http\Request;
+use App\Models\Origin;
 use App\Models\Wishlist;
+use App\Models\User;
 
 class FrontendController extends Controller
 {
     //
     public function index()
     {
+        $totalProducts = Product::count();
+        $totalCategories = Category::count();
+        $totalOrigins = Origin::count();
+        $totalUsers = User::count();
         $heroes = Hero::where('status', '0')->get();
         $products = Product::paginate(9);
         $trendingProducts = Product::where('trending', '1')->latest()->take(15)->get();
@@ -45,6 +51,10 @@ class FrontendController extends Controller
                 'trendingProducts' => $trendingProducts,
                 'newestProducts' => $newestProducts,
                 'featuredProducts' => $featuredProducts,
+                'totalProducts' => $totalProducts,
+                'totalCategories' => $totalCategories,
+                'totalOrigins' => $totalOrigins,
+                'totalUsers' => $totalUsers,
             ]
         );
     }

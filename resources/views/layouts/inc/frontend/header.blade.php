@@ -50,7 +50,7 @@
                                     <a href="{{ url('/collections/meat') }}" class="dropdown-item">Meat</a>
                                     <a href="{{ url('/collections/tubers') }}" class="dropdown-item">Tubers</a>
                                     <a href="{{ url('/collections/vegetable') }}" class="dropdown-item">Vegetables</a>
-                                    <a href="{{ url('/collections') }}" class="dropdown-item">All</a>
+                                    <a href="{{ url('/collections/category') }}" class="dropdown-item">All</a>
                                 </div>
                             </div>
                             <a href="{{ url('/collections') }}" class="nav-item nav-link">Products</a>
