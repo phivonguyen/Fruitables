@@ -167,7 +167,9 @@ class FrontendController extends Controller
     }
     public function aboutUs()
     {
+
         $aboutUs = AboutUs::all();
+        dd($aboutUs);
         return view('frontend.collections.aboutUs.index', compact('aboutUs'));
     }
 

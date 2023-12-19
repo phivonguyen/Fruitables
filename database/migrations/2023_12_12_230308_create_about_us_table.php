@@ -19,6 +19,9 @@ return new class extends Migration
             $table->text('description1');
             $table->text('description2');
             $table->text('description3');
+            $table->text('image1');
+            $table->string('trademark');
+            $table->string('des_trademark');
             $table->timestamps();
         });
     }

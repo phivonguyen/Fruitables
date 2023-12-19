@@ -16,6 +16,9 @@ class AboutUs extends Model
         "description1",
         "description2",
         "description3",
+        "image1",
+        "trademark",
+        "des_trademark",
         'created_at',
         'updated_at'
     ];

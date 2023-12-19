@@ -24,6 +24,18 @@
                 <p style="margin-top:10px;font-family:sans-serif;color:black">{{ $about->description2 }}</p>
             </div><br>
         </div>
+        <div style="display: flex;margin:100px 70px 50px 70px">
+            <div>
+                <h1 style="color:rgb(31, 159, 31)">{{ $about->menu }}</h1>
+                <i class="text-uppercase" style="font-family:sans-serif;color:black">
+                    {{ $about->description }}</i>
+                <p style="margin-top:10px;font-family:sans-serif;color:black">{{ $about->description2 }}</p>
+            </div><br>
+            <div style="margin-right: 50px">
+                <img src="{{ $about->image }}" width="600px" height="350px">
+            </div>
+
+        </div>
         <div style="margin:10px 70px 20px 70px">
             +<p>{{ $about->description1 }}</p>
             <p>{{ $about->description2 }}</p>
@@ -47,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="d-flex p-4 rounded mb-4 bg-white">
-                                <i class="fas fa-envelope fa-2x text-primary me-4"></i>
+<i class="fas fa-envelope fa-2x text-primary me-4"></i>
                                 <div>
                                     <h4>Mail Us</h4>
                                     <a href="mailto:info@example.com">
