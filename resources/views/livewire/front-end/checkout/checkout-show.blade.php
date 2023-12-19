@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Mobile<sup>*</sup></label>
-                            <input type="text" wire:model="phone" id="phone" class="form-control"
+                            <input type="text" wire:model="phone" id="phone" class="form-control" value="{{$phone}}"
                                 placeholder="Enter Phone Number" autofocus />
                             @error('phone')
                                 <small class="text-danger">{{ $message }}</small>

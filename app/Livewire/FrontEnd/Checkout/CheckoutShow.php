@@ -37,11 +37,10 @@ class CheckoutShow extends Component
         if ($codOrder) {
             // When checkout is successful, delete the Cart items
             Carts::where('user_id', auth()->user()->id)->delete();
-            try{
+            try {
                 $order = Orders::findOrFail($codOrder->id);
                 Mail::to($codOrder->email)->send(new PlaceOrderMailable($order));
-            }catch(\Exception $e){
-
+            } catch (\Exception $e) {
             }
             session()->flash('message', 'Placed order successfully');
 
@@ -116,10 +115,10 @@ class CheckoutShow extends Component
         if ($codOrder) {
             // When checkout is successful, delete the Cart items
             Carts::where('user_id', auth()->user()->id)->delete();
-            try{
+            try {
                 $order = Orders::findOrFail($codOrder->id);
                 Mail::to($codOrder->email)->send(new PlaceOrderMailable($order));
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
             }
             session()->flash('message', 'The order has been successfully placed.');
             $this->dispatch(
@@ -153,16 +152,17 @@ class CheckoutShow extends Component
         $this->carts = Carts::where('user_id', auth()->user()->id)->get();
         $this->fullname = auth()->user()->name;
         $this->email = auth()->user()->email;
+        // if (auth()->user()->user_detail->phone) {
+        //     $this->phone = auth()->user()->user_detail->phone;
+        // }
 
-        $this->phone = auth()->user()->user_detail->phone;
-        $this->email = auth()->user()->email;
-        $this->fullname = auth()->user()->name;
-        $this->email = auth()->user()->email;
+
 
         $this->totalProductAmount = $this->totalProductAmount();
         return view('livewire.front-end.checkout.checkout-show', [
             'totalProductAmount' => $this->totalProductAmount,
-            'carts' => $this->carts
+            'carts' => $this->carts,
+            // 'phone'=> $this->phone
         ]);
     }
 }

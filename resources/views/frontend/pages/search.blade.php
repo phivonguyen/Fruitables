@@ -66,7 +66,7 @@
                                     <div class="col-md-12 col-lg-12">
                                         <div class="border border-secondary px-4 py-3 rounded-pill text-primary w-100">
                                             No
-                                            Product is available for {{ $category->name }}</div>
+                                            Product is available </div>
                                         <img src="{{ asset('uploads/nothing/no-product-found.png') }}"
                                             class="img-fluid rounded"alt="" style="width: 970px; height: 588px">
                                         <div class="d-flex justify-content-center my-4">
