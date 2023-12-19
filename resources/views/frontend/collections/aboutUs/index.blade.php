@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="d-flex p-4 rounded mb-4 bg-white">
-<i class="fas fa-envelope fa-2x text-primary me-4"></i>
+                                <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                                 <div>
                                     <h4>Mail Us</h4>
                                     <a href="mailto:info@example.com">
