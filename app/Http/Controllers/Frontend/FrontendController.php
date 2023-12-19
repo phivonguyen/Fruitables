@@ -29,7 +29,7 @@ class FrontendController extends Controller
         $totalOrigins = Origin::count();
         $totalUsers = User::count();
         $heroes = Hero::where('status', '0')->get();
-        $products = Product::paginate(9);
+        $products = Product::get();
         $trendingProducts = Product::where('trending', '1')->latest()->take(15)->get();
         $featuredProducts = Product::where('featured', '1')->latest()->take(15)->get();
         $newestProducts = Product::with('productImage')->orderBy('created_at', 'desc')->take(8)->get();
@@ -186,7 +186,7 @@ class FrontendController extends Controller
         //     return redirect()->back()->withErrors(['email' => 'The email has just been sent, please try again in 10 minutes.']);
         // }
 
-        $recipientEmail = $request->has('customer_email') ? $request->input('customer_email') : 'tranthehung150@gmail.com';
+        $recipientEmail = $request->has('customer_email') ? $request->input('customer_email') : 'fruitable2023@gmail.com';
 
         $existingEmail = ContactUs::where('email', $request->input('email'))->exists();
 

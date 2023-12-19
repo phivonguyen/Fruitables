@@ -136,9 +136,7 @@
                                                             </p>
                                                             <a href="#"
                                                                 class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add
-                                                                to
-                                                                cart</a>
+                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>View Details</a>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -147,13 +145,15 @@
 
                                         {{-- {{$products->link()}} --}}
                                     @endforeach
+                                    <div class="col-12">
+                                        {{ $products->links() }}
+                                    </div>
                                 @else
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         No Product is available
                                     </div>
                                 @endif
-                                <div class="col-12">
-                                </div>
+
                             </div>
                         </div>
                     </div>

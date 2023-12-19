@@ -13,14 +13,15 @@
                     <div class="top-info ps-2">
                         <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#"
                                 class="text-white">{{ $appSetting->address ?? 'address' }}</a></small>
-                        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
-                                class="text-white">{{ $appSetting->email1 ?? 'email1' }}</a></small>
+
                     </div>
                     <div class="top-link pe-2">
-                        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                        {{-- <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
                         <a href="#" class="text-white"><small class="text-white ms-2">Sales and
-                                Refunds</small></a>
+                                Refunds</small></a> --}}
+                                <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
+                                    class="text-white">{{ $appSetting->email1 ?? 'email1' }}</a></small>
                     </div>
                 </div>
             </div>
@@ -84,7 +85,7 @@
                                             <i class="fas fa-user fa-2x"></i>
                                         @else
                                             @if (Auth::user()->user_detail != null && Auth::user()->user_detail->avatar != null)
-                                                <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="50px"
+                                                <img src="{{ asset(Auth::user()->user_detail->avatar) }}" width="40px"
                                                     style="border-radius:  50%">
                                             @else
                                                 <i class="fas fa-user fa-2x"></i>

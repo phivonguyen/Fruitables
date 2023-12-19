@@ -708,9 +708,10 @@
         console.log("jQuery loaded successfully!");
 
         var allProducts = $(".category-product");
-        var maxItemsToShow = 4;
+        var maxItemsToShow = 8;
 
         allProducts.slice(maxItemsToShow).addClass('d-none');
+
         $(".category-link").click(function(e) {
             e.preventDefault();
             var categoryId = $(this).data("category");
@@ -721,7 +722,10 @@
 
         $(".all-products-link").click(function(e) {
             e.preventDefault();
-            allProducts.slice(maxItemsToShow).removeClass('d-none');
+
+            allProducts.addClass('d-none');
+
+            allProducts.slice(0, maxItemsToShow).removeClass('d-none');
         });
     });
 </script>

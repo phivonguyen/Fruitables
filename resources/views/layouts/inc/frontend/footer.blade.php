@@ -48,9 +48,10 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-item">
                     <h4 class="text-light mb-3">Why People Like us!</h4>
-                    <p class="mb-4">typesetting, remaining essentially unchanged. It was
-                        popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.</p>
-                    <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
+                    <p class="mb-4">Fruits and vegetables contain many vitamins and minerals that are good for your health.
+                        Many of these are antioxidants,
+                        and may reduce the risk of many diseases: vitamin A (beta-carotene)</p>
+                    {{-- <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a> --}}
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -58,10 +59,6 @@
                     <h4 class="text-light mb-3">Shop Info</h4>
                     <a class="btn-link" href="{{ url('/aboutUs') }}">About Us</a>
                     <a class="btn-link" href="{{ url('/contactUs') }}">Contact Us</a>
-                    <a class="btn-link" href="">Privacy Policy</a>
-                    <a class="btn-link" href="">Terms & Condition</a>
-                    <a class="btn-link" href="">Return Policy</a>
-                    <a class="btn-link" href="">FAQs & Help</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">

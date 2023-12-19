@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-item">
                             <label class="form-label my-3">Full Address <sup>*</sup></label>
-                            <textarea wire:model="address" id="address" class="form-control" rows="2"></textarea>
+                            <textarea wire:model="address" id="address" name="address" class="form-control" rows="2">{{ old('address') }}</textarea>
                             @error('address')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -63,7 +63,7 @@
                         <br>
                         <div class="form-item">
                             <textarea name="text" wire:model="user_description" id="user_description" class="form-control" spellcheck="false"
-                                cols="30" rows="11" placeholder="Order Notes (Optional)"></textarea>
+                                cols="30" rows="11" placeholder="Order Notes (Required)"></textarea>
                             @error('user_description')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -130,8 +130,11 @@
                                                 <p class="mb-0 text-dark">${{ number_format($totalProductAmount) }}</p>
                                             </div>
                                         </td>
+                                        @php
+                                            $totalPriceVAT = $totalPrice * 1.1 + 2;
+                                        @endphp
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th scope="row">
                                         </th>
                                         <td class="py-5">
@@ -149,9 +152,7 @@
                                                     id="Shipping-2" name="Shipping-1" value="Shipping">
                                                 <label class="form-check-label" for="Shipping-2">VAT rate:
                                                     10%</label>
-                                                @php
-                                                    $totalPriceVAT = $totalPrice * 1.1 + 2;
-                                                @endphp
+
                                             </div>
                                             <div class="form-check text-start">
                                                 <input type="checkbox" class="form-check-input bg-primary border-0"
@@ -160,7 +161,7 @@
                                                     $2.00</label>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         <th scope="row">
                                         </th>
@@ -191,7 +192,7 @@
                                 until the funds have cleared in our account.</p>
                         </div>
                     </div> --}}
-                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        {{-- <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                             <div class="col-12">
                                 <div class="form-check text-start my-3">
                                     <input type="checkbox" class="form-check-input bg-primary border-0"
@@ -208,20 +209,33 @@
                                     <label class="form-check-label" for="Delivery-1">Cash On Delivery</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                             <div class="col-12">
                                 <div class="form-check text-start my-3">
                                     {{-- <label class="form-check-label" for="Paypal-1">Paypal</label> --}}
                                     <br>
-                                    <div wire:ignore>
+                                    {{-- <div wire:ignore>
                                         <div id="paypal-button-container"></div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
+                        <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <div class="col-12">
+                                <button type="button" wire:loading.attr="disabled" wire:click="codOrder"
+                                    class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">
+                                    <span wire:loading.remove wire:target="codOrder">
+                                        Place Order (Cash on Delivery)
+                                    </span>
+                                    <span wire:loading wire:target="codOrder">
+                                        Placing Order
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                    {{-- <div class="row g-4 text-center align-items-center justify-content-center pt-4">
                         <button type="button" wire:loading.attr="disabled" wire:click="codOrder"
                             class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">
                             <span wire:loading.remove wire:target="codOrder">
@@ -231,7 +245,7 @@
                                 Placing Order
                             </span>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
         </div>
     @else

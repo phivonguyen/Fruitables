@@ -171,10 +171,7 @@
                                                                 ${{ $product->original_price }} / kg</p>
                                                             <a href="#"
                                                                 class="btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                Add
-                                                                to
-                                                                cart</a>
+                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>

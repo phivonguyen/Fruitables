@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Mail\MailController;
+use App\Mail\PlaceOrderMailable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -36,12 +37,12 @@ class CheckoutShow extends Component
         if ($codOrder) {
             // When checkout is successful, delete the Cart items
             Carts::where('user_id', auth()->user()->id)->delete();
-            // $this->addCouponOrder($codOrder->id);
-            // $this->sendInvoiceEmail($codOrder->id);
-            // if (session('couponCode')) {
-            //     $this->delCoupon(session('couponCode'));
-            //     Session::forget('couponCode');
-            // }
+            try{
+                $order = Orders::findOrFail($codOrder->id);
+                Mail::to($codOrder->email)->send(new PlaceOrderMailable($order));
+            }catch(\Exception $e){
+
+            }
             session()->flash('message', 'Placed order successfully');
 
             $this->dispatch(
@@ -69,6 +70,7 @@ class CheckoutShow extends Component
             'phone' => 'required|string|max:12|min:9',
             'postcode' => 'required|string|max:6|min:6',
             'address' => 'required|string|max:500',
+            'user_description' => 'required|string|max:500',
         ];
     }
 
@@ -114,6 +116,11 @@ class CheckoutShow extends Component
         if ($codOrder) {
             // When checkout is successful, delete the Cart items
             Carts::where('user_id', auth()->user()->id)->delete();
+            try{
+                $order = Orders::findOrFail($codOrder->id);
+                Mail::to($codOrder->email)->send(new PlaceOrderMailable($order));
+            }catch(\Exception $e){
+            }
             session()->flash('message', 'The order has been successfully placed.');
             $this->dispatch(
                 'message',
@@ -146,6 +153,12 @@ class CheckoutShow extends Component
         $this->carts = Carts::where('user_id', auth()->user()->id)->get();
         $this->fullname = auth()->user()->name;
         $this->email = auth()->user()->email;
+
+        $this->phone = auth()->user()->user_detail->phone;
+        $this->email = auth()->user()->email;
+        $this->fullname = auth()->user()->name;
+        $this->email = auth()->user()->email;
+
         $this->totalProductAmount = $this->totalProductAmount();
         return view('livewire.front-end.checkout.checkout-show', [
             'totalProductAmount' => $this->totalProductAmount,
