@@ -131,14 +131,16 @@
                             </li>
                             <ul id="category-list" class="nav nav-pills d-inline-flex text-center mb-5">
                                 @foreach ($categories as $category)
-                                    <li class="nav-item">
-                                        <div class="d-flex m-2 py-2 bg-light rounded-pill category-link"
-                                            data-category="{{ $category->id }}">
-                                            <a href="#">
-                                                <span class="text-dark" style="width: 130px;">{{ $category->name }}</span>
-                                            </a>
-                                        </div>
-                                    </li>
+                                    @if ($category->status != '1') <!-- Check if status is not 'Hidden' -->
+                                        <li class="nav-item">
+                                            <div class="d-flex m-2 py-2 bg-light rounded-pill category-link"
+                                                data-category="{{ $category->id }}">
+                                                <a href="#">
+                                                    <span class="text-dark" style="width: 130px;">{{ $category->name }}</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </ul>
@@ -150,6 +152,7 @@
                             <div class="col-lg-12">
                                 <div class="row g-4 category-products">
                                     @foreach ($products as $product)
+                                    @if ($product->status != '1') <!-- 'Hidden' status -->
                                         <div
                                             class="col-md-6 col-lg-4 col-xl-3 category-product category-{{ $product->category->id }}">
                                             <div class="rounded position-relative fruite-item">
@@ -178,6 +181,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

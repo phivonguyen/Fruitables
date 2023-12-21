@@ -42,7 +42,8 @@
                         </div>
                         <div class="col-lg-9">
                             <div class="row g-4 justify-content-center">
-                                @forelse ($categories as $cat)
+                                @foreach ($categories as $cat)
+                                @if ($cat->status != '1') <!-- Check if status is not 'Hidden' -->
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <a href="{{ url('/collections/' . $cat->slug) }}">
                                             <div class="rounded position-relative fruite-item">
@@ -68,9 +69,8 @@
                                             </div>
                                         </a>
                                     </div>
-
-                                @empty
-                                @endforelse
+                                @endif
+                                @endforeach
                             </div>
                         </div>
                     </div>

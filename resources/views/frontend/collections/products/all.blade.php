@@ -109,6 +109,7 @@
                             <div class="row g-4 justify-content-center">
                                 @if (count($products) > 0)
                                     @foreach ($products as $product)
+                                    @if ($product->status != '1') <!-- 'Hidden' status -->
                                         <div class="col-md-6 col-lg-6 col-xl-4">
                                             <div class="rounded position-relative fruite-item">
                                                 <a
@@ -142,7 +143,7 @@
                                                 </a>
                                             </div>
                                         </div>
-
+                                        @endif
                                         {{-- {{$products->link()}} --}}
                                     @endforeach
                                     <div class="col-12">

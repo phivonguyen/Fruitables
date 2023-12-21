@@ -15,33 +15,25 @@
     @foreach ($aboutUs as $about)
         <div style="display: flex;margin:100px 70px 50px 70px">
             <div style="margin-right: 50px">
-                <img src="{{ $about->image }}" width="600px" height="350px">
+                <img src="{{ $about->image }}" width="600px" height="350px" style="border-radius: 10px">
             </div>
             <div>
                 <h1 style="color:rgb(31, 159, 31)">{{ $about->menu }}</h1>
                 <i class="text-uppercase" style="font-family:sans-serif;color:black">
                     {{ $about->description }}</i>
-                <p style="margin-top:10px;font-family:sans-serif;color:black">{{ $about->description2 }}</p>
             </div><br>
         </div>
         <div style="display: flex;margin:100px 70px 50px 70px">
-            <div>
-                <h1 style="color:rgb(31, 159, 31)">{{ $about->menu }}</h1>
-                <i class="text-uppercase" style="font-family:sans-serif;color:black">
-                    {{ $about->description }}</i>
-                <p style="margin-top:10px;font-family:sans-serif;color:black">{{ $about->description2 }}</p>
-            </div><br>
             <div style="margin-right: 50px">
-                <img src="{{ $about->image }}" width="600px" height="350px">
+                <h1 style="color:rgb(31, 159, 31)">{{ $about->trademark }}</h1>
+                <i class="text-uppercase" style="font-family:sans-serif;color:black">
+                    {{ $about->des_trademark }}</i>
+            </div><br>
+            <div>
+                <img src="{{ $about->image1 }}" width="600px" height="350px" style="border-radius: 10px">
             </div>
 
         </div>
-        <div style="margin:10px 70px 20px 70px">
-            +<p>{{ $about->description1 }}</p>
-            <p>{{ $about->description2 }}</p>
-            +<p>{{ $about->description3 }}</p>
-        </div>
-        <h6 style="margin:20px 60px 0px 70px">Sống vui. Sống khoẻ. Nhẹ gánh âu lo!</h6>
     @endforeach
     <div class="container-fluid contact py-5">
         <div class="container py-5">
@@ -88,5 +80,5 @@
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+
 @endsection

@@ -47,15 +47,19 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->slug }}</td>
-                                <td>{{ $item->status == '0' ? 'Visible' : 'Hidden' }}</td>
+                                <td>
+                                    <span class="badge {{ $item->status ? 'bg-danger' : 'bg-success' }}">
+                                        {{ $item->status ? 'Hidden' : 'Presently' }}
+                                    </span>
+                                </td>
                                 <td>
                                     {{ substr($item->description, 0, 20) }}...
                                 </td>
                                 <td>
                                     <a href="{{ route('category/edit', $item->id) }}" class="btn btn-warning">Edit</a>
-                                    <a href="#" wire:click="deleteCategory({{ $item->id }})"
+                                    {{-- <a href="#" wire:click="deleteCategory({{ $item->id }})"
                                         data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        class="btn btn-danger">Delete</a>
+                                        class="btn btn-danger">Delete</a> --}}
                                 </td>
                             </tr>
                         @endforeach

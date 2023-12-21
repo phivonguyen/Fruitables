@@ -36,9 +36,9 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>
-                                    @if ($item->productImage->first() )
-                                        <img src= "{{ asset($item->productImage->first()->image) }}" style="width:150px; height:150px;"
-                                            alt="">
+                                    @if ($item->productImage->first())
+                                        <img src="{{ asset($item->productImage->first()->image) }}"
+                                            style="width:150px; height:150px;" alt="">
                                     @else
                                         No Image Available
                                     @endif
@@ -54,7 +54,11 @@
                                 <td>{{ substr($item->description, 0, 30) }}...</td>
                                 <td>{{ $item->original_price }}</td>
                                 <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->status == '1' ? 'Hidden' : 'Visible' }}</td>
+                                <td>
+                                    <span class="badge {{ $item->status ? 'bg-danger' : 'bg-success' }}">
+                                        {{ $item->status ? 'Hidden' : 'Presently' }}
+                                    </span>
+                                </td>
                                 <td>
                                     <a href="{{ url('admin/product/' . $item->id . '/edit') }}"
                                         class="btn btn-warning">Edit</a>
@@ -65,14 +69,14 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7">No product available</td>
+                                <td colspan="9">No product available</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
 
                 <div>
-                    {{$products->links()}}
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>

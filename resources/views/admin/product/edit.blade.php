@@ -110,7 +110,7 @@
                                         <div class="mb-3">
                                             <label for="">Original Price</label>
                                             <input type="number" class="form-control" name="original_price"
-                                                id="original_price" value="{{ $product->selling_price }}" />
+                                                id="original_price" value="{{ $product->original_price }}" />
                                             <div id="original_price_error" class="text-danger"></div>
                                         </div>
                                     </div>
