@@ -30,7 +30,7 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <form action="{{ route('send.email') }}" class="" method="POST">
+                        <form action="{{ route('send.email') }}" class="" method="POST" onsubmit="return validateForm()">
 
                             @csrf
                             <div>
@@ -38,7 +38,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name*"
-                                    name="name">
+                                    name="name" required="">
 
                             </div>
                             <div>
@@ -46,7 +46,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 <input type="email" class="w-100 form-control border-0 py-3 mb-4"
-                                    placeholder="Enter Your Email*" name="email">
+                                    placeholder="Enter Your Email*" name="email" required="">
 
                             </div>
                             <div>
@@ -54,7 +54,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 <input type="text" class="w-100 form-control border-0 py-3 mb-4"
-                                    placeholder="Enter Your subject*" name="subject">
+                                    placeholder="Enter Your subject*" name="subject" required="">
 
                             </div>
                             <div>
@@ -62,12 +62,15 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message*"
-                                    name="message"></textarea>
+                                    name="message" required=""></textarea>
 
                             </div>
-                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}" data-type="image" style="margin-bottom:10px"></div>
+
+                            <div  id="captcha" class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}" data-type="image" style="margin-bottom:10px"></div>
+                            <div id="captcha-error" class="text-danger"></div>
+
                             <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary "
-                                type="submit">Submit</button>
+                                type="submit" required="">Submit</button>
                         </form>
                     </div>
                     <div class="col-lg-5">
@@ -106,4 +109,15 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="rxDxuLTf"></script>
+    <script>
+    function validateForm() {
+        var captchaResponse = grecaptcha.getResponse();
+        if (captchaResponse.length === 0) {
+            document.getElementById('captcha-error').innerHTML = 'Please complete the reCAPTCHA verification.';
+            return false;
+        }
+        document.getElementById('captcha-error').innerHTML = '';
+        return true;
+    }
+</script>
 @endsection

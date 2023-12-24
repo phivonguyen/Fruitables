@@ -170,11 +170,48 @@
             var originalPriceError = document.getElementById('original_price_error');
             var submitBtn = document.getElementById('submitBtn');
             var errorMessageContainer = document.getElementById('error-message');
+            var tabs = document.querySelectorAll('.nav-link');
+
             sellingPriceInput.addEventListener('blur', function() {
                 validatePrices();
             });
+
             originalPriceInput.addEventListener('blur', function() {
                 validatePrices();
+            });
+
+            submitBtn.addEventListener('click', function(event) {
+                var form = document.getElementById('productForm');
+                var formElements = form.elements;
+                var firstEmptyField = null;
+
+                for (var i = 0; i < formElements.length; i++) {
+                    var element = formElements[i];
+
+                    if ((element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') && !element.value
+                        .trim()) {
+                        event.preventDefault();
+                        errorMessageContainer.innerText = 'Please complete all information.';
+                        if (!firstEmptyField) {
+                            firstEmptyField = element;
+                        }
+                    }
+                }
+                if (firstEmptyField) {
+                    var targetTabId = firstEmptyField.closest('.tab-pane').id + '-tab';
+                    var targetTab = document.getElementById(targetTabId);
+                    if (!targetTab.classList.contains('active')) {
+                        targetTab.click();
+                    }
+                    firstEmptyField.focus();
+                }
+                validatePrices();
+
+                // Kiểm tra nếu giá trị Selling Price không hợp lệ, ngăn chặn sự kiện submit
+                if (parseFloat(sellingPriceInput.value) >= parseFloat(originalPriceInput.value)) {
+                    event.preventDefault();
+                    errorMessageContainer.innerText = 'Selling Price must be less than Original Price';
+                }
             });
 
             function validatePrices() {
@@ -188,13 +225,6 @@
                     }
                 }
             }
-            document.getElementById('productForm').addEventListener('submit', function(event) {
-                validatePrices();
-                if (parseFloat(sellingPriceInput.value) >= parseFloat(originalPriceInput.value)) {
-                    event.preventDefault();
-                    errorMessageContainer.innerText = 'Selling Price must be less than Original Price';
-                }
-            });
         });
-    </script>
+    </script> còn javascrip này ní pass vô đoạn scrip trong create product nó bắt được cái thầy nói r á
 @endsection

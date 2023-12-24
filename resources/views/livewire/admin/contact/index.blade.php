@@ -17,8 +17,8 @@
                             <td>Email</td>
                             <td>Subject</td>
                             <td>Message</td>
-                            <td>Created_at</td>
-                            <td>Updated_at</td>
+                            <td>Date time</td>
+                            <td>Status</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -30,19 +30,20 @@
                                 <td>{{ $item->subject }}</td>
                                 <td>{{ $item->message }}</td>
                                 <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td>
                                 <td>
                                     @if ($item->replied)
-                                    <button class="btn btn-warning btn-reply" disabled data-replied="1">Đã trả lời</button>
-                                @else
+                                        <span class="badge bg-success status-span">Replied</span>
+                                    @else
+                                        <span class="badge bg-warning status-span">Pending</span>
+                                    @endif
+                                </td>
+                                <td>
                                     <a href="{{ route('contact/reply', ['id' => $item->id]) }}"
-                                        data-name="{{ $item->name }}" data-email="{{ $item->email }}"
-                                        data-replied="{{ $item->replied ? 1 : 0 }}"
-                                        wire:click="openReplyModal({{ $item->id }})" class="btn btn-warning btn-reply">
-                                        Trả lời
+                                        data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                        data-email="{{ $item->email }}" data-replied="{{ $item->replied ? 1 : 0 }}"
+                                        class="btn btn-warning btn-reply">
+                                        Reply
                                     </a>
-                                @endif
-
                                     <a href="#" wire:click="deleteContact({{ $item->id }})"
                                         data-bs-toggle="modal" data-bs-target="#deleteModal"
                                         class="btn btn-danger">Delete</a>
@@ -81,12 +82,13 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $(".btn-reply").each(function () {
+    $(document).ready(function() {
+        $(".btn-reply").each(function() {
             var replied = $(this).data("replied");
 
             if (replied) {
                 $(this).prop("disabled", true);
+                $(this).next(".status-span").addClass("text-success").text("Replied");
             }
         });
     });
