@@ -226,5 +226,5 @@
                 }
             }
         });
-    </script> còn javascrip này ní pass vô đoạn scrip trong create product nó bắt được cái thầy nói r á
+    </script>
 @endsection
